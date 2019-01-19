@@ -4,10 +4,11 @@ import os
 from flask import Flask
 
 log_file = os.getenv('APP_LOG')
-logging.basicConfig(filename=log_file,
-                    format=('%(asctime)s - %(name)s - %(levelname)s - '
-                            '%(message)s'),
-                    datefmt='%Y/%m/%d %H:%M:%S')
+logging.basicConfig(
+    filename=log_file,
+    format='%(asctime)s - %(name)s - %(levelname)s - ' '%(message)s',
+    datefmt='%Y/%m/%d %H:%M:%S',
+)
 app_log = logging.getLogger('rdltr')
 
 
