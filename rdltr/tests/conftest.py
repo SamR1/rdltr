@@ -20,6 +20,12 @@ def app():
     return app
 
 
+@pytest.fixture
+def app_wo_db():
+    app = create_app()
+    return app
+
+
 @pytest.fixture()
 def user_1():
     user = User(username='test', email='test@test.com', password='12345678')

@@ -2,6 +2,7 @@ import logging
 import os
 
 from flask import Flask
+from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,6 +14,7 @@ logging.basicConfig(
     datefmt='%Y/%m/%d %H:%M:%S',
 )
 app_log = logging.getLogger('rdltr')
+bcrypt = Bcrypt()
 db = SQLAlchemy()
 migrate = Migrate()
 
@@ -27,6 +29,7 @@ def create_app():
         app.config.from_object(app_settings)
 
         # set up extensions
+        bcrypt.init_app(app)
         db.init_app(app)
         migrate.init_app(app, db)
 
@@ -40,6 +43,10 @@ def create_app():
         app_log.setLevel(logging.DEBUG)
 
     from .users.model import User  # noqa
+
+    from .users.auth import auth_blueprint  # noqa
+
+    app.register_blueprint(auth_blueprint, url_prefix='/api')
 
     @app.route('/')
     def hello_world():

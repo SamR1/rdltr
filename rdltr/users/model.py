@@ -1,8 +1,9 @@
 import datetime
 
-from werkzeug.security import check_password_hash, generate_password_hash
+import jwt
+from flask import current_app
 
-from .. import db
+from .. import bcrypt, db
 
 
 class User(db.Model):
@@ -22,10 +23,51 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.created_at = created_at
-        self.set_password(password)
+        self.password = bcrypt.generate_password_hash(
+            password, current_app.config.get('BCRYPT_LOG_ROUNDS')
+        ).decode()
 
-    def set_password(self, password):
-        self.password = generate_password_hash(password)
+    @staticmethod
+    def encode_auth_token(user_id):
+        """
+        Generates the auth token
+        :param user_id: -
+        :return: JWToken
+        """
+        payload = {
+            'exp': datetime.datetime.utcnow()
+            + datetime.timedelta(
+                days=current_app.config.get('TOKEN_EXPIRATION_DAYS'),
+                seconds=current_app.config.get('TOKEN_EXPIRATION_SECONDS'),
+            ),
+            'iat': datetime.datetime.utcnow(),
+            'sub': user_id,
+        }
+        return jwt.encode(
+            payload, current_app.config.get('SECRET_KEY'), algorithm='HS256'
+        )
 
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
+    @staticmethod
+    def decode_auth_token(auth_token):
+        """
+        Decodes the auth token
+        :param auth_token: -
+        :return: integer|string
+        """
+        try:
+            payload = jwt.decode(
+                auth_token, current_app.config.get('SECRET_KEY')
+            )
+            return payload['sub']
+        except jwt.ExpiredSignatureError:
+            return 'Signature expired. Please log in again.'
+        except jwt.InvalidTokenError:
+            return 'Invalid token. Please log in again.'
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'created_at': self.created_at,
+        }

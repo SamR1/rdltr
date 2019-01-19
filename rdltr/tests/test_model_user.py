@@ -4,5 +4,8 @@ def test_user_model(app, user_1):
     assert 'test' == user_1.username
     assert 'test@test.com' == user_1.email
     assert '12345678' != user_1.password
-    assert user_1.check_password('12345678') is True
-    assert user_1.check_password('12345679') is False
+
+    serialized_user = user_1.serialize()
+    assert 1 == serialized_user['id']
+    assert 'test' == serialized_user['username']
+    assert 'created_at' in serialized_user

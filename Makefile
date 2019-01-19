@@ -23,7 +23,7 @@ serve:
 	$(FLASK) run --with-threads -h $(HOST) -p $(PORT)
 
 test:
-	$(PYTHON) setup.py test
+	$(PYTEST) $(FLASK_APP) $(PYTEST_ARGS)
 
 upgrade-db:
 	$(FLASK) db upgrade
