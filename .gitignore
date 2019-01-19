@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+
+## Python
+.env
+.venv
+__pycache__
+/.eggs/
+/rdltr.egg-info/
