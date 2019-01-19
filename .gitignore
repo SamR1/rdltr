@@ -8,4 +8,9 @@ __pycache__
 /.eggs/
 /rdltr.egg-info/
 /.coverage
+/coverage.xml
+
+## App
+/Makefile.custom.config
 *.log
+
