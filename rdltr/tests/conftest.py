@@ -2,8 +2,8 @@ import os
 
 import pytest
 
-from rdltr import create_app, db
-from rdltr.users.model import User
+from .. import create_app, db
+from ..users.model import User
 
 os.environ["FLASK_ENV"] = 'testing'
 os.environ["APP_SETTINGS"] = 'rdltr.config.TestingConfig'

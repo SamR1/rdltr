@@ -2,7 +2,7 @@ import datetime
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from rdltr import db
+from .. import db
 
 
 class User(db.Model):
