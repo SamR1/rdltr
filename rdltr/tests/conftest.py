@@ -1,5 +1,4 @@
 import pytest
-
 from rdltr import create_app
 
 
