@@ -10,6 +10,9 @@ matrix:
 install:
   - pip install coveralls
 
+before_script:
+  - export DATABASE_TEST_URL=sqlite:///rdltr_test.db
+
 script:
   - python setup.py test
 
