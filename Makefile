@@ -15,9 +15,3 @@ serve:
 
 test:
 	$(PYTHON) setup.py test
-
-test-python-xml:
-	$(PYTEST) --flake8 --isort --cov rdltr --cov-report xml
-
-update-cov:	test-python-xml
-	$(COV) -r coverage.xml
