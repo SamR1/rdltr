@@ -16,8 +16,14 @@ install:
 	test -d $(VENV) || virtualenv $(VENV) -p $(PYTHON_VERSION)
 	$(PIP) install -e .[test]
 
+migrate-db:
+	$(FLASK) db migrate
+
 serve:
 	$(FLASK) run --with-threads -h $(HOST) -p $(PORT)
 
 test:
 	$(PYTHON) setup.py test
+
+upgrade-db:
+	$(FLASK) db upgrade

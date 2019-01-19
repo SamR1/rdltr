@@ -2,15 +2,14 @@
 .idea
 
 ## Python
-.env
+.coverage
+.eggs/
+.pytest_cache/
 .venv
 __pycache__
-/.eggs/
-/rdltr.egg-info/
-/.coverage
-/coverage.xml
+rdltr.egg-info/
 
 ## App
-/Makefile.custom.config
+Makefile.custom.config
+*.db
 *.log
-
