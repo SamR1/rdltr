@@ -8,7 +8,10 @@ clean:
 
 install:
 	test -d $(VENV) || virtualenv $(VENV) -p $(PYTHON_VERSION)
-	$(PIP) install -e .
+	$(PIP) install -e .[test]
 
 serve:
 	$(FLASK) run --with-threads -h $(HOST) -p $(PORT)
+
+test:
+	$(PYTHON) setup.py test

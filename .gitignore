@@ -7,3 +7,5 @@
 __pycache__
 /.eggs/
 /rdltr.egg-info/
+/.coverage
+*.log
