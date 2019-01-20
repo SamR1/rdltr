@@ -9,6 +9,13 @@
 __pycache__
 rdltr.egg-info/
 
+
+## VueJS
+rdltr_front/node_modules/
+yarn-debug.log*
+yarn-error.log*
+
+
 ## App
 Makefile.custom.config
 *.db

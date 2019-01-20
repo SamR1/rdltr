@@ -22,6 +22,9 @@ migrate-db:
 serve:
 	$(FLASK) run --with-threads -h $(HOST) -p $(PORT)
 
+serve-front:
+	cd rdltr_front && $(NPM) run dev
+
 test:
 	$(PYTEST) $(FLASK_APP) $(PYTEST_ARGS)
 
