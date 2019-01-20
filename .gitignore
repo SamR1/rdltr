@@ -12,7 +12,7 @@ rdltr.egg-info/
 
 ## VueJS
 rdltr_front/node_modules/
-rdltr/dist/
+#rdltr/dist/
 yarn-debug.log*
 yarn-error.log*
 
