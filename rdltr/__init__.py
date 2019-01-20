@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -42,15 +42,33 @@ def create_app():
         logging.getLogger('flake8').propagate = False
         app_log.setLevel(logging.DEBUG)
 
+    if app.debug:
+        # Enable CORS
+        @app.after_request
+        def after_request(response):
+            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add(
+                'Access-Control-Allow-Headers', 'Content-Type,Authorization'
+            )
+            response.headers.add(
+                'Access-Control-Allow-Methods',
+                'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            )
+            return response
+
     from .users.model import User  # noqa
 
     from .users.auth import auth_blueprint  # noqa
 
     app.register_blueprint(auth_blueprint, url_prefix='/api')
 
+    @app.route('/api/ping')
+    def ping_pong():
+        return jsonify({'status': 'success', 'message': 'pong!'})
+
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
     def catch_all(path):
-        return render_template("index.html")
+        return render_template('index.html')
 
     return app

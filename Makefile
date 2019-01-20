@@ -17,7 +17,12 @@ clean:
 	rm -fr rdltr_front/node_modules/
 	rm -fr rdltr/dist/
 
-fix:
+fix-all: fix-python fix-front
+
+fix-front:
+	cd rdltr_front && $(NPM) lint --fix
+
+fix-python:
 	$(ISORT) -rc $(FLASK_APP)
 	black $(FLASK_APP)
 
@@ -29,6 +34,14 @@ install-front:
 install-python:
 	test -d $(VENV) || virtualenv $(VENV) -p $(PYTHON_VERSION)
 	$(PIP) install -e .[test]
+
+lint-all: lint-python lint-front
+
+lint-front:
+	cd rdltr_front && $(NPM) lint
+
+lint-python:
+	$(PYTEST) --flake8 --isort -m "flake8 or isort" $(FLASK_APP)
 
 migrate-db:
 	$(FLASK) db migrate
