@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -20,7 +20,7 @@ migrate = Migrate()
 
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder="dist/static", template_folder="dist")
     app_log.setLevel(logging.DEBUG if app.debug else logging.INFO)
 
     # set config
@@ -48,8 +48,9 @@ def create_app():
 
     app.register_blueprint(auth_blueprint, url_prefix='/api')
 
-    @app.route('/')
-    def hello_world():
-        return 'Hello World!'
+    @app.route('/', defaults={'path': ''})
+    @app.route('/<path:path>')
+    def catch_all(path):
+        return render_template("index.html")
 
     return app
