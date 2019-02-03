@@ -41,7 +41,7 @@ export default {
         password: this.password
       }
       console.log(formData)
-      const path = 'http://localhost:5000/api/auth/login'
+      const path = '/auth/login'
       console.log('test login')
       axios.post(path, formData)
         .then(res => console.log(res))

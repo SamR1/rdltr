@@ -58,7 +58,7 @@ export default {
         password_conf: this.confirmPassword
       }
       console.log(formData)
-      const path = 'http://localhost:5000/api/auth/register'
+      const path = '/auth/register'
       console.log('test register')
       axios.post(path, formData)
         .then(res => console.log(res))
