@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from '../../api/defaultApi'
 
 export default {
   data () {
@@ -43,7 +43,7 @@ export default {
       console.log(formData)
       const path = '/auth/login'
       console.log('test login')
-      axios.post(path, formData)
+      api.post(path, formData)
         .then(res => console.log(res))
         .catch(err => console.error(err))
     }

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import api from '../../api/defaultApi'
 
 export default {
   data () {
@@ -60,7 +60,7 @@ export default {
       console.log(formData)
       const path = '/auth/register'
       console.log('test register')
-      axios.post(path, formData)
+      api.post(path, formData)
         .then(res => console.log(res))
         .catch(err => console.log(err))
     }
