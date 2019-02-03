@@ -8,6 +8,7 @@
 .venv
 __pycache__
 rdltr.egg-info/
+/pip-wheel-metadata/
 
 
 ## VueJS
