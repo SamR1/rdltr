@@ -125,3 +125,11 @@ def logout_user(user_id):
         'message': 'Successfully logged out.',
     }
     return jsonify(response_object), 200
+
+
+@auth_blueprint.route('/auth/profile', methods=['GET'])
+@authenticate
+def get_user_status(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    response_object = {'status': 'success', 'user': user.serialize()}
+    return jsonify(response_object), 200

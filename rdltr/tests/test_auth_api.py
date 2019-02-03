@@ -446,3 +446,48 @@ def test_logout_invalid_user(app, user_1):
     assert data['status'] == 'error'
     assert data['message'] == 'Something went wrong. Please contact us.'
     assert response.status_code == 401
+
+
+def test_user_profile_ok(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/auth/profile',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 200
+    assert data['status'] == 'success'
+    assert data['user'] is not None
+    assert data['user']['username'] == 'test'
+    assert data['user']['email'] == 'test@test.com'
+    assert data['user']['created_at']
+
+
+def test_user_profile_invalid_token(app, user_1):
+    client = app.test_client()
+    response = client.get(
+        '/api/auth/profile', headers=dict(Authorization='Bearer xxx')
+    )
+    data = json.loads(response.data.decode())
+
+    assert response.status_code == 401
+    assert data['status'] == 'error'
+    assert data['message'] == 'Invalid token. Please log in again.'
+
+
+def test_user_profile_no_token(app, user_1):
+    client = app.test_client()
+    response = client.get('/api/auth/profile')
+    data = json.loads(response.data.decode())
+
+    assert response.status_code == 401
+    assert data['status'] == 'error'
+    assert data['message'] == 'Provide a valid auth token.'

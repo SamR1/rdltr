@@ -20,6 +20,7 @@
           <button type="submit">Submit</button>
         </div>
       </form>
+      <p v-if="errMessage" class="user-error">{{ errMessage }}</p>
     </div>
   </div>
 </template>
@@ -32,13 +33,18 @@ export default {
       password: ''
     }
   },
+  computed: {
+    errMessage () {
+      return this.$store.getters.userErrorMessage
+    }
+  },
   methods: {
     onSubmit () {
       const formData = {
         email: this.email,
         password: this.password
       }
-      return this.$store.dispatch('login', formData)
+      return this.$store.dispatch('loginOrRegister', { actionType: 'login', formData })
     }
   }
 }
@@ -98,5 +104,10 @@ export default {
     background-color: transparent;
     color: #ccc;
     cursor: not-allowed;
+  }
+
+  .user-error {
+    color: red;
+    text-align: center;
   }
 </style>

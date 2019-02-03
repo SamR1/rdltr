@@ -12,6 +12,10 @@ export default {
   name: 'app',
   components: {
     'app-header': Header
+  },
+  created () {
+    console.log('App.vue - before')
+    this.$store.dispatch('checkUserAuth')
   }
 }
 </script>

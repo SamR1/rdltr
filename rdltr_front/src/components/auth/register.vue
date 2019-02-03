@@ -33,6 +33,7 @@
           <button type="submit">Submit</button>
         </div>
       </form>
+      <p v-if="errMessage" class="user-error">{{ errMessage }}</p>
     </div>
   </div>
 </template>
@@ -47,6 +48,11 @@ export default {
       confirmPassword: ''
     }
   },
+  computed: {
+    errMessage () {
+      return this.$store.getters.userErrorMessage
+    }
+  },
   methods: {
     onSubmit () {
       const formData = {
@@ -55,7 +61,7 @@ export default {
         password: this.password,
         password_conf: this.confirmPassword
       }
-      return this.$store.dispatch('register', formData)
+      return this.$store.dispatch('loginOrRegister', { actionType: 'register', formData })
     }
   }
 }
@@ -128,5 +134,10 @@ export default {
     background-color: transparent;
     color: #ccc;
     cursor: not-allowed;
+  }
+
+  .user-error {
+    color: red;
+    text-align: center;
   }
 </style>

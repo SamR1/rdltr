@@ -6,9 +6,7 @@ import user from './modules/user'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    errorMessage: null
-  },
+  state: {},
   mutations: {},
   actions: {},
   getters: {},
