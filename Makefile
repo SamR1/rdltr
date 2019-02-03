@@ -46,6 +46,9 @@ lint-python:
 migrate-db:
 	$(FLASK) db migrate
 
+run:
+	cd rdltr && $(GUNICORN) -b 127.0.0.1:5000 "rdltr:create_app()" --error-logfile ../gunicorn-error.log
+
 serve:
 	$(MAKE) P="serve-python serve-front" make-p
 
