@@ -2,9 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import HomePage from '../components/home/home.vue'
-import LoginPage from '../components/auth/login.vue'
 import NotFound from '../components/NotFound'
-import RegisterPage from '../components/auth/register.vue'
+import UserForm from '../components/auth/userForm.vue'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -19,9 +18,18 @@ const routes = [
       } else {
         next('/login')
       }
-    } },
-  { path: '/register', component: RegisterPage },
-  { path: '/login', component: LoginPage },
+    }
+  },
+  {
+    path: '/register',
+    component: UserForm,
+    props: { actionType: 'register' }
+  },
+  {
+    path: '/login',
+    component: UserForm,
+    props: { actionType: 'login' }
+  },
   { path: '*', component: NotFound }
 ]
 

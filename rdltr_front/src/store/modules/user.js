@@ -50,7 +50,6 @@ const actions = {
       .then(res => {
         if (res.data.status === 'success') {
           commit('userProfile', res.data.user)
-          router.replace('/')
         }
       })
       .catch(err => {
@@ -70,6 +69,7 @@ const actions = {
           window.localStorage.setItem('authToken', token)
           commit('authUser', token)
           dispatch('getUserProfile')
+          router.replace('/')
         }
       })
       .catch(err => {
