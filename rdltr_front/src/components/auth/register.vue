@@ -3,6 +3,12 @@
     <div class="register-form">
       <form @submit.prevent="onSubmit">
         <div class="input">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            v-model="username">
+        </div>
+        <div class="input">
           <label for="email">Email</label>
           <input
             type="email"
@@ -32,9 +38,12 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data () {
     return {
+      username: '',
       email: '',
       password: '',
       confirmPassword: ''
@@ -43,11 +52,17 @@ export default {
   methods: {
     onSubmit () {
       const formData = {
+        username: this.username,
         email: this.email,
         password: this.password,
-        confirmPassword: this.confirmPassword
+        password_conf: this.confirmPassword
       }
       console.log(formData)
+      const path = 'http://localhost:5000/api/auth/register'
+      console.log('test register')
+      axios.post(path, formData)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
     }
   }
 }
