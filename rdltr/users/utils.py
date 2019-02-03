@@ -17,6 +17,12 @@ def register_controls(username, email, password, password_conf):
         ret += 'Username: 3 to 12 characters required.\n'
     if not is_valid_email(email):
         ret += 'Valid email must be provided.\n'
+    ret += passwords_controls(password, password_conf)
+    return ret
+
+
+def passwords_controls(password, password_conf):
+    ret = ''
     if password != password_conf:
         ret += 'Password and password confirmation don\'t match.\n'
     if len(password) < 8:

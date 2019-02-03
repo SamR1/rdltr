@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import HomePage from '../components/home/home.vue'
+import UserDetail from '../components/user/userDetail'
 import NotFound from '../components/notFound'
-import UserForm from '../components/auth/userForm.vue'
+import HomePage from '../components/home/home'
+import UserForm from '../components/auth/userForm'
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -11,11 +12,9 @@ Vue.use(VueRouter)
 function checkAuth (to, from, next) {
   store.dispatch('checkUserAuth').then(() => {
     if (store.getters.isAuthenticated && ['/login', '/register'].includes(to.path)) {
-      console.log('redirect to home')
       return next('/')
     }
     if (!store.getters.isAuthenticated && !['/login', '/register'].includes(to.path)) {
-      console.log('redirect to login')
       return next('/login')
     }
   })
@@ -38,6 +37,18 @@ const routes = [
     path: '/login',
     component: UserForm,
     props: { actionType: 'login' },
+    beforeEnter: checkAuth
+  },
+  {
+    path: '/profile',
+    component: UserDetail,
+    props: { actionType: 'viewProfile' },
+    beforeEnter: checkAuth
+  },
+  {
+    path: '/profile/edit',
+    component: UserDetail,
+    props: { actionType: 'editProfile' },
     beforeEnter: checkAuth
   },
   { path: '*', component: NotFound }

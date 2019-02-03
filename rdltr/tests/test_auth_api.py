@@ -491,3 +491,196 @@ def test_user_profile_no_token(app, user_1):
     assert response.status_code == 401
     assert data['status'] == 'error'
     assert data['message'] == 'Provide a valid auth token.'
+
+
+def test_update_password_ok(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/auth/profile/edit',
+        content_type='application/json',
+        data=json.dumps(
+            dict(
+                old_password='12345678',
+                new_password='abcdefgh',
+                new_password_conf='abcdefgh',
+            )
+        ),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 200
+    assert data['status'] == 'success'
+    assert data['user'] is not None
+    assert data['user']['username'] == 'test'
+    assert data['user']['email'] == 'test@test.com'
+    assert data['user']['created_at']
+
+
+def test_update_password_invalid_payload(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/auth/profile/edit',
+        content_type='application/json',
+        data=json.dumps(
+            dict(new_password='abcdefgh', new_password_conf='abcdefgh')
+        ),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 400
+    assert data['status'] == 'error'
+    assert data['message'] == 'Invalid payload.'
+
+
+def test_update_password_no_payload(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/auth/profile/edit',
+        content_type='application/json',
+        data=json.dumps(dict()),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 400
+    assert data['status'] == 'error'
+    assert data['message'] == 'Invalid payload.'
+
+
+def test_update_password_incorrect_password(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/auth/profile/edit',
+        content_type='application/json',
+        data=json.dumps(
+            dict(
+                old_password='00000000',
+                new_password='abcdefgh',
+                new_password_conf='abcdefgh',
+            )
+        ),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 400
+    assert data['status'] == 'error'
+    assert data['message'] == 'Invalid credentials.'
+
+
+def test_update_password_invalid_new_password(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/auth/profile/edit',
+        content_type='application/json',
+        data=json.dumps(
+            dict(
+                old_password='12345678',
+                new_password='abcdef',
+                new_password_conf='abcdef',
+            )
+        ),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 400
+    assert data['status'] == 'error'
+    assert data['message'] == 'Errors: Password: 8 characters required.\n'
+
+
+def test_update_password_diff_password(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/auth/profile/edit',
+        content_type='application/json',
+        data=json.dumps(
+            dict(
+                old_password='12345678',
+                new_password='abcdefgh',
+                new_password_conf='abcdefghi',
+            )
+        ),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 400
+    assert data['status'] == 'error'
+    assert data['message'] == (
+        'Errors: Password and password confirmation don\'t match.\n'
+    )
+
+
+def test_update_password_invalid_password_type(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/auth/profile/edit',
+        content_type='application/json',
+        data=json.dumps(
+            dict(
+                old_password='12345678',
+                new_password=12_345_678,
+                new_password_conf=12_345_678,
+            )
+        ),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 500
+    assert data['status'] == 'error'
+    assert data['message'] == (
+        'Error. Please try again or contact the administrator.'
+    )

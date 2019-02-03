@@ -56,7 +56,9 @@ class User(db.Model):
         """
         try:
             payload = jwt.decode(
-                auth_token, current_app.config.get('SECRET_KEY')
+                auth_token,
+                current_app.config.get('SECRET_KEY'),
+                algorithms=['HS256'],
             )
             return payload['sub']
         except jwt.ExpiredSignatureError:

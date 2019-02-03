@@ -85,6 +85,23 @@ const actions = {
     commit('clearUserData')
     localStorage.removeItem('authToken')
     router.replace('/login')
+  },
+  // for now, only the password can be modified
+  updateProfile  ({ commit, dispatch }, formData) {
+    authApi.post(`/auth/profile/edit`, formData)
+      .then(res => {
+        if (res.data.status === 'success') {
+          router.replace('/profile')
+        }
+      })
+      .catch(err => {
+        if (err.response) {
+          return commit('updateErrorMsg', err.response.data.message)
+        }
+        commit('updateErrorMsg', err.message
+          ? err.message
+          : 'error on update password')
+      })
   }
 }
 

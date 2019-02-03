@@ -12,7 +12,7 @@
           <router-link to="/login">Log in</router-link>
         </li>
         <li v-if="auth" class="user">
-          {{ username }}
+          <router-link to="/profile">{{ username }}</router-link>
         </li>
         <li v-if="auth">
           <button @click="onLogout" class="logout">Logout</button>
