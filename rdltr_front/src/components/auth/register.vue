@@ -38,8 +38,6 @@
 </template>
 
 <script>
-import api from '../../api/defaultApi'
-
 export default {
   data () {
     return {
@@ -57,12 +55,7 @@ export default {
         password: this.password,
         password_conf: this.confirmPassword
       }
-      console.log(formData)
-      const path = '/auth/register'
-      console.log('test register')
-      api.post(path, formData)
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
+      return this.$store.dispatch('register', formData)
     }
   }
 }
