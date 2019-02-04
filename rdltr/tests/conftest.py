@@ -53,9 +53,8 @@ def cat_1(user_1):
 
 @pytest.fixture()
 def cat_2(user_2):
-    cat = Category(
-        description='related to motorcycles', name='moto', user_id=user_2.id
-    )
+    cat = Category(name='moto', user_id=user_2.id)
+    cat.description = 'related to motorcycles'
     db.session.add(cat)
     db.session.commit()
     return cat

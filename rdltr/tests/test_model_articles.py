@@ -2,13 +2,13 @@ def test_category_model(app, user_1, cat_1):
     assert 1 == cat_1.id
     assert 1 == cat_1.user_id
     assert 'python' == cat_1.name
-    assert '' == cat_1.description
+    assert not cat_1.description
 
     serialized_cat = cat_1.serialize()
     assert 1 == serialized_cat['id']
     assert 1 == serialized_cat['user_id']
     assert 'python' == serialized_cat['name']
-    assert '' == serialized_cat['description']
+    assert not serialized_cat['description']
 
 
 def test_category_2_model(app, user_1, user_2, cat_2):

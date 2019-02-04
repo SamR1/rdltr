@@ -1,6 +1,12 @@
 import json
 import time
 
+from .utils import (
+    check_400_invalid_credentials,
+    check_400_invalid_payload,
+    check_500_error,
+)
+
 
 def test_user_registration(app):
     client = app.test_client()
@@ -164,10 +170,7 @@ def test_user_registration_invalid_json(app):
         data=json.dumps(dict()),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code, 400
-    assert 'Invalid payload.', data['message']
-    assert 'error', data['status']
+    check_400_invalid_payload(response)
 
 
 def test_user_registration_invalid_json_keys_no_username(app):
@@ -183,10 +186,7 @@ def test_user_registration_invalid_json_keys_no_username(app):
         ),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 400
-    assert 'Invalid payload.' in data['message']
-    assert 'error' in data['status']
+    check_400_invalid_payload(response)
 
 
 def test_user_registration_invalid_json_keys_no_email(app):
@@ -200,10 +200,7 @@ def test_user_registration_invalid_json_keys_no_email(app):
         ),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 400
-    assert 'Invalid payload.' in data['message']
-    assert 'error' in data['status']
+    check_400_invalid_payload(response)
 
 
 def test_user_registration_invalid_json_keys_no_password(app):
@@ -219,10 +216,7 @@ def test_user_registration_invalid_json_keys_no_password(app):
         ),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 400
-    assert 'Invalid payload.', data['message']
-    assert 'error', data['status']
+    check_400_invalid_payload(response)
 
 
 def test_user_registration_invalid_json_keys_no_password_conf(app):
@@ -234,10 +228,7 @@ def test_user_registration_invalid_json_keys_no_password_conf(app):
         ),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 400
-    assert 'Invalid payload.' in data['message']
-    assert 'error' in data['status']
+    check_400_invalid_payload(response)
 
 
 def test_user_registration_invalid_data(app):
@@ -254,13 +245,7 @@ def test_user_registration_invalid_data(app):
         ),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 500
-    assert (
-        'Error. Please try again or contact the administrator.'
-        in data['message']
-    )
-    assert 'error' in data['status']
+    check_500_error(response)
 
 
 def test_user_registration_no_db(app_wo_db):
@@ -277,13 +262,7 @@ def test_user_registration_no_db(app_wo_db):
         ),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 500
-    assert (
-        'Error. Please try again or contact the administrator.'
-        in data['message']
-    )
-    assert 'error' in data['status']
+    check_500_error(response)
 
 
 def test_login_registered_user(app, user_1):
@@ -308,11 +287,7 @@ def test_login_no_registered_user(app):
         data=json.dumps(dict(email='test@test.com', password='12345678')),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert data['status'] == 'error'
-    assert data['message'] == 'Invalid credentials.'
-    assert response.content_type == 'application/json'
-    assert response.status_code == 404
+    check_400_invalid_credentials(response)
 
 
 def test_login_invalid_payload(app):
@@ -322,11 +297,7 @@ def test_login_invalid_payload(app):
         data=json.dumps(dict()),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert data['status'] == 'error'
-    assert data['message'] == 'Invalid payload.'
-    assert response.content_type == 'application/json'
-    assert response.status_code == 400
+    check_400_invalid_payload(response)
 
 
 def test_login_registered_user_invalid_password(app, user_1):
@@ -336,11 +307,7 @@ def test_login_registered_user_invalid_password(app, user_1):
         data=json.dumps(dict(email='test@test.com', password='123456789')),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert data['status'] == 'error'
-    assert data['message'] == 'Invalid credentials.'
-    assert response.content_type == 'application/json'
-    assert response.status_code == 404
+    check_400_invalid_credentials(response)
 
 
 def test_login_no_db(app_wo_db):
@@ -350,13 +317,7 @@ def test_login_no_db(app_wo_db):
         data=json.dumps(dict(email='test@test.com', password='123456789')),
         content_type='application/json',
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 500
-    assert (
-        'Error. Please try again or contact the administrator.'
-        in data['message']
-    )
-    assert 'error' in data['status']
+    check_500_error(response)
 
 
 def test_logout(app, user_1):
@@ -469,6 +430,46 @@ def test_user_profile_ok(app, user_1):
     assert data['user']['username'] == 'test'
     assert data['user']['email'] == 'test@test.com'
     assert data['user']['created_at']
+    assert data['user']['categories'] == []
+
+
+def test_user_profile_full_ok(app):
+    client = app.test_client()
+    resp_register = client.post(
+        '/api/auth/register',
+        data=json.dumps(
+            dict(
+                username='justatest',
+                email='test@test.com',
+                password='12345678',
+                password_conf='12345678',
+            )
+        ),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/auth/profile',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_register.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 200
+    assert data['status'] == 'success'
+    assert data['user'] is not None
+    assert data['user']['username'] == 'justatest'
+    assert data['user']['email'] == 'test@test.com'
+    assert data['user']['created_at']
+    assert data['user']['categories'] == [
+        {
+            'id': 1,
+            'user_id': 1,
+            'name': 'Default',
+            'description': 'Default category',
+            'is_default': True,
+        }
+    ]
 
 
 def test_user_profile_invalid_token(app, user_1):
@@ -542,10 +543,7 @@ def test_update_password_invalid_payload(app, user_1):
             + json.loads(resp_login.data.decode())['auth_token']
         ),
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 400
-    assert data['status'] == 'error'
-    assert data['message'] == 'Invalid payload.'
+    check_400_invalid_payload(response)
 
 
 def test_update_password_no_payload(app, user_1):
@@ -564,10 +562,7 @@ def test_update_password_no_payload(app, user_1):
             + json.loads(resp_login.data.decode())['auth_token']
         ),
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 400
-    assert data['status'] == 'error'
-    assert data['message'] == 'Invalid payload.'
+    check_400_invalid_payload(response)
 
 
 def test_update_password_incorrect_password(app, user_1):
@@ -592,10 +587,7 @@ def test_update_password_incorrect_password(app, user_1):
             + json.loads(resp_login.data.decode())['auth_token']
         ),
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 400
-    assert data['status'] == 'error'
-    assert data['message'] == 'Invalid credentials.'
+    check_400_invalid_credentials(response)
 
 
 def test_update_password_invalid_new_password(app, user_1):
@@ -678,9 +670,4 @@ def test_update_password_invalid_password_type(app, user_1):
             + json.loads(resp_login.data.decode())['auth_token']
         ),
     )
-    data = json.loads(response.data.decode())
-    assert response.status_code == 500
-    assert data['status'] == 'error'
-    assert data['message'] == (
-        'Error. Please try again or contact the administrator.'
-    )
+    check_500_error(response)

@@ -59,9 +59,11 @@ def create_app():
     from .articles.model import Article, Category, Tag  # noqa
     from .users.model import User  # noqa
 
+    from .articles.categories import categories_blueprint  # noqa
     from .users.auth import auth_blueprint  # noqa
 
     app.register_blueprint(auth_blueprint, url_prefix='/api')
+    app.register_blueprint(categories_blueprint, url_prefix='/api')
 
     @app.route('/api/ping')
     def ping_pong():

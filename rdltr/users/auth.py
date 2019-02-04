@@ -2,6 +2,7 @@ from flask import Blueprint, current_app, jsonify, request
 from sqlalchemy import exc, or_
 
 from .. import app_log, bcrypt, db
+from ..articles.model import Category
 from .model import User
 from .utils import authenticate, passwords_controls, register_controls
 
@@ -60,6 +61,12 @@ def register_user():
             # add new user to db
             new_user = User(username=username, email=email, password=password)
             db.session.add(new_user)
+            db.session.flush()
+
+            new_category = Category(user_id=new_user.id, name='Default')
+            new_category.description = 'Default category'
+            new_category.is_default = True
+            db.session.add(new_category)
             db.session.commit()
             # generate auth token
             auth_token = new_user.encode_auth_token(new_user.id)
@@ -108,7 +115,7 @@ def login_user():
                 'status': 'error',
                 'message': 'Invalid credentials.',
             }
-            return jsonify(response_object), 404
+            return jsonify(response_object), 400
     # handler errors
     except (exc.IntegrityError, exc.OperationalError, ValueError) as e:
         return handle_error(e, db)

@@ -13,6 +13,7 @@ class User(db.Model):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
+    categories = db.relationship('Category', backref='user_categories')
 
     def __repr__(self):
         return f'<User {self.username!r}>'
@@ -72,4 +73,7 @@ class User(db.Model):
             'username': self.username,
             'email': self.email,
             'created_at': self.created_at,
+            'categories': [
+                category.serialize() for category in self.categories
+            ],
         }

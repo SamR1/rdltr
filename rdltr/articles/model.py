@@ -29,12 +29,12 @@ class Category(db.Model):
     )
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(50))
-    user = db.relationship(User, backref='cat_user')
+    is_default = db.Column(db.Boolean, default=False)
+    user = db.relationship(User, backref='category_user')
 
-    def __init__(self, user_id, name, description=""):
+    def __init__(self, user_id, name):
         self.user_id = user_id
         self.name = name
-        self.description = description
 
     def serialize(self):
         return {
@@ -42,6 +42,7 @@ class Category(db.Model):
             'user_id': self.user_id,
             'name': self.name,
             'description': self.description,
+            'is_default': self.is_default,
         }
 
 
