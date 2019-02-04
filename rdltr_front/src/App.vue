@@ -22,6 +22,12 @@ export default {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
 
+  @media screen and (max-width: 400px) {
+    .contnr {
+      width: auto;
+    }
+  }
+
   .input {
     margin: 10px auto;
   }

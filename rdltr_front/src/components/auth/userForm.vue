@@ -1,11 +1,12 @@
 <template>
-  <div id=actionType>
+  <div id=actionType class="contnr">
     <div class="user-form">
       <form @submit.prevent="onSubmit(actionType)">
         <div v-if="actionType === 'register'" class="input">
           <label for="username">Username</label>
           <input
             id="username"
+            required
             v-model="username">
         </div>
         <div class="input">
@@ -13,6 +14,7 @@
           <input
             type="email"
             id="email"
+            required
             v-model="email">
         </div>
         <div class="input">
@@ -20,6 +22,7 @@
           <input
             type="password"
             id="password"
+            required
             v-model="password">
         </div>
         <div v-if="actionType === 'register'" class="input">
@@ -27,6 +30,7 @@
           <input
             type="password"
             id="confirm-password"
+            required
             v-model="confirmPassword">
         </div>
         <div class="submit">
@@ -82,5 +86,11 @@ export default {
   .user-error {
     color: red;
     text-align: center;
+  }
+
+  @media screen and (max-width: 400px) {
+    .user-form {
+      width: auto;
+    }
   }
 </style>

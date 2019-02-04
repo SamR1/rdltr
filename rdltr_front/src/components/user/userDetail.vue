@@ -1,5 +1,5 @@
 <template>
-  <div id=actionType>
+  <div id=actionType class="contnr">
     <div class="user-form">
       <form>
         <div class="input">
@@ -29,6 +29,7 @@
           <input
             type="password"
             id="oldPassword"
+            required
             v-model="oldPassword">
         </div>
         <div v-if="actionType === 'editProfile'" class="input">
@@ -36,6 +37,7 @@
           <input
             type="password"
             id="password"
+            required
             v-model="newPassword">
         </div>
         <div v-if="actionType === 'editProfile'" class="input">
@@ -43,6 +45,7 @@
           <input
             type="password"
             id="confirm-password"
+            required
             v-model="confirmNewPassword">
         </div>
         <div v-if="actionType === 'editProfile'" class="submit">
