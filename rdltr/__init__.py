@@ -56,6 +56,7 @@ def create_app():
             )
             return response
 
+    from .articles.model import Article, Category, Tag  # noqa
     from .users.model import User  # noqa
 
     from .users.auth import auth_blueprint  # noqa
