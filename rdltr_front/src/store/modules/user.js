@@ -38,6 +38,15 @@ const mutations = {
   }
 }
 
+const handleError = (commit, err, msg) => {
+  if (err.response) {
+    return commit('updateErrorMsg', err.response.data.message)
+  }
+  return commit('updateErrorMsg', err.message
+    ? err.message
+    : msg)
+}
+
 const actions = {
   checkUserAuth ({ commit, dispatch }) {
     if (window.localStorage.authToken) {
@@ -52,14 +61,7 @@ const actions = {
           commit('userProfile', res.data.user)
         }
       })
-      .catch(err => {
-        if (err.response) {
-          return commit('updateErrorMsg', err.response.data.message)
-        }
-        commit('updateErrorMsg', err.message
-          ? err.message
-          : `error on profile`)
-      })
+      .catch(err => handleError(commit, err, 'error on profile'))
   },
   loginOrRegister ({ commit, dispatch }, data) {
     api.post(`/auth/${data.actionType}`, data.formData)
@@ -72,14 +74,7 @@ const actions = {
           router.replace('/')
         }
       })
-      .catch(err => {
-        if (err.response) {
-          return commit('updateErrorMsg', err.response.data.message)
-        }
-        commit('updateErrorMsg', err.message
-          ? err.message
-          : `error on ${data.actionType}`)
-      })
+      .catch(err => handleError(commit, err, `error on ${data.actionType}`))
   },
   logout ({commit}) {
     commit('clearUserData')
@@ -94,14 +89,7 @@ const actions = {
           router.replace('/profile')
         }
       })
-      .catch(err => {
-        if (err.response) {
-          return commit('updateErrorMsg', err.response.data.message)
-        }
-        commit('updateErrorMsg', err.message
-          ? err.message
-          : 'error on update password')
-      })
+      .catch(err => handleError(commit, err, 'error on password update'))
   }
 }
 

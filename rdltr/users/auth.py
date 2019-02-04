@@ -8,6 +8,17 @@ from .utils import authenticate, passwords_controls, register_controls
 auth_blueprint = Blueprint('auth', __name__)
 
 
+def handle_error(e, db):
+    db.session.rollback()
+    app_log.error(e)
+
+    response_object = {
+        'status': 'error',
+        'message': 'Error. Please try again or contact the administrator.',
+    }
+    return jsonify(response_object), 500
+
+
 @auth_blueprint.route('/auth/register', methods=['POST'])
 def register_user():
     # get post data
@@ -67,14 +78,7 @@ def register_user():
             return jsonify(response_object), 400
     # handler errors
     except (exc.IntegrityError, exc.OperationalError, ValueError) as e:
-        db.session.rollback()
-        app_log.error(e)
-
-        response_object = {
-            'status': 'error',
-            'message': 'Error. Please try again or contact the administrator.',
-        }
-        return jsonify(response_object), 500
+        return handle_error(e, db)
 
 
 @auth_blueprint.route('/auth/login', methods=['POST'])
@@ -107,13 +111,7 @@ def login_user():
             return jsonify(response_object), 404
     # handler errors
     except (exc.IntegrityError, exc.OperationalError, ValueError) as e:
-        db.session.rollback()
-        app_log.error(e)
-        response_object = {
-            'status': 'error',
-            'message': 'Error. Please try again or contact the administrator.',
-        }
-        return jsonify(response_object), 500
+        return handle_error(e, db)
 
 
 @auth_blueprint.route('/auth/logout', methods=['GET'])
@@ -180,10 +178,4 @@ def update_password(user_id):
         ValueError,
         TypeError,
     ) as e:
-        db.session.rollback()
-        app_log.error(e)
-        response_object = {
-            'status': 'error',
-            'message': 'Error. Please try again or contact the administrator.',
-        }
-        return jsonify(response_object), 500
+        return handle_error(e, db)
