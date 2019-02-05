@@ -67,6 +67,42 @@ def test_get_one_article(app, article_1):
     assert data['data'][0]['tags'][1]['color'] == 'red'
 
 
+def test_get_articles(app, article_1, article_2, article_3):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 2
+    assert data['data'][0]['title'] == 'Python tips'
+    assert data['data'][0]['content'] == '<html></html>'
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['category_id'] == 1
+    assert 'date_added' in data['data'][0]
+    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][1]['color'] == 'red'
+
+    assert data['data'][1]['title'] == 'Another article'
+    assert data['data'][1]['content'] == '<html></html>'
+    assert data['data'][1]['url'] == 'https://test.com'
+    assert data['data'][1]['comments'] == 'just a comment'
+    assert data['data'][1]['category_id'] == 1
+    assert 'date_added' in data['data'][0]
+    assert data['data'][1]['tags'] == []
+
+
 @patch('requests.get')
 def test_add_article_to_default_category_no_tags(
     get_mock, fake_request_ok, app, user_1, cat_3

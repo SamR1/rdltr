@@ -1,7 +1,9 @@
 <template>
   <header id="header">
     <div class="logo">
-      <router-link to="/">rdltr</router-link>
+      <router-link to="/">
+        rdltr <small>a simple "read-it later" app</small>
+      </router-link>
     </div>
     <nav id="responsive-navbar" class="nav" @click="displayMenu">
       <ul>
@@ -40,7 +42,6 @@ export default {
       this.$store.dispatch('logout')
     },
     displayMenu () {
-      console.log('displayMenu')
       let x = document.getElementById('responsive-navbar')
       if (x.className === 'nav') {
         x.className += ' responsive'

@@ -85,7 +85,7 @@ const actions = {
     router.replace('/login')
   },
   // for now, only the password can be modified
-  updateProfile  ({ commit, dispatch }, formData) {
+  updateProfile  ({ commit }, formData) {
     authApi.post(`/auth/profile/edit`, formData)
       .then(res => {
         if (res.data.status === 'success') {

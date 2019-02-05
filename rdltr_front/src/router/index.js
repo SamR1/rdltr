@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import UserDetail from '../components/user/userDetail'
-import NotFound from '../components/notFound'
+import AddArticle from '../components/articles/addArticle'
 import HomePage from '../components/home/home'
+import NotFound from '../components/notFound'
+import UserDetail from '../components/user/userDetail'
 import UserForm from '../components/auth/userForm'
 import store from '../store'
 
@@ -49,6 +50,11 @@ const routes = [
     path: '/profile/edit',
     component: UserDetail,
     props: { actionType: 'editProfile' },
+    beforeEnter: checkAuth
+  },
+  {
+    path: '/articles/add',
+    component: AddArticle,
     beforeEnter: checkAuth
   },
   { path: '*', component: NotFound }

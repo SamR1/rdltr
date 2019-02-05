@@ -18,14 +18,30 @@ export default {
 
 <style>
   body, html {
-    margin: 0;
+    color: #4e4e4e;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin: 0;
   }
 
   @media screen and (max-width: 400px) {
     .contnr {
       width: auto;
     }
+  }
+
+  .btn-rdltr {
+    background-color: #f5f5f7;
+    border: 1px solid #8c95aa;
+    color: #8c95aa;
+    height: calc(2.25rem + 2px);
+    padding: 0.5em 0.8em;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .btn-rdltr:hover{
+    background-color: #8c95aa;
+    color: white;
   }
 
   .form-control {
@@ -38,7 +54,6 @@ export default {
 
   .input label {
     display: block;
-    color: #4e4e4e;
     margin-bottom: 6px;
   }
 

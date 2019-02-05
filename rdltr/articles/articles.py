@@ -12,7 +12,9 @@ articles_blueprint = Blueprint('articles', __name__)
 @articles_blueprint.route('/articles', methods=['GET'])
 @authenticate
 def get_user_articles(user_id):
-    articles = Article.query.filter_by(id=user_id).all()
+    articles = (
+        Article.query.join(Category).filter(Category.user_id == user_id).all()
+    )
     response_object = {
         'status': 'success',
         'data': [article.serialize() for article in articles],

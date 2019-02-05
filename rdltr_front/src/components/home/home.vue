@@ -4,18 +4,7 @@
       <div class="col">
         <div id="user-categories" class="row">
           <div class="col-md-3">
-            <select
-              class="form-control"
-              id="categories"
-              v-model="selectedCategory"
-            >
-              <option
-                :key="category.id"
-                v-for="category in userCategories"
-              >
-                {{ category.name }}
-              </option>
-            </select>
+            <app-category-select></app-category-select>
           </div>
           <div class="col search">
             <div class="input-group">
@@ -26,9 +15,14 @@
             </div>
           </div>
           <div class="col-md-1">
-            <button type="submit" class="btn-rdltr">
+            <router-link
+              to="/articles/add"
+              tag="button"
+              type="submit"
+              class="btn-rdltr"
+            >
               <i class="fa fa-plus-square" aria-hidden="true"></i>
-            </button>
+            </router-link>
           </div>
         </div>
       </div>
@@ -44,30 +38,22 @@
 
 <script>
 import Articles from './articles'
+import CategorySelect from '../common/categorySelect'
 
 export default {
   data: () => {
     return {
-      query: '',
-      selectedCategory: ''
+      query: ''
     }
   },
   components: {
-    AppArticles: Articles
-  },
-  computed: {
-    userCategories () {
-      return this.$store.getters.userCategories
-    }
+    AppArticles: Articles,
+    AppCategorySelect: CategorySelect
   }
 }
 </script>
 
 <style scoped>
-  #home {
-    color: #4e4e4e;
-  }
-
   #user-categories{
     align-items: center;
     padding-top: 1em;
@@ -83,20 +69,5 @@ export default {
       margin-top: .5em;
       margin-bottom: .5em;
     }
-  }
-
-  .btn-rdltr {
-    background-color: #f5f5f7;
-    border: 1px solid #8c95aa;
-    color: #8c95aa;
-    height: calc(2.25rem + 2px);
-    padding: 0.5em 0.8em;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .btn-rdltr:hover{
-    background-color: #8c95aa;
-    color: white;
   }
 </style>
