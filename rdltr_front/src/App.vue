@@ -28,6 +28,10 @@ export default {
     }
   }
 
+  .form-control {
+    border-radius: 0;
+  }
+
   .input {
     margin: 10px auto;
   }
@@ -66,6 +70,7 @@ export default {
   }
 
   .submit button {
+    background-color: #f5f5f7;
     border: 1px solid #8c95aa;
     color: #8c95aa;
     padding: 10px 20px;

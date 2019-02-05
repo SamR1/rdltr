@@ -119,7 +119,10 @@ export default {
     color: white;
   }
 
-  @media screen and (max-width: 44em) {
+  @media screen and (max-width: 767.98px) {
+    #responsive-navbar {
+      z-index: 1;
+    }
     #responsive-navbar ul {
       display: none;
     }
@@ -127,9 +130,7 @@ export default {
       float: right;
       display: block;
     }
-  }
 
- @media screen and (max-width: 44em) {
     #responsive-navbar.responsive {
       background-color: #f4f5f7;
       height: auto;

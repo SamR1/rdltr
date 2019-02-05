@@ -15,6 +15,9 @@ const getters = {
   user (state) {
     return state.user
   },
+  userCategories (state) {
+    return state.user.categories
+  },
   userErrorMessage (state) {
     return state.userErrorMessage
   }
