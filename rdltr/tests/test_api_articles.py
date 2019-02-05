@@ -1,0 +1,189 @@
+import json
+from unittest.mock import patch
+
+from .utils import check_400_invalid_payload, check_500_error
+from .utils_requests import html_doc_body_ok
+
+
+def test_get_no_articles(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert data['data'] == []
+
+
+def test_get_one_article(app, article_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'Python tips'
+    assert data['data'][0]['content'] == '<html></html>'
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['category_id'] == 1
+    assert 'date_added' in data['data'][0]
+    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][1]['color'] == 'red'
+
+
+@patch('requests.get')
+def test_add_article_to_default_category_no_tags(
+    get_mock, fake_request_ok, app, user_1, cat_3
+):
+    get_mock.return_value = fake_request_ok.return_value
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(dict(url='https://example.com')),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 201
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'this is a title'
+    assert data['data'][0]['content'] == html_doc_body_ok
+    assert data['data'][0]['url'] == 'https://example.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['category_id'] == 1
+    assert 'date_added' in data['data'][0]
+    assert len(data['data'][0]['tags']) == 0
+
+
+@patch('requests.get')
+def test_add_article_to_category_no_tags(
+    get_mock, fake_request_ok, app, user_1, cat_1
+):
+    get_mock.return_value = fake_request_ok.return_value
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(dict(url='https://example.com', category_id=1)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 201
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'this is a title'
+    assert data['data'][0]['content'] == html_doc_body_ok
+    assert data['data'][0]['url'] == 'https://example.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['category_id'] == 1
+    assert 'date_added' in data['data'][0]
+    assert len(data['data'][0]['tags']) == 0
+
+
+@patch('requests.get')
+def test_add_article_no_category(get_mock, fake_request_ok, app, user_1):
+    get_mock.return_value = fake_request_ok.return_value
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(dict(url='https://example.com', category_id=1)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 500
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'error'
+    assert data['message'] == 'Article category not found.'
+
+
+@patch('requests.get')
+def test_add_article_invalid_payload(
+    get_mock, fake_request_ok, app, user_1, cat_1
+):
+    get_mock.return_value = fake_request_ok.return_value
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(dict(category_id=1)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    check_400_invalid_payload(response)
+
+
+@patch('requests.get')
+def test_add_article_invalid_content(
+    get_mock, fake_request_ko, app, user_1, cat_1
+):
+    get_mock.return_value = fake_request_ko.return_value
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(dict(url='https://example.com', category_id=1)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    check_500_error(response)

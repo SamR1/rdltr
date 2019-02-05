@@ -5,6 +5,7 @@ import pytest
 from .. import create_app, db
 from ..articles.model import Article, Category, Tag
 from ..users.model import User
+from .utils_requests import mock_api, mock_response_ko, mock_response_ok
 
 os.environ["FLASK_ENV"] = 'testing'
 os.environ["APP_SETTINGS"] = 'rdltr.config.TestingConfig'
@@ -61,6 +62,15 @@ def cat_2(user_2):
 
 
 @pytest.fixture()
+def cat_3(user_1):
+    cat = Category(name='python', user_id=user_1.id)
+    cat.is_default = True
+    db.session.add(cat)
+    db.session.commit()
+    return cat
+
+
+@pytest.fixture()
 def tag_1(user_1):
     tag = Tag(name='tips', user_id=user_1.id)
     db.session.add(tag)
@@ -89,7 +99,10 @@ def tag_3(user_2):
 @pytest.fixture()
 def article_1(cat_1, tag_1, tag_2):
     article = Article(
-        category_id=cat_1.id, title='Python tips', content='<html></html>'
+        category_id=cat_1.id,
+        url='https://test.com',
+        title='Python tips',
+        content='<html></html>',
     )
     article.tags.append(tag_1)
     article.tags.append(tag_2)
@@ -101,9 +114,22 @@ def article_1(cat_1, tag_1, tag_2):
 @pytest.fixture()
 def article_2(cat_1):
     article = Article(
-        category_id=cat_1.id, title='Another article', content='<html></html>'
+        category_id=cat_1.id,
+        url='https://test.com',
+        title='Another article',
+        content='<html></html>',
     )
     article.comments = 'just a comment'
     db.session.add(article)
     db.session.commit()
     return article
+
+
+@pytest.fixture()
+def fake_request_ok():
+    return mock_api(mock_response_ok)
+
+
+@pytest.fixture()
+def fake_request_ko():
+    return mock_api(mock_response_ko)

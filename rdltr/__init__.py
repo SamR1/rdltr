@@ -59,10 +59,12 @@ def create_app():
     from .articles.model import Article, Category, Tag  # noqa
     from .users.model import User  # noqa
 
+    from .articles.articles import articles_blueprint  # noqa
     from .articles.categories import categories_blueprint  # noqa
     from .articles.tags import tags_blueprint  # noqa
     from .users.auth import auth_blueprint  # noqa
 
+    app.register_blueprint(articles_blueprint, url_prefix='/api')
     app.register_blueprint(auth_blueprint, url_prefix='/api')
     app.register_blueprint(categories_blueprint, url_prefix='/api')
     app.register_blueprint(tags_blueprint, url_prefix='/api')

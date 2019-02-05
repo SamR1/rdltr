@@ -59,6 +59,7 @@ def test_article_1_model(app, user_1, cat_1, article_1):
     assert 1 == article_1.category_id
     assert 'Python tips' == article_1.title
     assert '<html></html>' == article_1.content
+    assert 'https://test.com' == article_1.url
     assert not article_1.comments
     assert 2 == len(article_1.tags)
     assert 'tips' == article_1.tags[0].name
@@ -69,6 +70,7 @@ def test_article_1_model(app, user_1, cat_1, article_1):
     assert 1 == serialized_article['id']
     assert 'Python tips' == serialized_article['title']
     assert '<html></html>' == serialized_article['content']
+    assert 'https://test.com' == serialized_article['url']
     assert not serialized_article['comments']
     assert 'tips' == serialized_article['tags'][0]['name']
     assert 'red' == serialized_article['tags'][1]['color']
@@ -81,6 +83,7 @@ def test_article_2_model(app, user_1, cat_1, article_2):
     assert 1 == article_2.category_id
     assert 'Another article' == article_2.title
     assert '<html></html>' == article_2.content
+    assert 'https://test.com' == article_2.url
     assert 'just a comment' == article_2.comments
     assert 0 == len(article_2.tags)
     assert article_2.date_added
@@ -89,6 +92,7 @@ def test_article_2_model(app, user_1, cat_1, article_2):
     assert 1 == serialized_article['id']
     assert 'Another article' == serialized_article['title']
     assert '<html></html>' == serialized_article['content']
+    assert 'https://test.com' == serialized_article['url']
     assert 'just a comment' == serialized_article['comments']
     assert [] == serialized_article['tags']
     assert 1 == serialized_article['category_id']

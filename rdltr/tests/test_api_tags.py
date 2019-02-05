@@ -25,7 +25,6 @@ def test_get_no_tags(app, user_1):
         ),
     )
     assert response.status_code == 200
-    print(response.data)
     data = json.loads(response.data.decode())
     assert data['status'] == 'success'
     assert data['data'] == []

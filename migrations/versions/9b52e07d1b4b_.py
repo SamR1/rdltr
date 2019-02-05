@@ -1,7 +1,7 @@
 """Article, Category and Tag creation
 
-Revision ID: 9b52e07d1b4b
-Revises: 3a45dbc8708e
+Revision ID: 214f7fe3b1ee
+Revises: 9b52e07d1b4b
 Create Date: 2019-02-04 20:03:52.255730
 
 """
@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(length=50), nullable=False),
-    sa.Column('description', sa.String(length=50), nullable=True),
+    sa.Column('description', sa.String(length=200), nullable=True),
     sa.Column('is_default', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name='fk_user_category'),
     sa.PrimaryKeyConstraint('id'),
@@ -40,7 +40,8 @@ def upgrade():
     op.create_table('articles',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('category_id', sa.Integer(), nullable=True),
-    sa.Column('title', sa.String(length=255), nullable=False),
+    sa.Column('url', sa.String(), nullable=False),
+    sa.Column('title', sa.String(), nullable=False),
     sa.Column('content', sa.String(), nullable=False),
     sa.Column('date_added', sa.DateTime(), nullable=True),
     sa.Column('comments', sa.String(), nullable=True),

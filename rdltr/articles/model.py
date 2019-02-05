@@ -28,7 +28,7 @@ class Category(db.Model):
         nullable=True,
     )
     name = db.Column(db.String(50), nullable=False)
-    description = db.Column(db.String(50))
+    description = db.Column(db.String(200))
     is_default = db.Column(db.Boolean, default=False)
     user = db.relationship(User, backref='category_user')
 
@@ -82,7 +82,8 @@ class Article(db.Model):
         db.ForeignKey('categories.id', name='fk_category_articles'),
         nullable=True,
     )
-    title = db.Column(db.String(255), nullable=False)
+    url = db.Column(db.String(), nullable=False)
+    title = db.Column(db.String(), nullable=False)
     content = db.Column(db.String(), nullable=False)
     date_added = db.Column(db.DateTime)
     comments = db.Column(db.String())
@@ -97,11 +98,13 @@ class Article(db.Model):
     def __init__(
         self,
         category_id,
+        url,
         title,
         content,
         date_added=datetime.datetime.utcnow(),
     ):
         self.category_id = category_id
+        self.url = url
         self.title = title
         self.content = content
         self.date_added = date_added
@@ -110,6 +113,7 @@ class Article(db.Model):
         return {
             'id': self.id,
             'category_id': self.category_id,
+            'url': self.url,
             'title': self.title,
             'content': self.content,
             'tags': [tag.serialize() for tag in self.tags],
