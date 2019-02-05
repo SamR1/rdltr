@@ -62,19 +62,28 @@ def cat_2(user_2):
 
 @pytest.fixture()
 def tag_1(user_1):
-    cat = Tag(name='tips', user_id=user_1.id)
-    db.session.add(cat)
+    tag = Tag(name='tips', user_id=user_1.id)
+    db.session.add(tag)
     db.session.commit()
-    return cat
+    return tag
 
 
 @pytest.fixture()
 def tag_2(user_1):
-    cat = Tag(name='tuto', user_id=user_1.id)
-    cat.color = 'red'
-    db.session.add(cat)
+    tag = Tag(name='tuto', user_id=user_1.id)
+    tag.color = 'red'
+    db.session.add(tag)
     db.session.commit()
-    return cat
+    return tag
+
+
+@pytest.fixture()
+def tag_3(user_2):
+    tag = Tag(name='moto', user_id=user_2.id)
+    tag.color = 'green'
+    db.session.add(tag)
+    db.session.commit()
+    return tag
 
 
 @pytest.fixture()
