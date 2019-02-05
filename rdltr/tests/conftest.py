@@ -71,6 +71,14 @@ def cat_3(user_1):
 
 
 @pytest.fixture()
+def cat_4(user_1):
+    cat = Category(name='moto', user_id=user_1.id)
+    db.session.add(cat)
+    db.session.commit()
+    return cat
+
+
+@pytest.fixture()
 def tag_1(user_1):
     tag = Tag(name='tips', user_id=user_1.id)
     db.session.add(tag)
@@ -115,6 +123,20 @@ def article_1(cat_1, tag_1, tag_2):
 def article_2(cat_1):
     article = Article(
         category_id=cat_1.id,
+        url='https://test.com',
+        title='Another article',
+        content='<html></html>',
+    )
+    article.comments = 'just a comment'
+    db.session.add(article)
+    db.session.commit()
+    return article
+
+
+@pytest.fixture()
+def article_3(cat_2):
+    article = Article(
+        category_id=cat_2.id,
         url='https://test.com',
         title='Another article',
         content='<html></html>',

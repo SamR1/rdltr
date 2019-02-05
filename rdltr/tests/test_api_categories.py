@@ -7,7 +7,7 @@ def check_404_category(response):
     assert response.status_code == 404
     data = json.loads(response.data.decode())
     assert data['status'] == 'not found'
-    assert data['message'] == 'Category no found.'
+    assert data['message'] == 'Category not found.'
 
 
 def test_get_no_categories(app, user_1):
@@ -269,7 +269,7 @@ def test_update_not_existing_category(app, user_1):
     assert response.status_code == 404
     data = json.loads(response.data.decode())
     assert data['status'] == 'not found'
-    assert data['message'] == 'Category no found.'
+    assert data['message'] == 'Category not found.'
 
 
 def test_update_category_invalid_payload(app, user_1, cat_1):

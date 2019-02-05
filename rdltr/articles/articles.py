@@ -66,3 +66,54 @@ def add_user_article(user_id):
     db.session.commit()
     response_object = {'status': 'success', 'data': [new_article.serialize()]}
     return jsonify(response_object), 201
+
+
+@articles_blueprint.route('/articles/<int:article_id>', methods=['PATCH'])
+@authenticate
+def update_user_category(user_id, article_id):
+    post_data = request.get_json()
+    if not post_data:
+        response_object = {'status': 'error', 'message': 'Invalid payload.'}
+        return jsonify(response_object), 400
+
+    article = Article.query.filter_by(id=article_id).first()
+    if not article or article.category.user_id != user_id:
+        response_object = {
+            'status': 'not found',
+            'message': f'Article not found.',
+        }
+        return jsonify(response_object), 404
+
+    category_id = post_data.get('category_id')
+    if category_id:
+        category = Category.query.filter_by(id=category_id).first()
+        if not category or category.user_id != user_id:
+            response_object = {
+                'status': 'error',
+                'message': f'Article category not found.',
+            }
+            return jsonify(response_object), 500
+        article.category_id = category.id
+    comments = post_data.get('comments')
+    if comments:
+        article.comments = comments
+    # TODO tags
+    db.session.commit()
+    response_object = {'status': 'success', 'data': [article.serialize()]}
+    return jsonify(response_object), 200
+
+
+@articles_blueprint.route('/articles/<int:article_id>', methods=['DELETE'])
+@authenticate
+def delete_user_category(user_id, article_id):
+    article = Article.query.filter_by(id=article_id).first()
+    if not article or article.category.user_id != user_id:
+        response_object = {
+            'status': 'not found',
+            'message': f'Article not found.',
+        }
+        return jsonify(response_object), 404
+    db.session.delete(article)
+    db.session.commit()
+    response_object = {'status': 'no content'}
+    return jsonify(response_object), 204
