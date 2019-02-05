@@ -3,12 +3,14 @@ def test_category_model(app, user_1, cat_1):
     assert 1 == cat_1.user_id
     assert 'python' == cat_1.name
     assert not cat_1.description
+    assert cat_1.is_default is False
 
     serialized_cat = cat_1.serialize()
     assert 1 == serialized_cat['id']
     assert 1 == serialized_cat['user_id']
     assert 'python' == serialized_cat['name']
     assert not serialized_cat['description']
+    assert serialized_cat['is_default'] is False
 
 
 def test_category_2_model(app, user_1, user_2, cat_2):
@@ -16,12 +18,14 @@ def test_category_2_model(app, user_1, user_2, cat_2):
     assert 2 == cat_2.user_id
     assert 'moto' == cat_2.name
     assert 'related to motorcycles' == cat_2.description
+    assert cat_2.is_default is False
 
     serialized_cat = cat_2.serialize()
     assert 1 == serialized_cat['id']
     assert 2 == serialized_cat['user_id']
     assert 'moto' == serialized_cat['name']
     assert 'related to motorcycles' == serialized_cat['description']
+    assert serialized_cat['is_default'] is False
 
 
 def test_tag_model(app, user_1, tag_1):

@@ -20,7 +20,7 @@ def get_user_categories(user_id):
 
 @categories_blueprint.route('/categories', methods=['POST'])
 @authenticate
-def add_user_categories(user_id):
+def add_user_category(user_id):
     post_data = request.get_json()
     if not post_data or post_data.get('name') is None:
         response_object = {'status': 'error', 'message': 'Invalid payload.'}
@@ -42,3 +42,44 @@ def add_user_categories(user_id):
     db.session.commit()
     response_object = {'status': 'success', 'data': [new_category.serialize()]}
     return jsonify(response_object), 201
+
+
+@categories_blueprint.route('/categories/<int:cat_id>', methods=['PATCH'])
+@authenticate
+def update_user_category(user_id, cat_id):
+    post_data = request.get_json()
+    if not post_data:
+        response_object = {'status': 'error', 'message': 'Invalid payload.'}
+        return jsonify(response_object), 400
+
+    category = Category.query.filter_by(id=cat_id).first()
+    if not category or category.user_id != user_id:
+        response_object = {
+            'status': 'not found',
+            'message': f'Category no found.',
+        }
+        return jsonify(response_object), 404
+    if post_data.get('name'):
+        category.name = post_data.get('name')
+    if post_data.get('description'):
+        category.description = post_data.get('description')
+    db.session.commit()
+    response_object = {'status': 'success', 'data': [category.serialize()]}
+    return jsonify(response_object), 200
+
+
+@categories_blueprint.route('/categories/<int:cat_id>', methods=['DELETE'])
+@authenticate
+def delete_user_category(user_id, cat_id):
+    category = Category.query.filter_by(id=cat_id).first()
+    if not category or category.user_id != user_id:
+        response_object = {
+            'status': 'not found',
+            'message': f'Category no found.',
+        }
+        return jsonify(response_object), 404
+    # TODO : check if articles exist
+    db.session.delete(category)
+    db.session.commit()
+    response_object = {'status': 'no content'}
+    return jsonify(response_object), 204
