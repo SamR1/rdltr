@@ -1,5 +1,8 @@
 <template>
   <div id="user-articles">
+      <div v-if="pagination.total > 0">
+      {{ pagination.total }} {{ `article${pagination.total !== 1 ? 's' : ''}` }}
+    </div>
     <div class="row">
       <p v-if="articles.length === 0">
         No articles. Add <router-link to="/articles/add">one</router-link>!
@@ -23,6 +26,11 @@ export default {
     articles: {
       get () {
         return this.$store.getters.articles
+      }
+    },
+    pagination: {
+      get () {
+        return this.$store.getters.pagination
       }
     }
   },

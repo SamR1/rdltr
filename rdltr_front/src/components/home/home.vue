@@ -4,7 +4,7 @@
       <div class="col">
         <div id="user-categories" class="row">
           <div class="col-md-3">
-            <app-category-select></app-category-select>
+            <app-category-select filter="true"></app-category-select>
           </div>
           <div class="col search">
             <div class="input-group">

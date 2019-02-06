@@ -11,7 +11,7 @@
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
       </router-link>
     </div>
-    <div class="col-10 text-center page">
+    <div class="col-10 text-center page" v-if="pagination.pages > 0">
       page {{ pagination.page }} / {{ pagination.pages }}
     </div>
     <div class="col-1 text-center">

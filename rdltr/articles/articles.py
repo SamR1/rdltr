@@ -16,9 +16,13 @@ articles_blueprint = Blueprint('articles', __name__)
 def get_user_articles(user_id):
     params = request.args.copy()
     page = 1 if 'page' not in params.keys() else int(params.get('page'))
+    category_id = params.get('cat_id')
     articles_pagination = (
         Article.query.join(Category)
-        .filter(Category.user_id == user_id)
+        .filter(
+            Category.user_id == user_id,
+            Category.id == category_id if category_id else True,
+        )
         .order_by(Article.date_added.desc())
         .paginate(page, 12, False)
     )

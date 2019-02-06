@@ -7,7 +7,9 @@
       class="form-control"
       id="categories"
       v-model="selectedCategory"
+      @change="filterArticles"
     >
+      <option></option>
       <option
         :key="category.id"
         :value="category.id"
@@ -21,7 +23,7 @@
 
 <script>
 export default {
-  props: ['displayLabel'],
+  props: ['displayLabel', 'filter'],
   computed: {
     selectedCategory: {
       get () {
@@ -31,8 +33,21 @@ export default {
         this.$store.commit('updateCategory', value)
       }
     },
+    pagination () {
+      return this.$store.getters.pagination
+    },
     userCategories () {
       return this.$store.getters.userCategories
+    }
+  },
+  methods: {
+    filterArticles () {
+      if (this.filter) {
+        this.$store.dispatch('getArticles', {
+          cat_id: this.selectedCategory,
+          page: this.pagination.page
+        })
+      }
     }
   },
   beforeDestroy () {

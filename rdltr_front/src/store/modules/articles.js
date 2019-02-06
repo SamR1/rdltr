@@ -55,15 +55,25 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on articles fetch'))
   },
-  getArticles ({ commit, dispatch, state }, params) {
+  getArticles ({ commit, dispatch, rootState, state }, params) {
     let url = 'articles'
-    if (params && params.page) {
-      url += `?page=${params.page}`
+    if (Object.keys(params).length > 0) {
+      url += '?'
+      if (params.page) {
+        url += `&page=${params.page}`
+        if (!params.cat_id && +rootState.selectedCategory > 0) {
+          url += `&cat_id=${rootState.selectedCategory}`
+        }
+      }
+      if (params.cat_id) {
+        url += `&cat_id=${params.cat_id}`
+      }
     }
     authApi.get(url)
       .then(res => {
         if (res.data.status === 'success') {
-          if (res.data.pagination.page > res.data.pagination.pages) {
+          if (res.data.pagination.pages > 0 &&
+            res.data.pagination.page > res.data.pagination.pages) {
             return router.replace(`/articles/page/${res.data.pagination.pages}`)
           }
           commit('getUserArticles', res.data)

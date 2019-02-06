@@ -148,6 +148,20 @@ def article_3(cat_2):
 
 
 @pytest.fixture()
+def article_4(cat_4):
+    article = Article(
+        category_id=cat_4.id,
+        url='https://test.com',
+        title='Great article',
+        content='<html></html>',
+    )
+    article.comments = 'just a comment'
+    db.session.add(article)
+    db.session.commit()
+    return article
+
+
+@pytest.fixture()
 def articles_20(cat_1):
     for n in range(1, 21):
         article = Article(
