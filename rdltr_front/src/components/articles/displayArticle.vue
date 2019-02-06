@@ -46,9 +46,7 @@ export default {
 </script>
 
 <style scoped>
-  #article-detail {
-    margin: 2em;
-  }
+  #article-detail {}
 
   a {
     color: black;

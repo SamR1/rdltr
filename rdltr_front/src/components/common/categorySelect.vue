@@ -9,7 +9,7 @@
       v-model="selectedCategory"
       @change="filterArticles"
     >
-      <option></option>
+      <option v-if="!displayLabel" value="">All categories</option>
       <option
         :key="category.id"
         :value="category.id"

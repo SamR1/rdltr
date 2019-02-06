@@ -21,10 +21,11 @@
           </div>
           <div class="col-md-1">
             <router-link
+              class="btn-rdltr"
               to="/articles/add"
               tag="button"
+              title="add article"
               type="submit"
-              class="btn-rdltr"
             >
               <i class="fa fa-plus-square" aria-hidden="true"></i>
             </router-link>
@@ -80,6 +81,7 @@ export default {
   .input-group-text {
     background-color: #f5f5f7;
     border-radius: 0;
+    margin-left: 1em;
   }
 
   @media (max-width: 767.98px) {

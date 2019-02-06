@@ -22,8 +22,12 @@ def get_user_articles(user_id):
     articles_pagination = (
         Article.query.join(Category)
         .filter(
-            or_(Article.title.like('%' + query + '%'),
-                Article.content.like('%' + query + '%')) if query else True,
+            or_(
+                Article.title.like('%' + query + '%'),
+                Article.content.like('%' + query + '%'),
+            )
+            if query
+            else True,
             Category.user_id == user_id,
             Category.id == category_id if category_id else True,
         )

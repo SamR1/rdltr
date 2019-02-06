@@ -1,6 +1,6 @@
 <template>
   <div id=actionType class="contnr">
-    <div class="user-form">
+    <div class="custom-form">
       <form @submit.prevent="onSubmit(actionType)">
         <div v-if="actionType === 'register'" class="input">
           <label for="username">Username</label>
@@ -37,7 +37,7 @@
           <button type="submit">Submit</button>
         </div>
       </form>
-      <p v-if="errMessage" class="user-error">{{ errMessage }}</p>
+      <p v-if="errMessage" class="custom-error">{{ errMessage }}</p>
     </div>
   </div>
 </template>
@@ -75,22 +75,4 @@ export default {
 </script>
 
 <style scoped>
-  .user-form {
-    width: 400px;
-    margin: 30px auto;
-    border: 1px solid #eee;
-    padding: 20px;
-    box-shadow: 0 2px 3px #ccc;
-  }
-
-  .user-error {
-    color: red;
-    text-align: center;
-  }
-
-  @media screen and (max-width: 400px) {
-    .user-form {
-      width: auto;
-    }
-  }
 </style>

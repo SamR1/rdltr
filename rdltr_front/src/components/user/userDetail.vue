@@ -1,6 +1,6 @@
 <template>
   <div id=actionType class="contnr">
-    <div class="user-form">
+    <div class="custom-form">
       <form>
         <div class="input">
           <label for="username">Username</label>
@@ -56,7 +56,7 @@
           <router-link to="/profile/edit" tag="button">Change password</router-link>
         </div>
       </form>
-      <p v-if="errMessage" class="user-error">{{ errMessage }}</p>
+      <p v-if="errMessage" class="custom-error">{{ errMessage }}</p>
     </div>
   </div>
 </template>
@@ -101,18 +101,5 @@ export default {
     background-color: inherit;
     border: None;
     color: #4e4e4e;
-  }
-
-  .user-form {
-    width: 400px;
-    margin: 30px auto;
-    border: 1px solid #eee;
-    padding: 20px;
-    box-shadow: 0 2px 3px #ccc;
-  }
-
-  .user-error {
-    color: red;
-    text-align: center;
   }
 </style>

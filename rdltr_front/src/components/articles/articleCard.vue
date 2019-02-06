@@ -2,7 +2,13 @@
   <div class="col-sm-6 col-md-4 col-lg-3">
     <div class="card">
       <div class="card-body">
-        <button type="button" class="close" aria-label="Close" @click="onDeleteArticle">
+        <button
+          aria-label="Close"
+          class="close"
+          title="delete artcle"
+          type="button"
+          @click="onDeleteArticle"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
         <app-category-badge :category-name="article.category.name"></app-category-badge>
@@ -47,5 +53,4 @@ export default {
     background-color: transparent;
     border: none;
   }
-
 </style>

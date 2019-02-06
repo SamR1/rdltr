@@ -60,6 +60,25 @@ export default {
     color: white;
   }
 
+  .custom-form {
+    width: 400px;
+    margin: 30px auto;
+    border: 1px solid #eee;
+    padding: 20px;
+    box-shadow: 0 2px 3px #ccc;
+  }
+
+  .custom-error {
+    color: red;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 400px) {
+    .custom-form {
+      width: auto;
+    }
+  }
+
   .form-control {
     border-radius: 0;
   }
