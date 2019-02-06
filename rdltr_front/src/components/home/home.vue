@@ -8,10 +8,15 @@
           </div>
           <div class="col search">
             <div class="input-group">
-              <input class="form-control" v-model="query">
-              <div class="input-group-btn">
-                <button type="submit" class="btn-rdltr">Search</button>
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="">Search</span>
               </div>
+              <input
+                class="form-control"
+                placeholder="enter keywords"
+                v-model="query"
+                @input="onSearch"
+              >
             </div>
           </div>
           <div class="col-md-1">
@@ -39,14 +44,24 @@ import Articles from './articles'
 import CategorySelect from '../common/categorySelect'
 
 export default {
-  data: () => {
-    return {
-      query: ''
-    }
-  },
   components: {
     AppArticles: Articles,
     AppCategorySelect: CategorySelect
+  },
+  computed: {
+    query: {
+      get () {
+        return this.$store.getters.query
+      },
+      set (value) {
+        this.$store.commit('updateQuery', value)
+      }
+    }
+  },
+  methods: {
+    onSearch () {
+      this.$store.dispatch('getArticles', { query: this.query })
+    }
   }
 }
 </script>
@@ -60,6 +75,11 @@ export default {
 
   .search input {
     margin-right: .5em;
+  }
+
+  .input-group-text {
+    background-color: #f5f5f7;
+    border-radius: 0;
   }
 
   @media (max-width: 767.98px) {

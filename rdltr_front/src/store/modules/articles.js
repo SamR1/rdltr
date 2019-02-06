@@ -5,6 +5,7 @@ const state = {
   article: {},
   articles: [],
   pagination: {},
+  query: '',
   articleErrorMessage: null
 }
 
@@ -20,12 +21,18 @@ const getters = {
   },
   pagination (state) {
     return state.pagination
+  },
+  query (state) {
+    return state.query
   }
 }
 
 const mutations = {
   updateArticlesErrorMsg (state, errMessage) {
     state.articleErrorMessage = errMessage
+  },
+  updateQuery (state, query) {
+    state.query = query
   },
   getUserArticle (state, article) {
     state.article = article
@@ -61,12 +68,18 @@ const actions = {
       url += '?'
       if (params.page) {
         url += `&page=${params.page}`
-        if (!params.cat_id && +rootState.selectedCategory > 0) {
-          url += `&cat_id=${rootState.selectedCategory}`
-        }
       }
+
       if (params.cat_id) {
         url += `&cat_id=${params.cat_id}`
+      } else if (+rootState.selectedCategory > 0) {
+        url += `&cat_id=${rootState.selectedCategory}`
+      }
+
+      if (params.query) {
+        url += `&q=${params.query}`
+      } else if (state.query !== '') {
+        url += `&q=${state.query}`
       }
     }
     authApi.get(url)

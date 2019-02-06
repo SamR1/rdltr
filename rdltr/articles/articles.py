@@ -3,6 +3,7 @@ import re
 import requests
 from flask import Blueprint, jsonify, request
 from readability import Document
+from sqlalchemy import or_
 
 from .. import app_log, db
 from ..users.utils import authenticate
@@ -17,9 +18,12 @@ def get_user_articles(user_id):
     params = request.args.copy()
     page = 1 if 'page' not in params.keys() else int(params.get('page'))
     category_id = params.get('cat_id')
+    query = params.get('q')
     articles_pagination = (
         Article.query.join(Category)
         .filter(
+            or_(Article.title.like('%' + query + '%'),
+                Article.content.like('%' + query + '%')) if query else True,
             Category.user_id == user_id,
             Category.id == category_id if category_id else True,
         )
