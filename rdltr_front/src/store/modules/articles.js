@@ -67,6 +67,15 @@ const actions = {
         }
       })
       .catch(err => handleError(commit, err, 'error on article add'))
+  },
+  deleteArticle ({ commit, dispatch }, id) {
+    authApi.delete(`articles/${id}`)
+      .then(res => {
+        if (res.status === 204) {
+          dispatch('getArticles')
+        }
+      })
+      .catch(err => handleError(commit, err, 'error on article deletion'))
   }
 }
 

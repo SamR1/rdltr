@@ -2,6 +2,9 @@
   <div class="col-sm-6 col-md-4 col-lg-3">
     <div class="card">
       <div class="card-body">
+        <button type="button" class="close" aria-label="Close" @click="onDeleteArticle">
+          <span aria-hidden="true">&times;</span>
+        </button>
         <app-category-badge :category-name="article.category.name"></app-category-badge>
         <h5 class="card-title">{{ article.title }}</h5>
         <p class="card-text"></p>
@@ -25,6 +28,11 @@ export default {
   props: ['article'],
   components: {
     AppCategoryBadge: CategoryBadge
+  },
+  methods: {
+    onDeleteArticle () {
+      return this.$store.dispatch('deleteArticle', this.article.id)
+    }
   }
 }
 </script>

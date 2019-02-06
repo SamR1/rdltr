@@ -19,6 +19,7 @@ export default {
   .badge-rdltr {
     background-color: #8c95aa;
     color: white;
+    margin-top: 1em;
     margin-bottom: .5em;
   }
 </style>

@@ -73,6 +73,7 @@ const actions = {
           const token = res.data.auth_token
           window.localStorage.setItem('authToken', token)
           commit('authUser', token)
+          commit('updateErrorMsg', '')
           dispatch('getUserProfile')
           router.replace('/')
         }
