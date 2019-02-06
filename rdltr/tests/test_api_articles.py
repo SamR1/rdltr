@@ -87,28 +87,93 @@ def test_get_articles(app, article_1, article_2, article_3):
     data = json.loads(response.data.decode())
     assert data['status'] == 'success'
     assert len(data['data']) == 2
-    assert data['data'][0]['title'] == 'Python tips'
+
+    assert data['data'][0]['title'] == 'Another article'
     assert data['data'][0]['content'] == '<html></html>'
     assert data['data'][0]['url'] == 'https://test.com'
-    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['comments'] == 'just a comment'
     assert data['data'][0]['category']['id'] == 1
     assert data['data'][0]['category']['name'] == 'python'
     assert data['data'][0]['category']['description'] is None
     assert data['data'][0]['category']['is_default'] is False
     assert 'date_added' in data['data'][0]
-    assert data['data'][0]['tags'][0]['name'] == 'tips'
-    assert data['data'][0]['tags'][1]['color'] == 'red'
+    assert data['data'][0]['tags'] == []
 
-    assert data['data'][1]['title'] == 'Another article'
+    assert data['data'][1]['title'] == 'Python tips'
     assert data['data'][1]['content'] == '<html></html>'
     assert data['data'][1]['url'] == 'https://test.com'
-    assert data['data'][1]['comments'] == 'just a comment'
+    assert data['data'][1]['comments'] is None
+    assert data['data'][1]['category']['id'] == 1
+    assert data['data'][1]['category']['name'] == 'python'
+    assert data['data'][1]['category']['description'] is None
+    assert data['data'][1]['category']['is_default'] is False
+    assert 'date_added' in data['data'][1]
+    assert data['data'][1]['tags'][0]['name'] == 'tips'
+    assert data['data'][1]['tags'][1]['color'] == 'red'
+
+
+def test_get_articles_pagination(app, articles_20):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles?page=1',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 12
+
+    assert data['data'][0]['title'] == 'Python article 20'
+    assert data['data'][0]['content'] == '<html><body>20</body></html>'
+    assert data['data'][0]['url'] == 'https://python.com'
     assert data['data'][0]['category']['id'] == 1
-    assert data['data'][0]['category']['name'] == 'python'
-    assert data['data'][0]['category']['description'] is None
-    assert data['data'][0]['category']['is_default'] is False
-    assert 'date_added' in data['data'][0]
-    assert data['data'][1]['tags'] == []
+
+    assert data['data'][11]['title'] == 'Python article 9'
+    assert data['data'][11]['content'] == '<html><body>9</body></html>'
+    assert data['data'][11]['url'] == 'https://python.com'
+    assert data['data'][11]['category']['id'] == 1
+
+    response = client.get(
+        '/api/articles?page=2',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 8
+
+    assert data['data'][0]['title'] == 'Python article 8'
+    assert data['data'][0]['content'] == '<html><body>8</body></html>'
+    assert data['data'][0]['url'] == 'https://python.com'
+    assert data['data'][0]['category']['id'] == 1
+
+    assert data['data'][7]['title'] == 'Python article 1'
+    assert data['data'][7]['content'] == '<html><body>1</body></html>'
+    assert data['data'][7]['url'] == 'https://python.com'
+    assert data['data'][7]['category']['id'] == 1
+
+    response = client.get(
+        '/api/articles?page=3',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 0
 
 
 def test_get_article(app, article_1):

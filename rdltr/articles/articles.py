@@ -14,12 +14,26 @@ articles_blueprint = Blueprint('articles', __name__)
 @articles_blueprint.route('/articles', methods=['GET'])
 @authenticate
 def get_user_articles(user_id):
-    articles = (
-        Article.query.join(Category).filter(Category.user_id == user_id).all()
+    params = request.args.copy()
+    page = 1 if 'page' not in params.keys() else int(params.get('page'))
+    articles_pagination = (
+        Article.query.join(Category)
+        .filter(Category.user_id == user_id)
+        .order_by(Article.date_added.desc())
+        .paginate(page, 12, False)
     )
+
+    articles = articles_pagination.items
     response_object = {
         'status': 'success',
         'data': [article.serialize() for article in articles],
+        'pagination': {
+            'has_next': articles_pagination.has_next,
+            'has_prev': articles_pagination.has_prev,
+            'page': articles_pagination.page,
+            'pages': articles_pagination.pages,
+            'total': articles_pagination.total,
+        },
     }
     return jsonify(response_object), 200
 

@@ -29,9 +29,7 @@
     </div>
     <hr>
     <div class="row">
-      <div class="col">
-        <app-articles></app-articles>
-      </div>
+      <app-articles></app-articles>
     </div>
   </div>
 </template>

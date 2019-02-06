@@ -64,6 +64,12 @@ const routes = [
     name: 'articleDetail',
     beforeEnter: checkAuth
   },
+  {
+    path: '/articles/page/:page',
+    component: HomePage,
+    name: 'articlesPage',
+    beforeEnter: checkAuth
+  },
   { path: '*', component: NotFound }
 ]
 

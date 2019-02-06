@@ -148,6 +148,20 @@ def article_3(cat_2):
 
 
 @pytest.fixture()
+def articles_20(cat_1):
+    for n in range(1, 21):
+        article = Article(
+            category_id=cat_1.id,
+            url='https://python.com',
+            title=f'Python article {n}',
+            content=f'<html><body>{n}</body></html>',
+        )
+        db.session.add(article)
+    db.session.commit()
+    return
+
+
+@pytest.fixture()
 def fake_request_ok():
     return mock_api(mock_response_ok)
 
