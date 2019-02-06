@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import AddArticle from '../components/articles/addArticle'
+import displayArticle from '../components/articles/displayArticle'
 import HomePage from '../components/home/home'
 import NotFound from '../components/notFound'
 import UserDetail from '../components/user/userDetail'
@@ -55,6 +56,12 @@ const routes = [
   {
     path: '/articles/add',
     component: AddArticle,
+    beforeEnter: checkAuth
+  },
+  {
+    path: '/articles/:id',
+    component: displayArticle,
+    name: 'articleDetail',
     beforeEnter: checkAuth
   },
   { path: '*', component: NotFound }

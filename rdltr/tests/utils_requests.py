@@ -23,9 +23,10 @@ html_doc_ok = """
 </html>
 """
 
-html_doc_body_ok = (
-    "b'<body>\\n        <p>this is a paragraph</p>\\n    </body>\\n'"
-)
+html_doc_body_ok = """<body id="readabilityBody">
+        <p>this is a paragraph</p>
+    </body>
+"""
 
 mock_response_ok = MockResponse(html_doc_ok)
 mock_response_ko = MockResponse('')

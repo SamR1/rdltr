@@ -2,11 +2,15 @@ import authApi from '../../api/authApi'
 import router from '../../router'
 
 const state = {
+  article: {},
   articles: [],
   articleErrorMessage: null
 }
 
 const getters = {
+  article (state) {
+    return state.article
+  },
   articles (state) {
     return state.articles
   },
@@ -18,6 +22,9 @@ const getters = {
 const mutations = {
   updateArticlesErrorMsg (state, errMessage) {
     state.articleErrorMessage = errMessage
+  },
+  getUserArticle (state, article) {
+    state.article = article
   },
   getUserArticles (state, articles) {
     state.articles = articles
@@ -34,6 +41,15 @@ const handleError = (commit, err, msg) => {
 }
 
 const actions = {
+  getArticle ({ commit }, id) {
+    authApi.get(`articles/${id}`)
+      .then(res => {
+        if (res.data.status === 'success') {
+          commit('getUserArticle', res.data.data[0])
+        }
+      })
+      .catch(err => handleError(commit, err, 'error on articles fetch'))
+  },
   getArticles ({ commit }) {
     authApi.get('articles')
       .then(res => {

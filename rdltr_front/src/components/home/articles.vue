@@ -3,13 +3,11 @@
     <p v-if="articles.length === 0">
       No articles. Add <router-link to="/articles/add">one</router-link>!
     </p>
-    <div class="card-group">
-      <app-article-card
-        v-for="article in articles"
-        :key="article.id"
-        :article="article">
-      </app-article-card>
-    </div>
+    <app-article-card
+      v-for="article in articles"
+      :key="article.id"
+      :article="article">
+    </app-article-card>
   </div>
 </template>
 

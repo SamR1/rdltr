@@ -39,7 +39,7 @@ def test_get_no_articles(app, user_1):
     assert data['data'] == []
 
 
-def test_get_one_article(app, article_1):
+def test_get_articles_one_result(app, article_1):
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -61,7 +61,9 @@ def test_get_one_article(app, article_1):
     assert data['data'][0]['content'] == '<html></html>'
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
-    assert data['data'][0]['category_id'] == 1
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
     assert 'date_added' in data['data'][0]
     assert data['data'][0]['tags'][0]['name'] == 'tips'
     assert data['data'][0]['tags'][1]['color'] == 'red'
@@ -89,7 +91,10 @@ def test_get_articles(app, article_1, article_2, article_3):
     assert data['data'][0]['content'] == '<html></html>'
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
-    assert data['data'][0]['category_id'] == 1
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
     assert 'date_added' in data['data'][0]
     assert data['data'][0]['tags'][0]['name'] == 'tips'
     assert data['data'][0]['tags'][1]['color'] == 'red'
@@ -98,9 +103,76 @@ def test_get_articles(app, article_1, article_2, article_3):
     assert data['data'][1]['content'] == '<html></html>'
     assert data['data'][1]['url'] == 'https://test.com'
     assert data['data'][1]['comments'] == 'just a comment'
-    assert data['data'][1]['category_id'] == 1
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
     assert 'date_added' in data['data'][0]
     assert data['data'][1]['tags'] == []
+
+
+def test_get_article(app, article_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles/1',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'Python tips'
+    assert data['data'][0]['content'] == '<html></html>'
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert 'date_added' in data['data'][0]
+    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][1]['color'] == 'red'
+
+
+def test_get_article_no_result(app, user_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles/1',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    check_404_article_not_found(response)
+
+
+def test_get_article_no_result_another_user_article(app, user_1, article_3):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles/1',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    check_404_article_not_found(response)
 
 
 @patch('requests.get')
@@ -131,7 +203,10 @@ def test_add_article_to_default_category_no_tags(
     assert data['data'][0]['content'] == html_doc_body_ok
     assert data['data'][0]['url'] == 'https://example.com'
     assert data['data'][0]['comments'] is None
-    assert data['data'][0]['category_id'] == 1
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default']
     assert 'date_added' in data['data'][0]
     assert len(data['data'][0]['tags']) == 0
 
@@ -164,7 +239,10 @@ def test_add_article_to_category_no_tags(
     assert data['data'][0]['content'] == html_doc_body_ok
     assert data['data'][0]['url'] == 'https://example.com'
     assert data['data'][0]['comments'] is None
-    assert data['data'][0]['category_id'] == 1
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
     assert 'date_added' in data['data'][0]
     assert len(data['data'][0]['tags']) == 0
 
@@ -264,7 +342,10 @@ def test_patch_article_add_comments_ok(
     assert data['data'][0]['content'] == '<html></html>'
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] == 'just a comment'
-    assert data['data'][0]['category_id'] == 1
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
 
 
 @patch('requests.get')
@@ -295,7 +376,10 @@ def test_patch_article_change_category_ok(
     assert data['data'][0]['content'] == '<html></html>'
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
-    assert data['data'][0]['category_id'] == 2
+    assert data['data'][0]['category']['id'] == 2
+    assert data['data'][0]['category']['name'] == 'moto'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
 
 
 @patch('requests.get')

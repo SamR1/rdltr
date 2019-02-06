@@ -29,6 +29,22 @@ export default {
     }
   }
 
+  .article-content a {
+    color: black;
+  }
+
+  .article-content img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+  }
+
+  .article-content pre {
+    background-color: #f4f4f4;
+    padding: .5em;
+  }
+
   .btn-rdltr {
     background-color: #f5f5f7;
     border: 1px solid #8c95aa;

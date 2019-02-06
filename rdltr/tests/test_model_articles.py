@@ -74,7 +74,7 @@ def test_article_1_model(app, user_1, cat_1, article_1):
     assert not serialized_article['comments']
     assert 'tips' == serialized_article['tags'][0]['name']
     assert 'red' == serialized_article['tags'][1]['color']
-    assert 1 == serialized_article['category_id']
+    assert 1 == serialized_article['category']['id']
     assert 'date_added' in serialized_article
 
 
@@ -95,5 +95,5 @@ def test_article_2_model(app, user_1, cat_1, article_2):
     assert 'https://test.com' == serialized_article['url']
     assert 'just a comment' == serialized_article['comments']
     assert [] == serialized_article['tags']
-    assert 1 == serialized_article['category_id']
+    assert 1 == serialized_article['category']['id']
     assert 'date_added' in serialized_article

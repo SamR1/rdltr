@@ -112,10 +112,10 @@ class Article(db.Model):
     def serialize(self):
         return {
             'id': self.id,
-            'category_id': self.category_id,
             'url': self.url,
             'title': self.title,
             'content': self.content,
+            'category': self.category.serialize(),
             'tags': [tag.serialize() for tag in self.tags],
             'comments': self.comments,
             'date_added': self.date_added,

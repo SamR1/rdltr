@@ -1,3 +1,5 @@
+import re
+
 import requests
 from flask import Blueprint, jsonify, request
 from readability import Document
@@ -22,6 +24,21 @@ def get_user_articles(user_id):
     return jsonify(response_object), 200
 
 
+@articles_blueprint.route('/articles/<int:article_id>', methods=['GET'])
+@authenticate
+def get_user_article(user_id, article_id):
+    article = Article.query.filter_by(id=article_id).first()
+    if not article or article.category.user_id != user_id:
+        response_object = {
+            'status': 'not found',
+            'message': f'Article not found.',
+        }
+        return jsonify(response_object), 404
+
+    response_object = {'status': 'success', 'data': [article.serialize()]}
+    return jsonify(response_object), 200
+
+
 @articles_blueprint.route('/articles', methods=['POST'])
 @authenticate
 def add_user_article(user_id):
@@ -36,7 +53,8 @@ def add_user_article(user_id):
         response = requests.get(url)
         doc = Document(response.text)
         title = doc.title()
-        content = doc.content()
+        # remove all classes
+        content = re.sub('class=".*?"', '', doc.summary(html_partial=False))
     except Exception as e:
         app_log.error(e)
         response_object = {
