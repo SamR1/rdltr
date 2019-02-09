@@ -45,6 +45,13 @@ export default {
     padding: .5em;
   }
 
+  .badge-rdltr {
+    background-color: #8c95aa;
+    color: white;
+    margin-top: 1em;
+    margin-bottom: .5em;
+  }
+
   .btn-rdltr {
     background-color: #f5f5f7;
     border: 1px solid #8c95aa;

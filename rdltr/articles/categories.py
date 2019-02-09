@@ -92,7 +92,20 @@ def delete_user_category(user_id, cat_id):
             'message': f'Category not found.',
         }
         return jsonify(response_object), 404
-    # TODO : check if articles exist
+    if category.is_default:
+        response_object = {
+            'status': 'error',
+            'message': 'Default category can not be deleted.',
+        }
+        return jsonify(response_object), 400
+    if category.articles:
+        # default category exists, no need to check it
+        default_category = Category.query.filter_by(
+            user_id=user_id, is_default=True
+        ).first()
+        for article in category.articles:
+            article.category_id = default_category.id
+            db.session.commit()
     db.session.delete(category)
     db.session.commit()
     response_object = {'status': 'no content'}

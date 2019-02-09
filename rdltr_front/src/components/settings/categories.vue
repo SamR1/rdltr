@@ -12,6 +12,13 @@
         Add a category
       </router-link>
     </div>
+    <div v-if="categoryErrorMessage" class="row">
+      <p
+        class="alert alert-danger"
+      >
+        {{ categoryErrorMessage }}
+      </p>
+    </div>
     <div class="row">
       <div class="input-group">
         <div class="input-group-prepend">
@@ -44,6 +51,9 @@ export default {
   computed: {
     userCategories () {
       return this.$store.getters.userCategories
+    },
+    categoryErrorMessage () {
+      return this.$store.getters.categoryErrorMessage
     }
   },
   data () {
@@ -52,6 +62,9 @@ export default {
       displayAdd: false,
       searchQuery: ''
     }
+  },
+  beforeDestroy () {
+    this.$store.commit('updateCategoryErrorMsg', null)
   }
 }
 </script>

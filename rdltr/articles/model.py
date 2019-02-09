@@ -31,6 +31,7 @@ class Category(db.Model):
     description = db.Column(db.String(200))
     is_default = db.Column(db.Boolean, default=False)
     user = db.relationship(User, backref='category_user')
+    articles = db.relationship('Article', backref='category_articles')
 
     def __init__(self, user_id, name):
         self.user_id = user_id

@@ -24,6 +24,12 @@
         >
           <td v-for="key in columns" :key="key">
             {{entry[key]}}
+            <span
+              class="badge badge-rdltr badge-rdltr-small"
+              v-if="key=== 'name' && entry.is_default"
+            >
+              default
+            </span>
           </td>
           <td>
             <router-link
@@ -32,7 +38,7 @@
             >
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </router-link>
-            <i class="fa fa-trash" aria-hidden="true"></i>
+            <i v-if="!entry.is_default" class="fa fa-trash link" aria-hidden="true" @click="deleteItem(entry.id)"></i>
           </td>
         </tr>
       </tbody>
@@ -86,6 +92,9 @@ export default {
     }
   },
   methods: {
+    deleteItem (itemId) {
+      return this.$store.dispatch('deleteCategory', itemId)
+    },
     sortBy: function (key) {
       this.sortKey = key
       this.sortOrders[key] = this.sortOrders[key] * -1
@@ -114,6 +123,10 @@ export default {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 4px solid #4e4e4e;
+  }
+
+  .badge-rdltr-small {
+    font-size: .7em;
   }
 
   .link {

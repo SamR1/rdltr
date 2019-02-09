@@ -41,6 +41,15 @@ const actions = {
         router.replace('/settings/categories')
       })
       .catch(err => handleError(commit, err, 'error on category update'))
+  },
+  deleteCategory ({ commit, dispatch, state }, id) {
+    authApi.delete(`categories/${id}`)
+      .then(res => {
+        if (res.status === 204) {
+          dispatch('getUserProfile')
+        }
+      })
+      .catch(err => handleError(commit, err, 'error on category deletion'))
   }
 }
 
