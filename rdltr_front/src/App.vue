@@ -60,7 +60,11 @@ export default {
     color: white;
   }
 
-  .custom-form {
+  .btn-rdltr-auto {
+    width: 100%;
+  }
+
+  .rdltr-box {
     width: 400px;
     margin: 30px auto;
     border: 1px solid #eee;
@@ -68,13 +72,13 @@ export default {
     box-shadow: 0 2px 3px #ccc;
   }
 
-  .custom-error {
+  .rdltr-error {
     color: red;
     text-align: center;
   }
 
   @media screen and (max-width: 400px) {
-    .custom-form {
+    .rdltr-box {
       width: auto;
     }
   }

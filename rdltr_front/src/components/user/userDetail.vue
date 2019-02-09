@@ -1,6 +1,6 @@
 <template>
   <div id=actionType class="contnr">
-    <div class="custom-form">
+    <div class="rdltr-box">
       <form>
         <div class="input">
           <label for="username">Username</label>
@@ -56,7 +56,7 @@
           <router-link to="/profile/edit" tag="button">Change password</router-link>
         </div>
       </form>
-      <p v-if="errMessage" class="custom-error">{{ errMessage }}</p>
+      <p v-if="errMessage" class="rdltr-error">{{ errMessage }}</p>
     </div>
   </div>
 </template>

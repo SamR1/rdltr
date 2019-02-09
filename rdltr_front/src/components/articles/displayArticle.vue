@@ -51,4 +51,8 @@ export default {
   a {
     color: black;
   }
+
+  .btn-rdltr {
+    margin-top: .5em;
+  }
 </style>

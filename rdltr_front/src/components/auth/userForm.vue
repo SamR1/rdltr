@@ -1,6 +1,6 @@
 <template>
   <div id=actionType class="contnr">
-    <div class="custom-form">
+    <div class="rdltr-box">
       <form @submit.prevent="onSubmit(actionType)">
         <div v-if="actionType === 'register'" class="input">
           <label for="username">Username</label>
@@ -37,7 +37,7 @@
           <button type="submit">Submit</button>
         </div>
       </form>
-      <p v-if="errMessage" class="custom-error">{{ errMessage }}</p>
+      <p v-if="errMessage" class="rdltr-error">{{ errMessage }}</p>
     </div>
   </div>
 </template>
