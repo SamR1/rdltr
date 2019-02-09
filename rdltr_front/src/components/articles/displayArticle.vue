@@ -46,12 +46,18 @@
         v-if="article.content"
         :article-content="article.content"
       ></app-article-content>
+      <hr>
+      <app-article-comments
+        v-if="article.comments"
+        :article-comments="article.comments"
+      ></app-article-comments>
     </div>
   </div>
 </template>
 
 <script>
 import ArticleContent from './displayArticleContent'
+import ArticleComments from './articleComments'
 import CategoryBadge from '../common/categoryBadge'
 import CategorySelect from '../common/categorySelect'
 
@@ -59,6 +65,7 @@ export default {
   components: {
     AppCategoryBadge: CategoryBadge,
     AppCategorySelect: CategorySelect,
+    AppArticleComments: ArticleComments,
     AppArticleContent: ArticleContent
   },
   computed: {
@@ -110,8 +117,6 @@ export default {
 </script>
 
 <style scoped>
-  #article-detail {}
-
   #category-update {
     display: inline-flex;
     margin: .7em 0;
@@ -123,6 +128,10 @@ export default {
 
   a {
     color: black;
+  }
+
+  .fa {
+    font-size: .8em;
   }
 
 </style>
