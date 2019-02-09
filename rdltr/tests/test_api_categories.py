@@ -231,6 +231,28 @@ def test_update_existing_category(app, user_1, cat_1):
     assert data['data'][0]['is_default'] is False
 
 
+def test_update_existing_category_name(app, user_1, cat_1, cat_4):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.patch(
+        '/api/categories/1',
+        data=json.dumps(dict(name='moto', description='new description')),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 400
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'error'
+    assert data['message'] == 'A category named "moto" already exists.'
+
+
 def test_update_another_user_category(app, user_1, cat_2):
     client = app.test_client()
     resp_login = client.post(

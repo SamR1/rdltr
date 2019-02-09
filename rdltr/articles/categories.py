@@ -59,7 +59,21 @@ def update_user_category(user_id, cat_id):
             'message': f'Category not found.',
         }
         return jsonify(response_object), 404
-    if post_data.get('name'):
+    name = post_data.get('name')
+    if (
+        name
+        and Category.query.filter(
+            Category.user_id == user_id,
+            Category.name == name,
+            Category.id != cat_id,
+        ).first()
+    ):
+        response_object = {
+            'status': 'error',
+            'message': f'A category named "{name}" already exists.',
+        }
+        return jsonify(response_object), 400
+    if name:
         category.name = post_data.get('name')
     if post_data.get('description'):
         category.description = post_data.get('description')

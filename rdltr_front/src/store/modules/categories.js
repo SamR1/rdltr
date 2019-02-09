@@ -34,6 +34,13 @@ const actions = {
         router.replace('/settings/categories')
       })
       .catch(err => handleError(commit, err, 'error on category creation'))
+  },
+  updateCategory ({ commit, rootState }, formData) {
+    authApi.patch(`categories/${formData.id}`, formData)
+      .then(() => {
+        router.replace('/settings/categories')
+      })
+      .catch(err => handleError(commit, err, 'error on category update'))
   }
 }
 

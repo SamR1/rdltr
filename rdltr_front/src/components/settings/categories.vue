@@ -23,7 +23,7 @@
         >
       </div>
     </div>
-    <div class="row items-row">
+    <div v-if="userCategories" class="row items-row">
       <app-items-tables
         :data="userCategories"
         :columns="categoriesColumns"

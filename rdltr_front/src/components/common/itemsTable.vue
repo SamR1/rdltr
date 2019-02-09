@@ -26,7 +26,12 @@
             {{entry[key]}}
           </td>
           <td>
-            <i class="fa fa-pencil" aria-hidden="true"></i>
+            <router-link
+              class="link"
+              :to="{ name:'editCategory', params: { id: entry.id }}"
+            >
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </router-link>
             <i class="fa fa-trash" aria-hidden="true"></i>
           </td>
         </tr>
@@ -54,7 +59,7 @@ export default {
   },
   computed: {
     filteredData: function () {
-      const sortKey = this.sortKey
+      const sortKey = this.sortKey ? this.sortKey : 'id'
       const filterKey = this.filterKey && this.filterKey.toLowerCase()
       const order = this.sortOrders[sortKey] || 1
       let data = this.data
@@ -109,5 +114,9 @@ export default {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 4px solid #4e4e4e;
+  }
+
+  .link {
+    color: #8c95aa
   }
 </style>
