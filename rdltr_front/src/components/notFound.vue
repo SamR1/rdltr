@@ -3,7 +3,7 @@
     <div class="test">
       <p>Page not found!</p>
       <br />
-      <router-link to="/" tag="button" class="btn-rdltr">
+      <router-link class="btn-rdltr" tag="button" to="/">
         Back to home
       </router-link>
     </div>

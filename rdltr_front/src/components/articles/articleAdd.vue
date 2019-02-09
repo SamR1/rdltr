@@ -1,8 +1,11 @@
 <template>
   <div id="add-article" class="contnr">
-    <div class="article-form">
+    <div class="rdltr-box">
       <div class="title">Add an article</div>
       <hr />
+      <p v-if="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </p>
       <form @submit.prevent="onSubmit()">
         <div class="input">
           <label for="link">Link</label>
@@ -13,7 +16,6 @@
           <button type="submit">Submit</button>
         </div>
       </form>
-      <p v-if="errMessage" class="user-error">{{ errMessage }}</p>
     </div>
   </div>
 </template>
@@ -22,21 +24,24 @@
 import CategorySelect from '../common/categorySelect'
 
 export default {
+  components: {
+    AppCategorySelect: CategorySelect,
+  },
   data() {
     return {
       link: '',
     }
   },
-  components: {
-    AppCategorySelect: CategorySelect,
-  },
   computed: {
-    errMessage() {
-      return this.$store.getters.articleErrorMessage
+    errorMessage() {
+      return this.$store.getters.errorMessage
     },
     selectedCategory() {
       return this.$store.getters.selectedCategory
     },
+  },
+  beforeDestroy() {
+    this.$store.commit('setErrorMessage', null)
   },
   methods: {
     onSubmit() {
@@ -51,25 +56,11 @@ export default {
 </script>
 
 <style scoped>
-.article-form {
-  border: 1px solid #eee;
-  box-shadow: 0 2px 3px #ccc;
-  margin: 30px auto;
-  padding: 20px;
-  width: 400px;
-}
-
 .add-article-submit {
   margin-top: 0.7em;
 }
 
 .title {
   font-weight: bold;
-}
-
-@media screen and (max-width: 400px) {
-  .article-form {
-    width: auto;
-  }
 }
 </style>

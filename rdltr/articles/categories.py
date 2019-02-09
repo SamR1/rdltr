@@ -26,7 +26,7 @@ def add_user_category(user_id):
         response_object = {'status': 'error', 'message': 'Invalid payload.'}
         return jsonify(response_object), 400
 
-    name = post_data.get('name')
+    name = post_data.get('name').lower()
     category = Category.query.filter_by(user_id=user_id, name=name).first()
     if category:
         response_object = {
@@ -59,7 +59,7 @@ def update_user_category(user_id, cat_id):
             'message': f'Category not found.',
         }
         return jsonify(response_object), 404
-    name = post_data.get('name')
+    name = post_data.get('name').lower()
     if (
         name
         and Category.query.filter(

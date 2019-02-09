@@ -9,11 +9,11 @@
       v-model="selectedCategory"
       @change="filterArticles"
     >
-      <option v-if="!displayLabel" value="">All categories</option>
+      <option value="" v-if="!displayLabel">All categories</option>
       <option
+        v-for="category in userCategories"
         :key="category.id"
         :value="category.id"
-        v-for="category in userCategories"
       >
         {{ category.name }}
       </option>
@@ -30,7 +30,7 @@ export default {
         return this.$store.getters.selectedCategory
       },
       set(value) {
-        this.$store.commit('updateCategory', value)
+        this.$store.commit('setCategory', value)
       },
     },
     pagination() {
@@ -39,6 +39,9 @@ export default {
     userCategories() {
       return this.$store.getters.userCategories
     },
+  },
+  beforeDestroy() {
+    this.$store.commit('setCategory', '')
   },
   methods: {
     filterArticles() {
@@ -49,9 +52,6 @@ export default {
         })
       }
     },
-  },
-  beforeDestroy() {
-    this.$store.commit('updateCategory', '')
   },
 }
 </script>

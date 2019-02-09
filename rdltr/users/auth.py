@@ -63,7 +63,7 @@ def register_user():
             db.session.add(new_user)
             db.session.flush()
 
-            new_category = Category(user_id=new_user.id, name='Default')
+            new_category = Category(user_id=new_user.id, name='default')
             new_category.description = 'Default category'
             new_category.is_default = True
             db.session.add(new_category)

@@ -3,15 +3,15 @@
     <div class="input">
       <label for="description">Comments</label>
       <textarea
-        v-if="onCommentsEdition"
         id="description"
+        v-if="onCommentsEdition"
         v-model="comments"
         :disabled="!onCommentsEdition"
       >
       </textarea>
-      <p id="comments" v-else>{{ comments }}</p>
+      <p id="comments" v-else>{{ comments ? comments : 'No comments yet' }}</p>
     </div>
-    <div v-if="onCommentsEdition" class="submit">
+    <div class="submit" v-if="onCommentsEdition">
       <button type="submit" @click.prevent="onSubmit()">
         Submit
       </button>
@@ -37,6 +37,15 @@
 <script>
 export default {
   props: ['articleComments'],
+  data() {
+    return {
+      comments: '',
+      onCommentsEdition: false,
+    }
+  },
+  beforeMount() {
+    this.comments = this.articleComments
+  },
   methods: {
     onSubmit() {
       this.$store
@@ -50,15 +59,6 @@ export default {
           this.onCommentsEdition = false
         })
     },
-  },
-  data() {
-    return {
-      comments: '',
-      onCommentsEdition: false,
-    }
-  },
-  beforeMount() {
-    this.comments = this.articleComments
   },
 }
 </script>

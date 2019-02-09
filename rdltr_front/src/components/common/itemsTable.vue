@@ -33,7 +33,7 @@
               class="link"
               :to="{ name: 'editCategory', params: { id: item.id } }"
             >
-              <i class="fa fa-pencil" aria-hidden="true"></i>
+              <i aria-hidden="true" class="fa fa-pencil"></i>
             </router-link>
             <i
               aria-hidden="true"
@@ -54,6 +54,11 @@ export default {
     data: Array,
     columns: Array,
     filterKey: String,
+  },
+  filters: {
+    capitalize: function(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    },
   },
   data: function() {
     const sortOrders = {}
@@ -92,11 +97,6 @@ export default {
       return data
     },
   },
-  filters: {
-    capitalize: function(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1)
-    },
-  },
   methods: {
     deleteItem(Id) {
       return this.$store.dispatch('deleteCategory', Id)
@@ -133,5 +133,6 @@ export default {
 
 .badge-rdltr-small {
   font-size: 0.7em;
+  margin: 0;
 }
 </style>

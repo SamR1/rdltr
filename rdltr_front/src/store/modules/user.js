@@ -1,11 +1,11 @@
 import api from '../../api/defaultApi'
 import authApi from '../../api/authApi'
 import router from '../../router'
+import { handleError } from '../../utils'
 
 const state = {
   authToken: null,
   user: {},
-  userErrorMessage: null,
 }
 
 const getters = {
@@ -18,9 +18,6 @@ const getters = {
   userCategories(state) {
     return state.user.categories
   },
-  userErrorMessage(state) {
-    return state.userErrorMessage
-  },
 }
 
 const mutations = {
@@ -28,24 +25,14 @@ const mutations = {
     state.authToken = token
     state.userErrorMessage = null
   },
-  clearUserData(state, token) {
+  clearUserData(state) {
     state.authToken = null
     state.user = {}
     state.userErrorMessage = null
   },
-  updateErrorMsg(state, errMessage) {
-    state.userErrorMessage = errMessage
-  },
   userProfile(state, user) {
     state.user = user
   },
-}
-
-const handleError = (commit, err, msg) => {
-  if (err.response) {
-    return commit('updateErrorMsg', err.response.data.message)
-  }
-  return commit('updateErrorMsg', err.message ? err.message : msg)
 }
 
 const actions = {
@@ -73,7 +60,7 @@ const actions = {
           const token = res.data.auth_token
           window.localStorage.setItem('authToken', token)
           commit('authUser', token)
-          commit('updateErrorMsg', '')
+          commit('setErrorMessage', '')
           dispatch('getUserProfile')
           router.replace('/')
         }

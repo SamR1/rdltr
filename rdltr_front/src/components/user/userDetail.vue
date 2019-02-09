@@ -8,7 +8,7 @@
         </div>
         <div class="input">
           <label for="email">Email</label>
-          <input type="email" id="email" disabled v-model="user.email" />
+          <input id="email" disabled type="email" v-model="user.email" />
         </div>
         <div class="input">
           <label for="email">Inscription date</label>
@@ -17,38 +17,40 @@
         <div v-if="actionType === 'editProfile'" class="input">
           <label for="password">Old password</label>
           <input
-            type="password"
             id="oldPassword"
             required
+            type="password"
             v-model="oldPassword"
           />
         </div>
         <div v-if="actionType === 'editProfile'" class="input">
           <label for="password">New password</label>
-          <input type="password" id="password" required v-model="newPassword" />
+          <input id="password" required type="password" v-model="newPassword" />
         </div>
         <div v-if="actionType === 'editProfile'" class="input">
           <label for="confirm-password">Confirm New Password</label>
           <input
-            type="password"
             id="confirm-password"
             required
+            type="password"
             v-model="confirmNewPassword"
           />
         </div>
-        <div v-if="actionType === 'editProfile'" class="submit">
+        <div class="submit" v-if="actionType === 'editProfile'">
           <button type="submit" @click.prevent="onSubmit()">Submit</button>
-          <router-link to="/profile" tag="button" class="cancel"
+          <router-link class="cancel" tag="button" to="/profile"
             >Cancel</router-link
           >
         </div>
         <div v-else class="submit">
-          <router-link to="/profile/edit" tag="button"
-            >Change password</router-link
-          >
+          <router-link tag="button" to="/profile/edit">
+            Change password
+          </router-link>
         </div>
       </form>
-      <p v-if="errMessage" class="rdltr-error">{{ errMessage }}</p>
+      <p v-if="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </p>
     </div>
   </div>
 </template>
@@ -64,8 +66,8 @@ export default {
     }
   },
   computed: {
-    errMessage() {
-      return this.$store.getters.userErrorMessage
+    errorMessage() {
+      return this.$store.getters.errorMessage
     },
     user() {
       return this.$store.getters.user

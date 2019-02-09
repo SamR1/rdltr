@@ -2,11 +2,11 @@
   <div id="pagination" class="row">
     <div class="col-1 text-center">
       <router-link
-        v-show="pagination.has_prev"
-        :to="{ name: 'articlesPage', params: { page: pagination.page - 1 } }"
+        class="btn-rdltr"
         tag="button"
         type="submit"
-        class="btn-rdltr"
+        v-show="pagination.has_prev"
+        :to="{ name: 'articlesPage', params: { page: pagination.page - 1 } }"
       >
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
       </router-link>
@@ -16,11 +16,11 @@
     </div>
     <div class="col-1 text-center">
       <router-link
-        v-show="pagination.has_next"
-        :to="{ name: 'articlesPage', params: { page: pagination.page + 1 } }"
+        class="btn-rdltr"
         tag="button"
         type="submit"
-        class="btn-rdltr"
+        v-show="pagination.has_next"
+        :to="{ name: 'articlesPage', params: { page: pagination.page + 1 } }"
       >
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
       </router-link>
@@ -31,10 +31,8 @@
 <script>
 export default {
   computed: {
-    pagination: {
-      get() {
-        return this.$store.getters.pagination
-      },
+    pagination() {
+      return this.$store.getters.pagination
     },
   },
 }

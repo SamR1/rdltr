@@ -8,9 +8,9 @@
         Add a category
       </router-link>
     </div>
-    <div v-if="categoryErrorMessage" class="row">
+    <div v-if="errorMessage" class="row">
       <p class="alert alert-danger">
-        {{ categoryErrorMessage }}
+        {{ errorMessage }}
       </p>
     </div>
     <div class="row">
@@ -39,14 +39,6 @@ export default {
   components: {
     AppItemsTables: ItemsTable,
   },
-  computed: {
-    userCategories() {
-      return this.$store.getters.userCategories
-    },
-    categoryErrorMessage() {
-      return this.$store.getters.categoryErrorMessage
-    },
-  },
   data() {
     return {
       categoriesColumns: ['id', 'name', 'description'],
@@ -54,8 +46,16 @@ export default {
       searchQuery: '',
     }
   },
+  computed: {
+    errorMessage() {
+      return this.$store.getters.errorMessage
+    },
+    userCategories() {
+      return this.$store.getters.userCategories
+    },
+  },
   beforeDestroy() {
-    this.$store.commit('updateCategoryErrorMsg', null)
+    this.$store.commit('setErrorMessage', null)
   },
 }
 </script>

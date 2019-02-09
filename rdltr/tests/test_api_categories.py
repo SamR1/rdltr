@@ -63,7 +63,7 @@ def test_add_category_minimal_payload(app, user_1):
     )
     response = client.post(
         '/api/categories',
-        data=json.dumps(dict(name='moto')),
+        data=json.dumps(dict(name='Moto')),
         headers=dict(
             Authorization='Bearer '
             + json.loads(resp_login.data.decode())['auth_token']

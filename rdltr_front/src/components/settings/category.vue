@@ -1,17 +1,17 @@
 <template>
-  <div class="container">
+  <div class="contnr">
     <div class="rdltr-box">
-      <div v-if="categoryErrorMessage && !category.id">
-        <p v-if="categoryErrorMessage" class="alert alert-danger">
-          {{ categoryErrorMessage }}
+      <div v-if="errorMessage && !category.id">
+        <p v-if="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
         </p>
         <router-link class="btn-rdltr" tag="button" to="/settings/categories"
           >Back to Categories</router-link
         >
       </div>
       <div v-else>
-        <p v-if="categoryErrorMessage" class="alert alert-danger">
-          {{ categoryErrorMessage }}
+        <p class="alert alert-danger" v-if="errorMessage">
+          {{ errorMessage }}
         </p>
         <form>
           <div class="input">
@@ -53,23 +53,15 @@ export default {
     }
   },
   computed: {
+    errorMessage() {
+      return this.$store.getters.errorMessage
+    },
     userCategories() {
       return this.$store.getters.userCategories
     },
-    categoryErrorMessage() {
-      return this.$store.getters.categoryErrorMessage
-    },
-  },
-  methods: {
-    onSubmit() {
-      if (this.$route.params.id) {
-        return this.$store.dispatch('updateCategory', this.category)
-      }
-      return this.$store.dispatch('addCategory', this.category)
-    },
   },
   beforeDestroy() {
-    this.$store.commit('updateCategoryErrorMsg', null)
+    this.$store.commit('setErrorMessage', null)
   },
   beforeMount() {
     if (this.$route.params.id && this.userCategories) {
@@ -79,9 +71,17 @@ export default {
       if (selectCategory.length > 0) {
         this.category = selectCategory[0]
       } else {
-        this.$store.commit('updateCategoryErrorMsg', 'Category not found!')
+        this.$store.commit('setErrorMessage', 'Category not found!')
       }
     }
+  },
+  methods: {
+    onSubmit() {
+      if (this.$route.params.id) {
+        return this.$store.dispatch('updateCategory', this.category)
+      }
+      return this.$store.dispatch('addCategory', this.category)
+    },
   },
 }
 </script>

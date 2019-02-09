@@ -31,7 +31,12 @@ html {
 }
 
 .container {
+  margin-bottom: 1em;
   margin-top: 0.5em;
+}
+
+.alert {
+  margin: 0.5em 0;
 }
 
 .article-content a {
@@ -53,18 +58,18 @@ html {
 .badge-rdltr {
   background-color: #8c95aa;
   color: white;
-  margin-top: 1em;
   margin-bottom: 0.5em;
+  margin-top: 1em;
 }
 
 .btn-rdltr {
   background-color: #f5f5f7;
   border: 1px solid #8c95aa;
   color: #8c95aa;
+  cursor: pointer;
+  font: inherit;
   height: calc(2.25rem + 2px);
   padding: 0.5em 0.8em;
-  font: inherit;
-  cursor: pointer;
 }
 
 .btn-rdltr:hover {
@@ -77,11 +82,11 @@ html {
 }
 
 .rdltr-box {
-  width: 400px;
-  margin: 30px auto;
   border: 1px solid #eee;
-  padding: 20px;
   box-shadow: 0 2px 3px #ccc;
+  margin: 30px auto;
+  padding: 20px;
+  width: 400px;
 }
 
 .rdltr-error {
@@ -114,11 +119,11 @@ html {
 
 .input input,
 .input textarea {
-  font: inherit;
-  width: 100%;
-  padding: 6px 12px;
   box-sizing: border-box;
   border: 1px solid #ccc;
+  font: inherit;
+  padding: 6px 12px;
+  width: 100%;
 }
 
 .input.inline input {
@@ -126,9 +131,9 @@ html {
 }
 
 .input input:focus {
-  outline: none;
-  border: 1px solid #8c95aa;
   background-color: #eee;
+  border: 1px solid #8c95aa;
+  outline: none;
 }
 
 .input select {
@@ -143,10 +148,10 @@ html {
 .submit button {
   background-color: #f5f5f7;
   border: 1px solid #8c95aa;
-  color: #8c95aa;
-  padding: 10px 20px;
   font: inherit;
+  color: #8c95aa;
   cursor: pointer;
+  padding: 10px 20px;
 }
 
 .submit button:hover,

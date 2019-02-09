@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import AddArticle from '../components/articles/addArticle'
+import AddArticle from '../components/articles/articleAdd'
 import Categories from '../components/settings/categories'
 import Category from '../components/settings/category'
-import DisplayArticle from '../components/articles/displayArticle'
+import DisplayArticle from '../components/articles/articleDisplay'
 import HomePage from '../components/home/home'
 import NotFound from '../components/notFound'
 import Settings from '../components/settings'
 import UserDetail from '../components/user/userDetail'
-import UserForm from '../components/auth/userForm'
+import UserForm from '../components/user/userForm'
 import store from '../store'
 
 Vue.use(VueRouter)

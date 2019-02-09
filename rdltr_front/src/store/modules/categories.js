@@ -1,29 +1,14 @@
 import authApi from '../../api/authApi'
 import router from '../../router'
+import { handleError } from '../../utils'
 
 const state = {
   categories: [],
-  categoryErrorMessage: null,
 }
 
-const getters = {
-  categoryErrorMessage(state) {
-    return state.categoryErrorMessage
-  },
-}
+const getters = {}
 
-const mutations = {
-  updateCategoryErrorMsg(state, errMessage) {
-    state.categoryErrorMessage = errMessage
-  },
-}
-
-const handleError = (commit, err, msg) => {
-  if (err.response) {
-    return commit('updateCategoryErrorMsg', err.response.data.message)
-  }
-  return commit('updateCategoryErrorMsg', err.message ? err.message : msg)
-}
+const mutations = {}
 
 const actions = {
   addCategory({ commit, rootState }, formData) {

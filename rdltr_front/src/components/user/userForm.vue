@@ -8,26 +8,28 @@
         </div>
         <div class="input">
           <label for="email">Email</label>
-          <input type="email" id="email" required v-model="email" />
+          <input id="email" required type="email" v-model="email" />
         </div>
         <div class="input">
           <label for="password">Password</label>
-          <input type="password" id="password" required v-model="password" />
+          <input id="password" required type="password" v-model="password" />
         </div>
         <div v-if="actionType === 'register'" class="input">
           <label for="confirm-password">Confirm Password</label>
           <input
-            type="password"
             id="confirm-password"
+            type="password"
             required
             v-model="confirmPassword"
           />
         </div>
+        <p v-if="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+        </p>
         <div class="submit">
           <button type="submit">Submit</button>
         </div>
       </form>
-      <p v-if="errMessage" class="rdltr-error">{{ errMessage }}</p>
     </div>
   </div>
 </template>
@@ -37,16 +39,24 @@ export default {
   props: ['actionType'],
   data() {
     return {
-      username: '',
+      confirmPassword: '',
       email: '',
       password: '',
-      confirmPassword: '',
+      username: '',
     }
   },
   computed: {
-    errMessage() {
-      return this.$store.getters.userErrorMessage
+    errorMessage() {
+      return this.$store.getters.errorMessage
     },
+  },
+  watch: {
+    $route(to, from) {
+      this.$store.commit('setErrorMessage', null)
+    },
+  },
+  beforeDestroy() {
+    this.$store.commit('setErrorMessage', null)
   },
   methods: {
     onSubmit(actionType) {

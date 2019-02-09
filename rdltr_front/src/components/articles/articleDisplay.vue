@@ -1,11 +1,11 @@
 <template>
-  <div id="article-detail" class="container">
-    <router-link to="/" tag="button" class="btn-rdltr">
+  <div class="container" id="article-detail">
+    <router-link class="btn-rdltr" tag="button" to="/">
       Back to home
     </router-link>
-    <div v-if="articleErrorMessage">
-      <p class="text-center">{{ articleErrorMessage }}</p>
-    </div>
+    <p v-if="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </p>
     <div v-else>
       <div id="category-update" v-if="onCategoryEdition">
         <app-category-select displayLabel="false"></app-category-select>
@@ -32,8 +32,8 @@
           :category-name="article.category.name"
         ></app-category-badge>
         <i
-          class="fa fa-pencil link"
           aria-hidden="true"
+          class="fa fa-pencil link"
           @click="updateSelectedCategory"
         ></i>
       </div>
@@ -50,7 +50,7 @@
       ></app-article-content>
       <hr />
       <app-article-comments
-        v-if="article.comments"
+        v-if="article"
         :article-comments="article.comments"
       ></app-article-comments>
     </div>
@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import ArticleContent from './displayArticleContent'
+import ArticleContent from './articleContentDisplay'
 import ArticleComments from './articleComments'
 import CategoryBadge from '../common/categoryBadge'
 import CategorySelect from '../common/categorySelect'
@@ -70,15 +70,20 @@ export default {
     AppArticleComments: ArticleComments,
     AppArticleContent: ArticleContent,
   },
+  data() {
+    return {
+      onCategoryEdition: false,
+    }
+  },
   computed: {
     article: {
       get() {
         return this.$store.getters.article
       },
     },
-    articleErrorMessage: {
+    errorMessage: {
       get() {
-        return this.$store.getters.articleErrorMessage
+        return this.$store.getters.errorMessage
       },
     },
     selectedCategory: {
@@ -86,6 +91,13 @@ export default {
         return this.$store.getters.selectedCategory
       },
     },
+  },
+  created() {
+    this.$store.dispatch('getArticle', this.$route.params.id)
+  },
+  beforeDestroy() {
+    this.$store.commit('getUserArticle', {})
+    this.$store.commit('setErrorMessage', null)
   },
   methods: {
     onUpdateCategory() {
@@ -101,21 +113,9 @@ export default {
         })
     },
     updateSelectedCategory() {
-      this.$store.commit('updateCategory', this.article.category.id)
+      this.$store.commit('setCategory', this.article.category.id)
       this.onCategoryEdition = !this.onCategoryEdition
     },
-  },
-  data() {
-    return {
-      onCategoryEdition: false,
-    }
-  },
-  created() {
-    this.$store.dispatch('getArticle', this.$route.params.id)
-  },
-  beforeDestroy() {
-    this.$store.commit('getUserArticle', {})
-    this.$store.commit('updateArticlesErrorMsg', null)
   },
 }
 </script>
@@ -130,11 +130,11 @@ export default {
   margin-left: 0.5em;
 }
 
-a {
-  color: black;
-}
-
 .fa {
   font-size: 0.8em;
+}
+
+a {
+  color: black;
 }
 </style>

@@ -10,20 +10,30 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     selectedCategory: '',
+    errorMessage: null,
   },
   mutations: {
-    updateCategory(state, selectedCategory) {
+    setCategory(state, selectedCategory) {
       state.selectedCategory = selectedCategory
+    },
+    setErrorMessage(state, errorMessage) {
+      state.errorMessage = errorMessage
     },
   },
   actions: {
     updateSelectedCategory({ commit }, selectedCategory) {
-      commit('updateCategory', selectedCategory)
+      commit('setCategory', selectedCategory)
+    },
+    updateErrorMessage({ commit }, errorMessage) {
+      commit('setErrorMessage', errorMessage)
     },
   },
   getters: {
     selectedCategory(state) {
       return state.selectedCategory
+    },
+    errorMessage(state) {
+      return state.errorMessage
     },
   },
   modules: {

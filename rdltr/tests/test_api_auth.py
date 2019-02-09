@@ -465,7 +465,7 @@ def test_user_profile_full_ok(app):
         {
             'id': 1,
             'user_id': 1,
-            'name': 'Default',
+            'name': 'default',
             'description': 'Default category',
             'is_default': True,
         }

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Articles from './articles'
+import Articles from '../articles/articlesList'
 import CategorySelect from '../common/categorySelect'
 
 export default {
@@ -86,8 +86,8 @@ export default {
 
 @media (max-width: 767.98px) {
   .search {
-    margin-top: 0.5em;
     margin-bottom: 0.5em;
+    margin-top: 0.5em;
   }
 }
 </style>

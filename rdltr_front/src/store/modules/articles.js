@@ -1,12 +1,12 @@
 import authApi from '../../api/authApi'
 import router from '../../router'
+import { handleError } from '../../utils'
 
 const state = {
   article: {},
   articles: [],
   pagination: {},
   query: '',
-  articleErrorMessage: null,
 }
 
 const getters = {
@@ -15,9 +15,6 @@ const getters = {
   },
   articles(state) {
     return state.articles
-  },
-  articleErrorMessage(state) {
-    return state.articleErrorMessage
   },
   pagination(state) {
     return state.pagination
@@ -28,12 +25,6 @@ const getters = {
 }
 
 const mutations = {
-  updateArticlesErrorMsg(state, errMessage) {
-    state.articleErrorMessage = errMessage
-  },
-  updateQuery(state, query) {
-    state.query = query
-  },
   getUserArticle(state, article) {
     state.article = article
   },
@@ -41,16 +32,22 @@ const mutations = {
     state.articles = data.data
     state.pagination = data.pagination
   },
-}
-
-const handleError = (commit, err, msg) => {
-  if (err.response) {
-    return commit('updateArticlesErrorMsg', err.response.data.message)
-  }
-  return commit('updateArticlesErrorMsg', err.message ? err.message : msg)
+  updateQuery(state, query) {
+    state.query = query
+  },
 }
 
 const actions = {
+  addArticle({ commit }, formData) {
+    authApi
+      .post('articles', formData)
+      .then(res => {
+        if (res.data.status === 'success') {
+          router.replace('/')
+        }
+      })
+      .catch(err => handleError(commit, err, 'error on adding article'))
+  },
   getArticle({ commit }, id) {
     authApi
       .get(`articles/${id}`)
@@ -59,7 +56,7 @@ const actions = {
           commit('getUserArticle', res.data.data[0])
         }
       })
-      .catch(err => handleError(commit, err, 'error on articles fetch'))
+      .catch(err => handleError(commit, err, 'error on fetching article'))
   },
   getArticles({ commit, dispatch, rootState, state }, params) {
     let url = 'articles'
@@ -94,17 +91,7 @@ const actions = {
           commit('getUserArticles', res.data)
         }
       })
-      .catch(err => handleError(commit, err, 'error on articles fetch'))
-  },
-  addArticle({ commit }, formData) {
-    authApi
-      .post('articles', formData)
-      .then(res => {
-        if (res.data.status === 'success') {
-          router.replace('/')
-        }
-      })
-      .catch(err => handleError(commit, err, 'error on article add'))
+      .catch(err => handleError(commit, err, 'error on fetching articles'))
   },
   updateArticle({ commit }, data) {
     authApi

@@ -19,9 +19,9 @@
       </div>
       <div class="card-footer">
         <router-link
-          :to="{ name: 'articleDetail', params: { id: article.id } }"
-          tag="button"
           class="btn-rdltr"
+          tag="button"
+          :to="{ name: 'articleDetail', params: { id: article.id } }"
         >
           Read
         </router-link>
@@ -33,10 +33,10 @@
 <script>
 import CategoryBadge from '../common/categoryBadge'
 export default {
-  props: ['article'],
   components: {
     AppCategoryBadge: CategoryBadge,
   },
+  props: ['article'],
   methods: {
     onDeleteArticle() {
       return this.$store.dispatch('deleteArticle', this.article.id)
