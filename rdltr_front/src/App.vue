@@ -100,7 +100,7 @@ export default {
     display: inline;
   }
 
-  .input input {
+  .input input, .input textarea {
     font: inherit;
     width: 100%;
     padding: 6px 12px;

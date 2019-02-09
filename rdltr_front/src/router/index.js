@@ -2,9 +2,12 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import AddArticle from '../components/articles/addArticle'
-import displayArticle from '../components/articles/displayArticle'
+import Categories from '../components/settings/categories'
+import Category from '../components/settings/category'
+import DisplayArticle from '../components/articles/displayArticle'
 import HomePage from '../components/home/home'
 import NotFound from '../components/notFound'
+import Settings from '../components/settings'
 import UserDetail from '../components/user/userDetail'
 import UserForm from '../components/auth/userForm'
 import store from '../store'
@@ -60,7 +63,7 @@ const routes = [
   },
   {
     path: '/articles/:id',
-    component: displayArticle,
+    component: DisplayArticle,
     name: 'articleDetail',
     beforeEnter: checkAuth
   },
@@ -68,6 +71,28 @@ const routes = [
     path: '/articles/page/:page',
     component: HomePage,
     name: 'articlesPage',
+    beforeEnter: checkAuth
+  },
+  {
+    path: '/settings',
+    component: Settings,
+    beforeEnter: checkAuth
+  },
+  {
+    path: '/settings/categories/add',
+    component: Category,
+    name: 'addCategory',
+    beforeEnter: checkAuth
+  },
+  {
+    path: '/settings/categories/:id',
+    component: Category,
+    name: 'editCategory',
+    beforeEnter: checkAuth
+  },
+  {
+    path: '/settings/categories',
+    component: Categories,
     beforeEnter: checkAuth
   },
   { path: '*', component: NotFound }

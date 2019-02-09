@@ -17,6 +17,9 @@
           <router-link to="/profile">{{ username }}</router-link>
         </li>
         <li v-if="auth" class="menu">
+          <router-link to="/settings">Settings</router-link>
+        </li>
+        <li v-if="auth" class="menu">
           <span @click="onLogout" class="logout">Logout</span>
         </li>
       </ul>
