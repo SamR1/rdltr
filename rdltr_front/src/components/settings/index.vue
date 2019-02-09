@@ -8,6 +8,13 @@
       >
         Categories
       </router-link>
+      <router-link
+        class="btn-rdltr btn-rdltr-auto"
+        tag="button"
+        to="/settings/tags"
+      >
+        Tags
+      </router-link>
       <hr />
       <router-link class="btn-rdltr" tag="button" to="/">
         Back to home
@@ -20,4 +27,8 @@
 export default {}
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn-rdltr-auto {
+  margin-top: 0.5em;
+}
+</style>

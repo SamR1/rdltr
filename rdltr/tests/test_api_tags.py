@@ -51,7 +51,6 @@ def test_get_one_tag(app, user_1, tag_1):
     assert data['data'][0]['id'] == 1
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'tips'
-    assert data['data'][0]['color'] is None
 
 
 def test_add_tag(app, user_1):
@@ -77,33 +76,25 @@ def test_add_tag(app, user_1):
     assert data['data'][0]['id'] == 1
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'moto'
-    assert data['data'][0]['color'] is None
 
-
-def test_add_tag_full(app, user_1):
-    client = app.test_client()
-    resp_login = client.post(
-        '/api/auth/login',
-        data=json.dumps(dict(email='test@test.com', password='12345678')),
-        content_type='application/json',
-    )
-    response = client.post(
-        '/api/tags',
-        data=json.dumps(dict(name='moto', color='red')),
+    response = client.get(
+        '/api/auth/profile',
         headers=dict(
             Authorization='Bearer '
             + json.loads(resp_login.data.decode())['auth_token']
         ),
-        content_type='application/json',
     )
-    assert response.status_code == 201
     data = json.loads(response.data.decode())
+    assert response.status_code == 200
     assert data['status'] == 'success'
-    assert len(data['data']) == 1
-    assert data['data'][0]['id'] == 1
-    assert data['data'][0]['user_id'] == 1
-    assert data['data'][0]['name'] == 'moto'
-    assert data['data'][0]['color'] == 'red'
+    assert data['user'] is not None
+    assert data['user']['username'] == 'test'
+    assert data['user']['email'] == 'test@test.com'
+    assert data['user']['created_at']
+    assert data['user']['categories'] == []
+    assert data['user']['tags'][0]['id'] == 1
+    assert data['user']['tags'][0]['user_id'] == 1
+    assert data['user']['tags'][0]['name'] == 'moto'
 
 
 def test_add_tag_invalid_payload(app, user_1):
@@ -170,10 +161,9 @@ def test_add_another_user_existing_tag(app, user_1, tag_3):
     assert data['data'][0]['id'] == 2
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'moto'
-    assert data['data'][0]['color'] is None
 
 
-def test_update_existing_tag_minimal(app, user_1, tag_1):
+def test_update_existing(app, user_1, tag_1):
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -196,59 +186,6 @@ def test_update_existing_tag_minimal(app, user_1, tag_1):
     assert data['data'][0]['id'] == 1
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'new label'
-    assert data['data'][0]['color'] is None
-
-
-def test_update_existing_tag_full(app, user_1, tag_1):
-    client = app.test_client()
-    resp_login = client.post(
-        '/api/auth/login',
-        data=json.dumps(dict(email='test@test.com', password='12345678')),
-        content_type='application/json',
-    )
-    response = client.patch(
-        '/api/tags/1',
-        data=json.dumps(dict(name='new label', color='white')),
-        headers=dict(
-            Authorization='Bearer '
-            + json.loads(resp_login.data.decode())['auth_token']
-        ),
-        content_type='application/json',
-    )
-    assert response.status_code == 200
-    data = json.loads(response.data.decode())
-    assert data['status'] == 'success'
-    assert len(data['data']) == 1
-    assert data['data'][0]['id'] == 1
-    assert data['data'][0]['user_id'] == 1
-    assert data['data'][0]['name'] == 'new label'
-    assert data['data'][0]['color'] == 'white'
-
-
-def test_update_existing_tag(app, user_1, tag_1):
-    client = app.test_client()
-    resp_login = client.post(
-        '/api/auth/login',
-        data=json.dumps(dict(email='test@test.com', password='12345678')),
-        content_type='application/json',
-    )
-    response = client.patch(
-        '/api/tags/1',
-        data=json.dumps(dict(name='new label', color='white')),
-        headers=dict(
-            Authorization='Bearer '
-            + json.loads(resp_login.data.decode())['auth_token']
-        ),
-        content_type='application/json',
-    )
-    assert response.status_code == 200
-    data = json.loads(response.data.decode())
-    assert data['status'] == 'success'
-    assert len(data['data']) == 1
-    assert data['data'][0]['id'] == 1
-    assert data['data'][0]['user_id'] == 1
-    assert data['data'][0]['name'] == 'new label'
-    assert data['data'][0]['color'] == 'white'
 
 
 def test_update_another_user_tag(app, user_1, tag_3):

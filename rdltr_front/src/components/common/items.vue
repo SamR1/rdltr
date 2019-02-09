@@ -4,8 +4,12 @@
       <router-link to="/settings" tag="button" class="btn-rdltr">
         Back to settings
       </router-link>
-      <router-link class="btn-rdltr" tag="button" :to="{ name: 'addCategory' }">
-        Add a category
+      <router-link
+        class="btn-rdltr"
+        tag="button"
+        :to="{ name: `add${itemType === 'categories' ? 'Category' : 'Tag'}` }"
+      >
+        Add a {{ itemType === 'categories' ? 'category' : 'tag' }}
       </router-link>
     </div>
     <div v-if="errorMessage" class="row">
@@ -21,11 +25,12 @@
         <input class="form-control" v-model="searchQuery" />
       </div>
     </div>
-    <div v-if="userCategories" class="row items-row">
+    <div v-if="items" class="row items-row">
       <app-items-tables
-        :data="userCategories"
-        :columns="categoriesColumns"
+        :data="items"
+        :columns="itemsColumns"
         :filter-key="searchQuery"
+        :item-type="itemType"
       >
       </app-items-tables>
     </div>
@@ -33,15 +38,15 @@
 </template>
 
 <script>
-import ItemsTable from '../common/itemsTable'
+import ItemsTable from './itemsTable'
 
 export default {
   components: {
     AppItemsTables: ItemsTable,
   },
+  props: ['itemType'],
   data() {
     return {
-      categoriesColumns: ['id', 'name', 'description'],
       displayAdd: false,
       searchQuery: '',
     }
@@ -50,8 +55,15 @@ export default {
     errorMessage() {
       return this.$store.getters.errorMessage
     },
-    userCategories() {
-      return this.$store.getters.userCategories
+    itemsColumns() {
+      return this.itemType === 'categories'
+        ? ['id', 'name', 'description']
+        : ['id', 'name']
+    },
+    items() {
+      return this.itemType === 'categories'
+        ? this.$store.getters.userCategories
+        : this.$store.getters.userTags
     },
   },
   beforeDestroy() {

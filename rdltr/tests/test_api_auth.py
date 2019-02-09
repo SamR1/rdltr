@@ -431,6 +431,7 @@ def test_user_profile_ok(app, user_1):
     assert data['user']['email'] == 'test@test.com'
     assert data['user']['created_at']
     assert data['user']['categories'] == []
+    assert data['user']['tags'] == []
 
 
 def test_user_profile_full_ok(app):
@@ -470,6 +471,7 @@ def test_user_profile_full_ok(app):
             'is_default': True,
         }
     ]
+    assert data['user']['tags'] == []
 
 
 def test_user_profile_invalid_token(app, user_1):

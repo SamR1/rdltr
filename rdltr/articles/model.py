@@ -59,7 +59,6 @@ class Tag(db.Model):
         nullable=True,
     )
     name = db.Column(db.String(50), nullable=False)
-    color = db.Column(db.String(10))
     user = db.relationship(User, backref='tag_user')
 
     def __init__(self, user_id, name):
@@ -67,12 +66,7 @@ class Tag(db.Model):
         self.name = name
 
     def serialize(self):
-        return {
-            'id': self.id,
-            'user_id': self.user_id,
-            'name': self.name,
-            'color': self.color,
-        }
+        return {'id': self.id, 'user_id': self.user_id, 'name': self.name}
 
 
 class Article(db.Model):

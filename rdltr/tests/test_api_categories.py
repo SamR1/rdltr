@@ -80,6 +80,25 @@ def test_add_category_minimal_payload(app, user_1):
     assert not data['data'][0]['description']
     assert data['data'][0]['is_default'] is False
 
+    response = client.get(
+        '/api/auth/profile',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    data = json.loads(response.data.decode())
+    assert response.status_code == 200
+    assert data['status'] == 'success'
+    assert data['user'] is not None
+    assert data['user']['username'] == 'test'
+    assert data['user']['email'] == 'test@test.com'
+    assert data['user']['created_at']
+    assert data['user']['categories'][0]['id'] == 1
+    assert data['user']['categories'][0]['user_id'] == 1
+    assert data['user']['categories'][0]['name'] == 'moto'
+    assert data['user']['tags'] == []
+
 
 def test_add_category_full_payload(app, user_1):
     client = app.test_client()

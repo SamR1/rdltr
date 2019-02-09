@@ -36,8 +36,6 @@ def add_user_tag(user_id):
         return jsonify(response_object), 400
 
     new_tag = Tag(user_id=user_id, name=name)
-    if post_data.get('color'):
-        new_tag.color = post_data.get('color')
     db.session.add(new_tag)
     db.session.commit()
     response_object = {'status': 'success', 'data': [new_tag.serialize()]}
@@ -58,8 +56,6 @@ def update_user_tag(user_id, tag_id):
         return jsonify(response_object), 404
     if post_data.get('name'):
         tag.name = post_data.get('name')
-    if post_data.get('color'):
-        tag.color = post_data.get('color')
     db.session.commit()
     response_object = {'status': 'success', 'data': [tag.serialize()]}
     return jsonify(response_object), 200

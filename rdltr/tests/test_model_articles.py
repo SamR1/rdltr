@@ -32,26 +32,11 @@ def test_tag_model(app, user_1, tag_1):
     assert 1 == tag_1.id
     assert 1 == tag_1.user_id
     assert 'tips' == tag_1.name
-    assert not tag_1.color
 
     serialized_tag = tag_1.serialize()
     assert 1 == serialized_tag['id']
     assert 1 == serialized_tag['user_id']
     assert 'tips' == serialized_tag['name']
-    assert not serialized_tag['color']
-
-
-def test_tag_2_model(app, user_1, user_2, tag_2):
-    assert 1 == tag_2.id
-    assert 1 == tag_2.user_id
-    assert 'tuto' == tag_2.name
-    assert 'red' == tag_2.color
-
-    serialized_tag = tag_2.serialize()
-    assert 1 == serialized_tag['id']
-    assert 1 == serialized_tag['user_id']
-    assert 'tuto' == serialized_tag['name']
-    assert 'red' == serialized_tag['color']
 
 
 def test_article_1_model(app, user_1, cat_1, article_1):
@@ -63,7 +48,6 @@ def test_article_1_model(app, user_1, cat_1, article_1):
     assert not article_1.comments
     assert 2 == len(article_1.tags)
     assert 'tips' == article_1.tags[0].name
-    assert 'red' == article_1.tags[1].color
     assert article_1.date_added
 
     serialized_article = article_1.serialize()
@@ -73,7 +57,6 @@ def test_article_1_model(app, user_1, cat_1, article_1):
     assert 'https://test.com' == serialized_article['url']
     assert not serialized_article['comments']
     assert 'tips' == serialized_article['tags'][0]['name']
-    assert 'red' == serialized_article['tags'][1]['color']
     assert 1 == serialized_article['category']['id']
     assert 'date_added' in serialized_article
 

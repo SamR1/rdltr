@@ -31,7 +31,10 @@
           <td>
             <router-link
               class="link"
-              :to="{ name: 'editCategory', params: { id: item.id } }"
+              :to="{
+                name: `edit${target}`,
+                params: { id: item.id },
+              }"
             >
               <i aria-hidden="true" class="fa fa-pencil"></i>
             </router-link>
@@ -49,11 +52,14 @@
 </template>
 
 <script>
+import { getActionValue } from '../../utils'
+
 export default {
   props: {
     data: Array,
     columns: Array,
     filterKey: String,
+    itemType: String,
   },
   filters: {
     capitalize: function(str) {
@@ -68,6 +74,7 @@ export default {
     return {
       sortKey: '',
       sortOrders: sortOrders,
+      target: getActionValue(this.itemType, ['singular', 'capitalize']),
     }
   },
   computed: {
@@ -99,7 +106,7 @@ export default {
   },
   methods: {
     deleteItem(Id) {
-      return this.$store.dispatch('deleteCategory', Id)
+      return this.$store.dispatch(`delete${this.target}`, Id)
     },
     sortBy: function(key) {
       this.sortKey = key

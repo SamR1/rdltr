@@ -32,7 +32,6 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('name', sa.String(length=50), nullable=False),
-    sa.Column('color', sa.String(length=10), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], name='fk_user_tags'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('user_id', 'name', name='tag_unique_name')

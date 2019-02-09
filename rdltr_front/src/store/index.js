@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import articles from './modules/articles'
 import categories from './modules/categories'
+import tags from './modules/tags'
 import user from './modules/user'
 
 Vue.use(Vuex)
@@ -39,6 +40,7 @@ export default new Vuex.Store({
   modules: {
     articles,
     categories,
+    tags,
     user,
   },
 })

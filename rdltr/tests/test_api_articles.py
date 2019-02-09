@@ -66,7 +66,6 @@ def test_get_articles_one_result(app, article_1):
     assert data['data'][0]['category']['description'] is None
     assert 'date_added' in data['data'][0]
     assert data['data'][0]['tags'][0]['name'] == 'tips'
-    assert data['data'][0]['tags'][1]['color'] == 'red'
 
 
 def test_get_articles(app, article_1, article_2, article_3):
@@ -109,7 +108,6 @@ def test_get_articles(app, article_1, article_2, article_3):
     assert data['data'][1]['category']['is_default'] is False
     assert 'date_added' in data['data'][1]
     assert data['data'][1]['tags'][0]['name'] == 'tips'
-    assert data['data'][1]['tags'][1]['color'] == 'red'
 
 
 def test_get_articles_pagination(app, articles_20):
@@ -285,7 +283,6 @@ def test_get_article(app, article_1):
     assert data['data'][0]['category']['description'] is None
     assert 'date_added' in data['data'][0]
     assert data['data'][0]['tags'][0]['name'] == 'tips'
-    assert data['data'][0]['tags'][1]['color'] == 'red'
 
 
 def test_get_article_no_result(app, user_1):

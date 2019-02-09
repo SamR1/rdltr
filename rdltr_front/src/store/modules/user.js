@@ -18,6 +18,9 @@ const getters = {
   userCategories(state) {
     return state.user.categories
   },
+  userTags(state) {
+    return state.user.tags
+  },
 }
 
 const mutations = {

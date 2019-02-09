@@ -2,10 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import AddArticle from '../components/articles/articleAdd'
-import Categories from '../components/settings/categories'
-import Category from '../components/settings/category'
 import DisplayArticle from '../components/articles/articleDisplay'
 import HomePage from '../components/home/home'
+import Item from '../components/common/item'
+import Items from '../components/common/items'
 import NotFound from '../components/notFound'
 import Settings from '../components/settings'
 import UserDetail from '../components/user/userDetail'
@@ -86,19 +86,42 @@ const routes = [
   },
   {
     path: '/settings/categories/add',
-    component: Category,
+    component: Item,
     name: 'addCategory',
+    props: { itemType: 'categories' },
     beforeEnter: checkAuth,
   },
   {
-    path: '/settings/categories/:id',
-    component: Category,
+    path: '/settings/categories/:id/edit',
+    component: Item,
     name: 'editCategory',
+    props: { itemType: 'categories' },
     beforeEnter: checkAuth,
   },
   {
     path: '/settings/categories',
-    component: Categories,
+    component: Items,
+    props: { itemType: 'categories' },
+    beforeEnter: checkAuth,
+  },
+  {
+    path: '/settings/tags/add',
+    component: Item,
+    name: 'addTag',
+    props: { itemType: 'tags' },
+    beforeEnter: checkAuth,
+  },
+  {
+    path: '/settings/tags/:id/edit',
+    component: Item,
+    name: 'editTag',
+    props: { itemType: 'tags' },
+    beforeEnter: checkAuth,
+  },
+  {
+    path: '/settings/tags',
+    component: Items,
+    props: { itemType: 'tags' },
     beforeEnter: checkAuth,
   },
   { path: '*', component: NotFound },

@@ -14,6 +14,7 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
     categories = db.relationship('Category', backref='user_categories')
+    tags = db.relationship('Tag', backref='user_tags')
 
     def __repr__(self):
         return f'<User {self.username!r}>'
@@ -76,4 +77,5 @@ class User(db.Model):
             'categories': [
                 category.serialize() for category in self.categories
             ],
+            'tags': [tag.serialize() for tag in self.tags],
         }
