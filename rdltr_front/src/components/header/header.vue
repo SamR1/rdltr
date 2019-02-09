@@ -33,135 +33,135 @@
 <script>
 export default {
   computed: {
-    auth () {
+    auth() {
       return this.$store.getters.isAuthenticated
     },
-    username () {
+    username() {
       return this.$store.getters.user.username
-    }
+    },
   },
   methods: {
-    onLogout () {
+    onLogout() {
       this.$store.dispatch('logout')
     },
-    displayMenu () {
+    displayMenu() {
       let x = document.getElementById('responsive-navbar')
       if (x.className === 'nav') {
         x.className += ' responsive'
       } else {
         x.className = 'nav'
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
-  #header {
-    height: 56px;
-    display: flex;
-    flex-flow: row;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #8c95aa;
-    padding: 0 20px;
-  }
+#header {
+  height: 56px;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #8c95aa;
+  padding: 0 20px;
+}
 
-  #nav-icon {
-    color: white;
+#nav-icon {
+  color: white;
+  display: none;
+}
+
+.logo {
+  font-weight: bold;
+  color: white;
+}
+
+.logo a {
+  text-decoration: none;
+  color: white;
+}
+
+nav {
+  height: 100%;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
+li {
+  margin: 0 16px;
+}
+
+li a {
+  text-decoration: none;
+  color: white;
+}
+
+li a:hover,
+li a:active,
+li a.router-link-active {
+  color: #c7dce1;
+}
+
+.logout {
+  background-color: transparent;
+  border: none;
+  font: inherit;
+  color: white;
+  cursor: pointer;
+}
+
+.user {
+  color: white;
+}
+
+@media screen and (max-width: 767.98px) {
+  #responsive-navbar {
+    z-index: 1;
+  }
+  #responsive-navbar ul {
     display: none;
   }
-
-  .logo {
-    font-weight: bold;
-    color: white;
+  #nav-icon {
+    float: right;
+    display: block;
   }
 
-  .logo a {
-    text-decoration: none;
-    color: white;
+  #responsive-navbar.responsive {
+    background-color: #f4f5f7;
+    height: auto;
+    left: 0;
+    position: absolute;
+    top: 56px;
+    width: 100%;
   }
 
-  nav {
-    height: 100%;
+  #responsive-navbar.responsive ul {
+    float: none;
+    display: block;
+    text-align: left;
   }
 
-  ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    display: flex;
-    flex-flow: row;
-    align-items: center;
+  #responsive-navbar.responsive li {
+    padding: 20px;
   }
 
-  li {
-    margin: 0 16px;
+  #responsive-navbar.responsive li a,
+  #responsive-navbar.responsive li span {
+    color: #4e4e4e;
   }
 
-  li a {
-    text-decoration: none;
-    color: white;
+  #responsive-navbar.responsive li a:hover,
+  #responsive-navbar.responsive li span:hover {
+    color: #778487;
   }
-
-  li a:hover,
-  li a:active,
-  li a.router-link-active {
-    color: #c7dce1;
-  }
-
-  .logout {
-    background-color: transparent;
-    border: none;
-    font: inherit;
-    color: white;
-    cursor: pointer;
-  }
-
-  .user {
-    color: white;
-  }
-
-  @media screen and (max-width: 767.98px) {
-    #responsive-navbar {
-      z-index: 1;
-    }
-    #responsive-navbar ul {
-      display: none;
-    }
-    #nav-icon {
-      float: right;
-      display: block;
-    }
-
-    #responsive-navbar.responsive {
-      background-color: #f4f5f7;
-      height: auto;
-      left: 0;
-      position: absolute;
-      top: 56px;
-      width: 100%;
-    }
-
-    #responsive-navbar.responsive ul {
-      float: none;
-      display: block;
-      text-align: left;
-    }
-
-    #responsive-navbar.responsive li {
-      padding: 20px;
-    }
-
-    #responsive-navbar.responsive li a,
-    #responsive-navbar.responsive li span {
-      color: #4e4e4e;
-    }
-
-    #responsive-navbar.responsive li a:hover,
-    #responsive-navbar.responsive li span:hover {
-      color: #778487;
-    }
-  }
+}
 </style>

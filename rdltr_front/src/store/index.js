@@ -9,26 +9,26 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    selectedCategory: ''
+    selectedCategory: '',
   },
   mutations: {
-    updateCategory (state, selectedCategory) {
+    updateCategory(state, selectedCategory) {
       state.selectedCategory = selectedCategory
-    }
+    },
   },
   actions: {
-    updateSelectedCategory ({ commit }, selectedCategory) {
+    updateSelectedCategory({ commit }, selectedCategory) {
       commit('updateCategory', selectedCategory)
-    }
+    },
   },
   getters: {
-    selectedCategory (state) {
+    selectedCategory(state) {
       return state.selectedCategory
-    }
+    },
   },
   modules: {
     articles,
     categories,
-    user
-  }
+    user,
+  },
 })

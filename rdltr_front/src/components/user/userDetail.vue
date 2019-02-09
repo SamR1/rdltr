@@ -1,28 +1,18 @@
 <template>
-  <div id=actionType class="contnr">
+  <div id="actionType" class="contnr">
     <div class="rdltr-box">
       <form>
         <div class="input">
           <label for="username">Username</label>
-          <input
-            id="username"
-            disabled
-            v-model="user.username">
+          <input id="username" disabled v-model="user.username" />
         </div>
         <div class="input">
           <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            disabled
-            v-model="user.email">
+          <input type="email" id="email" disabled v-model="user.email" />
         </div>
         <div class="input">
           <label for="email">Inscription date</label>
-          <input
-            id="creationDate"
-            disabled
-            v-model="user.created_at">
+          <input id="creationDate" disabled v-model="user.created_at" />
         </div>
         <div v-if="actionType === 'editProfile'" class="input">
           <label for="password">Old password</label>
@@ -30,15 +20,12 @@
             type="password"
             id="oldPassword"
             required
-            v-model="oldPassword">
+            v-model="oldPassword"
+          />
         </div>
         <div v-if="actionType === 'editProfile'" class="input">
           <label for="password">New password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            v-model="newPassword">
+          <input type="password" id="password" required v-model="newPassword" />
         </div>
         <div v-if="actionType === 'editProfile'" class="input">
           <label for="confirm-password">Confirm New Password</label>
@@ -46,14 +33,19 @@
             type="password"
             id="confirm-password"
             required
-            v-model="confirmNewPassword">
+            v-model="confirmNewPassword"
+          />
         </div>
         <div v-if="actionType === 'editProfile'" class="submit">
           <button type="submit" @click.prevent="onSubmit()">Submit</button>
-          <router-link to="/profile" tag="button" class="cancel">Cancel</router-link>
+          <router-link to="/profile" tag="button" class="cancel"
+            >Cancel</router-link
+          >
         </div>
         <div v-else class="submit">
-          <router-link to="/profile/edit" tag="button">Change password</router-link>
+          <router-link to="/profile/edit" tag="button"
+            >Change password</router-link
+          >
         </div>
       </form>
       <p v-if="errMessage" class="rdltr-error">{{ errMessage }}</p>
@@ -64,42 +56,42 @@
 <script>
 export default {
   props: ['actionType'],
-  data () {
+  data() {
     return {
       oldPassword: '',
       newPassword: '',
-      confirmNewPassword: ''
+      confirmNewPassword: '',
     }
   },
   computed: {
-    errMessage () {
+    errMessage() {
       return this.$store.getters.userErrorMessage
     },
-    user () {
+    user() {
       return this.$store.getters.user
-    }
+    },
   },
   methods: {
-    onSubmit () {
+    onSubmit() {
       const formData = {
         old_password: this.oldPassword,
         new_password: this.newPassword,
-        new_password_conf: this.confirmNewPassword
+        new_password_conf: this.confirmNewPassword,
       }
       this.$store.dispatch('updateProfile', formData).then(() => {
         this.oldPassword = ''
         this.newPassword = ''
         this.confirmNewPassword = ''
       })
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
-  .input input:disabled {
-    background-color: inherit;
-    border: None;
-    color: #4e4e4e;
-  }
+.input input:disabled {
+  background-color: inherit;
+  border: None;
+  color: #4e4e4e;
+}
 </style>

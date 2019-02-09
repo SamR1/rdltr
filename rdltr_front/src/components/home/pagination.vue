@@ -3,7 +3,7 @@
     <div class="col-1 text-center">
       <router-link
         v-show="pagination.has_prev"
-        :to="{ name: 'articlesPage', params: { page: pagination.page - 1 }}"
+        :to="{ name: 'articlesPage', params: { page: pagination.page - 1 } }"
         tag="button"
         type="submit"
         class="btn-rdltr"
@@ -17,7 +17,7 @@
     <div class="col-1 text-center">
       <router-link
         v-show="pagination.has_next"
-        :to="{ name: 'articlesPage', params: { page: pagination.page + 1 }}"
+        :to="{ name: 'articlesPage', params: { page: pagination.page + 1 } }"
         tag="button"
         type="submit"
         class="btn-rdltr"
@@ -32,23 +32,22 @@
 export default {
   computed: {
     pagination: {
-      get () {
+      get() {
         return this.$store.getters.pagination
-      }
-    }
-  }
+      },
+    },
+  },
 }
 </script>
 
 <style scoped>
-  #pagination {
-    align-items: center;
-    margin-top: .5em;
-  }
+#pagination {
+  align-items: center;
+  margin-top: 0.5em;
+}
 
-  .page {
-    font-size: .8em;
-    font-weight: bold;
-  }
-
+.page {
+  font-size: 0.8em;
+  font-weight: bold;
+}
 </style>

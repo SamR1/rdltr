@@ -4,18 +4,12 @@
       <router-link to="/settings" tag="button" class="btn-rdltr">
         Back to settings
       </router-link>
-      <router-link
-         class="btn-rdltr"
-         tag="button"
-         :to="{name: 'addCategory'}"
-      >
+      <router-link class="btn-rdltr" tag="button" :to="{ name: 'addCategory' }">
         Add a category
       </router-link>
     </div>
     <div v-if="categoryErrorMessage" class="row">
-      <p
-        class="alert alert-danger"
-      >
+      <p class="alert alert-danger">
         {{ categoryErrorMessage }}
       </p>
     </div>
@@ -24,10 +18,7 @@
         <div class="input-group-prepend">
           <span class="input-group-text" id="">Search</span>
         </div>
-        <input
-          class="form-control"
-          v-model="searchQuery"
-        >
+        <input class="form-control" v-model="searchQuery" />
       </div>
     </div>
     <div v-if="userCategories" class="row items-row">
@@ -46,41 +37,41 @@ import ItemsTable from '../common/itemsTable'
 
 export default {
   components: {
-    AppItemsTables: ItemsTable
+    AppItemsTables: ItemsTable,
   },
   computed: {
-    userCategories () {
+    userCategories() {
       return this.$store.getters.userCategories
     },
-    categoryErrorMessage () {
+    categoryErrorMessage() {
       return this.$store.getters.categoryErrorMessage
-    }
+    },
   },
-  data () {
+  data() {
     return {
       categoriesColumns: ['id', 'name', 'description'],
       displayAdd: false,
-      searchQuery: ''
+      searchQuery: '',
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$store.commit('updateCategoryErrorMsg', null)
-  }
+  },
 }
 </script>
 
 <style scoped>
-  .btn-rdltr {
-    margin-right: .5em;
-  }
+.btn-rdltr {
+  margin-right: 0.5em;
+}
 
-  .container-shadow {
-    border: 1px solid #eee;
-    box-shadow: 0 2px 3px #ccc;
-    margin-top: .5em;
-  }
+.container-shadow {
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  margin-top: 0.5em;
+}
 
-  .row {
-    margin: 1em 0;
-  }
+.row {
+  margin: 1em 0;
+}
 </style>

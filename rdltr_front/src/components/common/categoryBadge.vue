@@ -8,13 +8,11 @@
 export default {
   props: ['categoryName'],
   computed: {
-    categories () {
+    categories() {
       return this.$store.getters.user.categories
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

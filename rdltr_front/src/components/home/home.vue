@@ -16,7 +16,7 @@
                 placeholder="enter keywords"
                 v-model="query"
                 @input="onSearch"
-              >
+              />
             </div>
           </div>
           <div class="col-md-1">
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="row">
       <app-articles></app-articles>
     </div>
@@ -47,47 +47,47 @@ import CategorySelect from '../common/categorySelect'
 export default {
   components: {
     AppArticles: Articles,
-    AppCategorySelect: CategorySelect
+    AppCategorySelect: CategorySelect,
   },
   computed: {
     query: {
-      get () {
+      get() {
         return this.$store.getters.query
       },
-      set (value) {
+      set(value) {
         this.$store.commit('updateQuery', value)
-      }
-    }
+      },
+    },
   },
   methods: {
-    onSearch () {
+    onSearch() {
       this.$store.dispatch('getArticles', { query: this.query })
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
-  #user-categories{
-    align-items: center;
-    padding-top: 1em;
-    text-align: center;
-  }
+#user-categories {
+  align-items: center;
+  padding-top: 1em;
+  text-align: center;
+}
 
-  .search input {
-    margin-right: .5em;
-  }
+.search input {
+  margin-right: 0.5em;
+}
 
-  .input-group-text {
-    background-color: #f5f5f7;
-    border-radius: 0;
-    margin-left: 1em;
-  }
+.input-group-text {
+  background-color: #f5f5f7;
+  border-radius: 0;
+  margin-left: 1em;
+}
 
-  @media (max-width: 767.98px) {
-    .search {
-      margin-top: .5em;
-      margin-bottom: .5em;
-    }
+@media (max-width: 767.98px) {
+  .search {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
   }
+}
 </style>

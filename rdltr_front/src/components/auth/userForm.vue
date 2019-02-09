@@ -1,29 +1,18 @@
 <template>
-  <div id=actionType class="contnr">
+  <div id="actionType" class="contnr">
     <div class="rdltr-box">
       <form @submit.prevent="onSubmit(actionType)">
         <div v-if="actionType === 'register'" class="input">
           <label for="username">Username</label>
-          <input
-            id="username"
-            required
-            v-model="username">
+          <input id="username" required v-model="username" />
         </div>
         <div class="input">
           <label for="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            required
-            v-model="email">
+          <input type="email" id="email" required v-model="email" />
         </div>
         <div class="input">
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            required
-            v-model="password">
+          <input type="password" id="password" required v-model="password" />
         </div>
         <div v-if="actionType === 'register'" class="input">
           <label for="confirm-password">Confirm Password</label>
@@ -31,7 +20,8 @@
             type="password"
             id="confirm-password"
             required
-            v-model="confirmPassword">
+            v-model="confirmPassword"
+          />
         </div>
         <div class="submit">
           <button type="submit">Submit</button>
@@ -45,34 +35,33 @@
 <script>
 export default {
   props: ['actionType'],
-  data () {
+  data() {
     return {
       username: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
     }
   },
   computed: {
-    errMessage () {
+    errMessage() {
       return this.$store.getters.userErrorMessage
-    }
+    },
   },
   methods: {
-    onSubmit (actionType) {
+    onSubmit(actionType) {
       const formData = {
         email: this.email,
-        password: this.password
+        password: this.password,
       }
       if (actionType === 'register') {
         formData.username = this.username
         formData.password_conf = this.confirmPassword
       }
       return this.$store.dispatch('loginOrRegister', { actionType, formData })
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

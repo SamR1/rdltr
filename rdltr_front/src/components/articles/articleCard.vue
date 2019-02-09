@@ -11,13 +11,15 @@
         >
           <span aria-hidden="true">&times;</span>
         </button>
-        <app-category-badge :category-name="article.category.name"></app-category-badge>
+        <app-category-badge
+          :category-name="article.category.name"
+        ></app-category-badge>
         <h5 class="card-title">{{ article.title }}</h5>
         <p class="card-text"></p>
       </div>
       <div class="card-footer">
         <router-link
-          :to="{ name: 'articleDetail', params: { id: article.id }}"
+          :to="{ name: 'articleDetail', params: { id: article.id } }"
           tag="button"
           class="btn-rdltr"
         >
@@ -33,24 +35,24 @@ import CategoryBadge from '../common/categoryBadge'
 export default {
   props: ['article'],
   components: {
-    AppCategoryBadge: CategoryBadge
+    AppCategoryBadge: CategoryBadge,
   },
   methods: {
-    onDeleteArticle () {
+    onDeleteArticle() {
       return this.$store.dispatch('deleteArticle', this.article.id)
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
-  .card {
-    box-shadow: 0 2px 3px #ccc;
-    margin: .5em 0;
-  }
+.card {
+  box-shadow: 0 2px 3px #ccc;
+  margin: 0.5em 0;
+}
 
-  .card-footer {
-    background-color: transparent;
-    border: none;
-  }
+.card-footer {
+  background-color: transparent;
+  border: none;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label v-if="displayLabel==='true'">
+    <label v-if="displayLabel === 'true'">
       Category
     </label>
     <select
@@ -26,36 +26,34 @@ export default {
   props: ['displayLabel', 'filter'],
   computed: {
     selectedCategory: {
-      get () {
+      get() {
         return this.$store.getters.selectedCategory
       },
-      set (value) {
+      set(value) {
         this.$store.commit('updateCategory', value)
-      }
+      },
     },
-    pagination () {
+    pagination() {
       return this.$store.getters.pagination
     },
-    userCategories () {
+    userCategories() {
       return this.$store.getters.userCategories
-    }
+    },
   },
   methods: {
-    filterArticles () {
+    filterArticles() {
       if (this.filter) {
         this.$store.dispatch('getArticles', {
           cat_id: this.selectedCategory,
-          page: this.pagination.page
+          page: this.pagination.page,
         })
       }
-    }
+    },
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$store.commit('updateCategory', '')
-  }
+  },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

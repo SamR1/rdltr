@@ -2,24 +2,22 @@
   <form>
     <div class="input">
       <label for="description">Comments</label>
-      <textarea v-if="onCommentsEdition"
+      <textarea
+        v-if="onCommentsEdition"
         id="description"
         v-model="comments"
         :disabled="!onCommentsEdition"
       >
       </textarea>
-      <p id="comments" v-else>{{comments}}</p>
+      <p id="comments" v-else>{{ comments }}</p>
     </div>
     <div v-if="onCommentsEdition" class="submit">
-      <button
-        type="submit"
-        @click.prevent="onSubmit()"
-      >
+      <button type="submit" @click.prevent="onSubmit()">
         Submit
       </button>
       <button
         type="submit"
-        @click.prevent="onCommentsEdition=!onCommentsEdition"
+        @click.prevent="onCommentsEdition = !onCommentsEdition"
       >
         Cancel
       </button>
@@ -28,7 +26,7 @@
       <button
         class="btn-rdltr"
         type="submit"
-        @click.prevent="onCommentsEdition=!onCommentsEdition"
+        @click.prevent="onCommentsEdition = !onCommentsEdition"
       >
         Edit comments
       </button>
@@ -40,33 +38,35 @@
 export default {
   props: ['articleComments'],
   methods: {
-    onSubmit () {
-      this.$store.dispatch('updateArticle', {
-        id: this.$route.params.id,
-        formData: {
-          comments: this.comments
-        }
-      }).then(() => {
-        this.onCommentsEdition = false
-      })
-    }
+    onSubmit() {
+      this.$store
+        .dispatch('updateArticle', {
+          id: this.$route.params.id,
+          formData: {
+            comments: this.comments,
+          },
+        })
+        .then(() => {
+          this.onCommentsEdition = false
+        })
+    },
   },
-  data () {
+  data() {
     return {
       comments: '',
-      onCommentsEdition: false
+      onCommentsEdition: false,
     }
   },
-  beforeMount () {
+  beforeMount() {
     this.comments = this.articleComments
-  }
+  },
 }
 </script>
 
 <style scoped>
-  #comments {
-    font-style: italic;
-    margin: .5em;
-    white-space: pre;
-  }
+#comments {
+  font-style: italic;
+  margin: 0.5em;
+  white-space: pre;
+}
 </style>

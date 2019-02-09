@@ -6,19 +6,19 @@
 export default {
   props: ['articleContent'],
   methods: {
-    displayContent () {
+    displayContent() {
       const x = document.getElementById('article-content')
       x.innerHTML = this.articleContent
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.displayContent()
-  }
+  },
 }
 </script>
 
 <style scoped>
-  .article-content{
-    padding: 1em;
-  }
+.article-content {
+  padding: 1em;
+}
 </style>

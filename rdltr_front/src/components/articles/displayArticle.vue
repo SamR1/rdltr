@@ -20,7 +20,7 @@
           </button>
           <button
             class="btn-rdltr"
-            @click="onCategoryEdition=!onCategoryEdition"
+            @click="onCategoryEdition = !onCategoryEdition"
           >
             Cancel
           </button>
@@ -38,15 +38,17 @@
         ></i>
       </div>
       <h1>{{ article.title }}</h1>
-      <p class="article-link">Link:
+      <p class="article-link">
+        Link:
         <a :href="article.url">
           {{ article.url }}
-        </a></p>
+        </a>
+      </p>
       <app-article-content
         v-if="article.content"
         :article-content="article.content"
       ></app-article-content>
-      <hr>
+      <hr />
       <app-article-comments
         v-if="article.comments"
         :article-comments="article.comments"
@@ -66,72 +68,73 @@ export default {
     AppCategoryBadge: CategoryBadge,
     AppCategorySelect: CategorySelect,
     AppArticleComments: ArticleComments,
-    AppArticleContent: ArticleContent
+    AppArticleContent: ArticleContent,
   },
   computed: {
     article: {
-      get () {
+      get() {
         return this.$store.getters.article
-      }
+      },
     },
     articleErrorMessage: {
-      get () {
+      get() {
         return this.$store.getters.articleErrorMessage
-      }
+      },
     },
     selectedCategory: {
-      get () {
+      get() {
         return this.$store.getters.selectedCategory
-      }
-    }
+      },
+    },
   },
   methods: {
-    onUpdateCategory () {
-      this.$store.dispatch('updateArticle', {
-        id: this.$route.params.id,
-        formData: {
-          category_id: this.selectedCategory
-        }
-      }).then(() => {
-        this.onCategoryEdition = false
-      })
+    onUpdateCategory() {
+      this.$store
+        .dispatch('updateArticle', {
+          id: this.$route.params.id,
+          formData: {
+            category_id: this.selectedCategory,
+          },
+        })
+        .then(() => {
+          this.onCategoryEdition = false
+        })
     },
-    updateSelectedCategory () {
+    updateSelectedCategory() {
       this.$store.commit('updateCategory', this.article.category.id)
       this.onCategoryEdition = !this.onCategoryEdition
-    }
+    },
   },
-  data () {
+  data() {
     return {
-      onCategoryEdition: false
+      onCategoryEdition: false,
     }
   },
-  created () {
+  created() {
     this.$store.dispatch('getArticle', this.$route.params.id)
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$store.commit('getUserArticle', {})
     this.$store.commit('updateArticlesErrorMsg', null)
-  }
+  },
 }
 </script>
 
 <style scoped>
-  #category-update {
-    display: inline-flex;
-    margin: .7em 0;
-  }
+#category-update {
+  display: inline-flex;
+  margin: 0.7em 0;
+}
 
-  #category-update button {
-    margin-left: .5em;
-  }
+#category-update button {
+  margin-left: 0.5em;
+}
 
-  a {
-    color: black;
-  }
+a {
+  color: black;
+}
 
-  .fa {
-    font-size: .8em;
-  }
-
+.fa {
+  font-size: 0.8em;
+}
 </style>
