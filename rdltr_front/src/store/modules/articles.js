@@ -103,6 +103,15 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on article add'))
   },
+  updateArticle ({ commit }, data) {
+    authApi.patch(`articles/${data.id}`, data.formData)
+      .then(res => {
+        if (res.data.status === 'success') {
+          commit('getUserArticle', res.data.data[0])
+        }
+      })
+      .catch(err => handleError(commit, err, 'error on article update'))
+  },
   deleteArticle ({ commit, dispatch, state }, id) {
     authApi.delete(`articles/${id}`)
       .then(res => {

@@ -29,6 +29,10 @@ export default {
     }
   }
 
+  .container {
+    margin-top: .5em;
+  }
+
   .article-content a {
     color: black;
   }
@@ -128,6 +132,10 @@ export default {
   .input select {
     border: 1px solid #ccc;
     font: inherit;
+  }
+
+  .link {
+    color: #8c95aa
   }
 
   .submit button {

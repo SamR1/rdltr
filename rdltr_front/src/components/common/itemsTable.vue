@@ -19,14 +19,14 @@
       </thead>
       <tbody>
         <tr
-          v-for="entry in filteredData"
-          :key="entry.id"
+          v-for="item in filteredData"
+          :key="item.id"
         >
           <td v-for="key in columns" :key="key">
-            {{entry[key]}}
+            {{item[key]}}
             <span
               class="badge badge-rdltr badge-rdltr-small"
-              v-if="key=== 'name' && entry.is_default"
+              v-if="key=== 'name' && item.is_default"
             >
               default
             </span>
@@ -34,11 +34,16 @@
           <td>
             <router-link
               class="link"
-              :to="{ name:'editCategory', params: { id: entry.id }}"
+              :to="{ name:'editCategory', params: { id: item.id }}"
             >
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </router-link>
-            <i v-if="!entry.is_default" class="fa fa-trash link" aria-hidden="true" @click="deleteItem(entry.id)"></i>
+            <i
+              aria-hidden="true"
+              class="fa fa-trash link"
+              v-if="!item.is_default"
+              @click="deleteItem(item.id)"
+            ></i>
           </td>
         </tr>
       </tbody>
@@ -92,8 +97,8 @@ export default {
     }
   },
   methods: {
-    deleteItem (itemId) {
-      return this.$store.dispatch('deleteCategory', itemId)
+    deleteItem (Id) {
+      return this.$store.dispatch('deleteCategory', Id)
     },
     sortBy: function (key) {
       this.sortKey = key
@@ -127,9 +132,5 @@ export default {
 
   .badge-rdltr-small {
     font-size: .7em;
-  }
-
-  .link {
-    color: #8c95aa
   }
 </style>

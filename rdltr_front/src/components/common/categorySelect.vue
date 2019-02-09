@@ -1,6 +1,6 @@
 <template>
   <div>
-    <label v-if="displayLabel">
+    <label v-if="displayLabel==='true'">
       Category
     </label>
     <select
