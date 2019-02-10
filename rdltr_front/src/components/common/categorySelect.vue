@@ -30,7 +30,7 @@ export default {
         return this.$store.getters.selectedCategory
       },
       set(value) {
-        this.$store.commit('setCategory', value)
+        return this.$store.dispatch('updateSelectedCategory', value)
       },
     },
     pagination() {
@@ -41,12 +41,12 @@ export default {
     },
   },
   beforeDestroy() {
-    this.$store.commit('setCategory', '')
+    return this.$store.dispatch('updateSelectedCategory', '')
   },
   methods: {
     filterArticles() {
       if (this.filter) {
-        this.$store.dispatch('getArticles', {
+        return this.$store.dispatch('getArticles', {
           cat_id: this.selectedCategory,
           page: this.pagination.page,
         })

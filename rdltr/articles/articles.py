@@ -3,11 +3,11 @@ import re
 import requests
 from flask import Blueprint, jsonify, request
 from readability import Document
-from sqlalchemy import or_
+from sqlalchemy import exc, or_
 
 from .. import app_log, db
 from ..users.utils import authenticate
-from .model import Article, Category
+from .model import Article, Category, Tag
 
 articles_blueprint = Blueprint('articles', __name__)
 
@@ -107,7 +107,16 @@ def add_user_article(user_id):
     new_article = Article(
         category_id=category.id, title=title, content=content, url=url
     )
-    # TODO: tags
+    db.session.flush()
+    tags = post_data.get('tags')
+    if tags and isinstance(tags, list):
+        for tag_name in tags:
+            tag = Tag.query.filter_by(user_id=user_id, name=tag_name).first()
+            if not tag:
+                tag = Tag(user_id=user_id, name=tag_name)
+                db.session.flush()
+            new_article.tags.append(tag)
+            db.session.flush()
     db.session.add(new_article)
     db.session.commit()
     response_object = {'status': 'success', 'data': [new_article.serialize()]}
@@ -140,13 +149,40 @@ def update_user_category(user_id, article_id):
             }
             return jsonify(response_object), 500
         article.category_id = category.id
-    comments = post_data.get('comments')
-    if comments:
-        article.comments = comments
-    # TODO tags
-    db.session.commit()
-    response_object = {'status': 'success', 'data': [article.serialize()]}
-    return jsonify(response_object), 200
+    try:
+        comments = post_data.get('comments')
+        if comments:
+            article.comments = comments
+        new_tags = post_data.get('tags')
+        if isinstance(new_tags, list):
+            if not new_tags:
+                article.tags.clear()
+            else:
+                existing_tags = [tag for tag in article.tags]
+                for existing_tag in existing_tags:
+                    if existing_tag.name not in new_tags:
+                        article.tags.remove(existing_tag)
+                        db.session.flush()
+                for tag_name in new_tags:
+                    tag = Tag.query.filter_by(
+                        user_id=user_id, name=tag_name
+                    ).first()
+                    if not tag:
+                        tag = Tag(user_id=user_id, name=tag_name)
+                        db.session.flush()
+                    article.tags.append(tag)
+                    db.session.flush()
+        db.session.commit()
+        response_object = {'status': 'success', 'data': [article.serialize()]}
+        return jsonify(response_object), 200
+    except (exc.IntegrityError, exc.OperationalError, exc.InterfaceError) as e:
+        db.session.rollback()
+        app_log.error(e)
+        response_object = {
+            'status': 'error',
+            'message': 'Error. Please try again or contact the administrator.',
+        }
+        return jsonify(response_object), 500
 
 
 @articles_blueprint.route('/articles/<int:article_id>', methods=['DELETE'])

@@ -55,13 +55,6 @@ html {
   padding: 0.5em;
 }
 
-.badge-rdltr {
-  background-color: #8c95aa;
-  color: white;
-  margin-bottom: 0.5em;
-  margin-top: 1em;
-}
-
 .btn-rdltr {
   background-color: #f5f5f7;
   border: 1px solid #8c95aa;
@@ -143,6 +136,33 @@ html {
 
 .link {
   color: #8c95aa;
+}
+
+.multiselect__input {
+  border-color: black;
+}
+
+.multiselect__option--highlight,
+.multiselect__option--highlight:after {
+  background: #8c95aa;
+  color: #fff;
+}
+
+.multiselect__tag {
+  background-color: #a3aabb;
+}
+
+.multiselect__tag-icon {
+  color: white;
+}
+
+.multiselect__tag-icon:after {
+  color: white;
+}
+
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  background: #8c95aa;
 }
 
 .submit button {

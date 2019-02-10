@@ -11,6 +11,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     selectedCategory: '',
+    selectedTags: [],
     errorMessage: null,
   },
   mutations: {
@@ -20,18 +21,27 @@ export default new Vuex.Store({
     setErrorMessage(state, errorMessage) {
       state.errorMessage = errorMessage
     },
+    setTags(state, selectedTags) {
+      state.selectedTags = selectedTags
+    },
   },
   actions: {
+    updateErrorMessage({ commit }, errorMessage) {
+      commit('setErrorMessage', errorMessage)
+    },
     updateSelectedCategory({ commit }, selectedCategory) {
       commit('setCategory', selectedCategory)
     },
-    updateErrorMessage({ commit }, errorMessage) {
-      commit('setErrorMessage', errorMessage)
+    updateSelectedTags({ commit }, selectedTags) {
+      commit('setTags', selectedTags)
     },
   },
   getters: {
     selectedCategory(state) {
       return state.selectedCategory
+    },
+    selectedTags(state) {
+      return state.selectedTags
     },
     errorMessage(state) {
       return state.errorMessage

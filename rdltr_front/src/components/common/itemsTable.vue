@@ -22,7 +22,7 @@
           <td v-for="key in columns" :key="key">
             {{ item[key] }}
             <span
-              class="badge badge-rdltr badge-rdltr-small"
+              class="badge badge-rdltr-small"
               v-if="key === 'name' && item.is_default"
             >
               default
@@ -139,6 +139,9 @@ export default {
 }
 
 .badge-rdltr-small {
+  background-color: #8c95aa;
+  box-shadow: 0 1px 2px #ccc;
+  color: white;
   font-size: 0.7em;
   margin: 0;
 }

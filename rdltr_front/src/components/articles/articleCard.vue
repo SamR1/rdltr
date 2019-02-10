@@ -11,10 +11,14 @@
         >
           <span aria-hidden="true">&times;</span>
         </button>
-        <app-category-badge
-          :category-name="article.category.name"
-        ></app-category-badge>
+        <app-badge :name="article.category.name"></app-badge>
         <h5 class="card-title">{{ article.title }}</h5>
+        <app-badge
+          v-for="tag in article.tags"
+          :is-tag="true"
+          :key="tag.id"
+          :name="tag.name"
+        ></app-badge>
         <p class="card-text"></p>
       </div>
       <div class="card-footer">
@@ -31,10 +35,11 @@
 </template>
 
 <script>
-import CategoryBadge from '../common/categoryBadge'
+import CustomBadge from '../common/customBagde'
+
 export default {
   components: {
-    AppCategoryBadge: CategoryBadge,
+    AppBadge: CustomBadge,
   },
   props: ['article'],
   methods: {

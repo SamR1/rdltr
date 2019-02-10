@@ -12,6 +12,10 @@
           <input id="link" required v-model="link" />
         </div>
         <app-category-select display-label="true"></app-category-select>
+        <app-tag-multi-select
+          v-if="selectedTags"
+          :display-label="true"
+        ></app-tag-multi-select>
         <div class="submit add-article-submit">
           <button type="submit">Submit</button>
         </div>
@@ -22,10 +26,12 @@
 
 <script>
 import CategorySelect from '../common/categorySelect'
+import TagMultiSelect from '../common/tagMultiSelect'
 
 export default {
   components: {
     AppCategorySelect: CategorySelect,
+    AppTagMultiSelect: TagMultiSelect,
   },
   data() {
     return {
@@ -39,6 +45,9 @@ export default {
     selectedCategory() {
       return this.$store.getters.selectedCategory
     },
+    selectedTags() {
+      return this.$store.getters.selectedTags
+    },
   },
   beforeDestroy() {
     this.$store.commit('setErrorMessage', null)
@@ -48,6 +57,7 @@ export default {
       const formData = {
         url: this.link,
         category_id: this.selectedCategory,
+        tags: this.selectedTags,
       }
       return this.$store.dispatch('addArticle', formData)
     },

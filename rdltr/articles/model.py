@@ -5,7 +5,7 @@ from sqlalchemy import UniqueConstraint
 from .. import db
 from ..users.model import User
 
-tags = db.Table(
+tags_to_articles = db.Table(
     'articles_tags',
     db.Column(
         'tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True
@@ -85,9 +85,9 @@ class Article(db.Model):
     category = db.relationship(Category, backref='category')
     tags = db.relationship(
         Tag,
-        secondary=tags,
+        secondary=tags_to_articles,
         lazy='subquery',
-        backref=db.backref('article', lazy=True),
+        backref=db.backref('articles', lazy=True),
     )
 
     def __init__(self, category_id, url, title, content):
