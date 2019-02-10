@@ -429,8 +429,8 @@ def test_add_article_to_category_with_no_existing_tags(
     assert data['data'][0]['category']['is_default'] is False
     assert 'date_added' in data['data'][0]
     assert len(data['data'][0]['tags']) == 2
-    assert data['data'][0]['tags'][0]['name'] == 'tuto'
-    assert data['data'][0]['tags'][1]['name'] == 'css'
+    assert data['data'][0]['tags'][0]['name'] in ['css', 'tuto']
+    assert data['data'][0]['tags'][1]['name'] in ['css', 'tuto']
 
 
 @patch('requests.get')
