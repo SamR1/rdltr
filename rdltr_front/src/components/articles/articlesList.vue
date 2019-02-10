@@ -49,7 +49,9 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getArticles', this.$route.params)
+    if (this.$store.getters.isAuthenticated) {
+      return this.$store.dispatch('getArticles', this.$route.params)
+    }
   },
 }
 </script>

@@ -6,7 +6,7 @@
     <p v-if="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </p>
-    <div v-else>
+    <div v-if="article">
       <div id="category-update" v-if="onCategoryEdition">
         <app-category-select displayLabel="false"></app-category-select>
         <div class="submit">
@@ -57,7 +57,12 @@
           :key="tag.id"
           :name="tag.name"
         ></app-badge>
-        <span v-show="article.tags && article.tags.length === 0">no tags</span>
+        <span
+          class="no-tags"
+          v-show="article.tags && article.tags.length === 0"
+        >
+          no tags
+        </span>
         <i
           aria-hidden="true"
           class="fa fa-pencil link"
@@ -127,7 +132,9 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch('getArticle', this.$route.params.id)
+    if (this.$store.getters.isAuthenticated) {
+      return this.$store.dispatch('getArticle', this.$route.params.id)
+    }
   },
   beforeDestroy() {
     this.$store.commit('getUserArticle', {})
@@ -189,6 +196,11 @@ export default {
 
 .fa {
   font-size: 0.8em;
+}
+
+.no-tags {
+  font-size: 0.9em;
+  font-style: italic;
 }
 
 a {

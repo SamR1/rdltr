@@ -14,7 +14,89 @@ import store from '../store'
 
 Vue.use(VueRouter)
 
-function checkAuth(to, from, next) {
+const routes = [
+  {
+    path: '/',
+    component: HomePage,
+  },
+  {
+    path: '/register',
+    component: UserForm,
+    props: { actionType: 'register' },
+  },
+  {
+    path: '/login',
+    component: UserForm,
+    props: { actionType: 'login' },
+  },
+  {
+    path: '/profile',
+    component: UserDetail,
+    props: { actionType: 'viewProfile' },
+  },
+  {
+    path: '/profile/edit',
+    component: UserDetail,
+    props: { actionType: 'editProfile' },
+  },
+  {
+    path: '/articles/add',
+    component: AddArticle,
+  },
+  {
+    path: '/articles/:id',
+    component: DisplayArticle,
+    name: 'articleDetail',
+  },
+  {
+    path: '/articles/page/:page',
+    component: HomePage,
+    name: 'articlesPage',
+  },
+  {
+    path: '/settings',
+    component: Settings,
+  },
+  {
+    path: '/settings/categories/add',
+    component: Item,
+    name: 'addCategory',
+    props: { itemType: 'categories' },
+  },
+  {
+    path: '/settings/categories/:id/edit',
+    component: Item,
+    name: 'editCategory',
+    props: { itemType: 'categories' },
+  },
+  {
+    path: '/settings/categories',
+    component: Items,
+    props: { itemType: 'categories' },
+  },
+  {
+    path: '/settings/tags/add',
+    component: Item,
+    name: 'addTag',
+    props: { itemType: 'tags' },
+  },
+  {
+    path: '/settings/tags/:id/edit',
+    component: Item,
+    name: 'editTag',
+    props: { itemType: 'tags' },
+  },
+  {
+    path: '/settings/tags',
+    component: Items,
+    props: { itemType: 'tags' },
+  },
+  { path: '*', component: NotFound },
+]
+
+const router = new VueRouter({ mode: 'history', routes })
+
+router.beforeEach((to, from, next) => {
   store.dispatch('checkUserAuth').then(() => {
     if (
       store.getters.isAuthenticated &&
@@ -30,101 +112,6 @@ function checkAuth(to, from, next) {
     }
   })
   next()
-}
+})
 
-const routes = [
-  {
-    path: '/',
-    component: HomePage,
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/register',
-    component: UserForm,
-    props: { actionType: 'register' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/login',
-    component: UserForm,
-    props: { actionType: 'login' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/profile',
-    component: UserDetail,
-    props: { actionType: 'viewProfile' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/profile/edit',
-    component: UserDetail,
-    props: { actionType: 'editProfile' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/articles/add',
-    component: AddArticle,
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/articles/:id',
-    component: DisplayArticle,
-    name: 'articleDetail',
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/articles/page/:page',
-    component: HomePage,
-    name: 'articlesPage',
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/settings',
-    component: Settings,
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/settings/categories/add',
-    component: Item,
-    name: 'addCategory',
-    props: { itemType: 'categories' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/settings/categories/:id/edit',
-    component: Item,
-    name: 'editCategory',
-    props: { itemType: 'categories' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/settings/categories',
-    component: Items,
-    props: { itemType: 'categories' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/settings/tags/add',
-    component: Item,
-    name: 'addTag',
-    props: { itemType: 'tags' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/settings/tags/:id/edit',
-    component: Item,
-    name: 'editTag',
-    props: { itemType: 'tags' },
-    beforeEnter: checkAuth,
-  },
-  {
-    path: '/settings/tags',
-    component: Items,
-    props: { itemType: 'tags' },
-    beforeEnter: checkAuth,
-  },
-  { path: '*', component: NotFound },
-]
-
-export default new VueRouter({ mode: 'history', routes })
+export default router

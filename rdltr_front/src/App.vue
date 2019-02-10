@@ -165,6 +165,11 @@ html {
   background: #8c95aa;
 }
 
+.multiselect__tags {
+  border: 1px solid #ccc;
+  border-radius: 0;
+}
+
 .submit button {
   background-color: #f5f5f7;
   border: 1px solid #8c95aa;

@@ -21,7 +21,7 @@
           </div>
           <div class="col-md-1">
             <router-link
-              class="btn-rdltr"
+              class="btn-rdltr add-article"
               to="/articles/add"
               tag="button"
               title="add article"
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     onSearch() {
-      this.$store.dispatch('getArticles', { query: this.query })
+      return this.$store.dispatch('getArticles', { query: this.query })
     },
   },
 }
@@ -72,6 +72,10 @@ export default {
   align-items: center;
   padding-top: 1em;
   text-align: center;
+}
+
+.add-article {
+  border-color: #ccc;
 }
 
 .search input {
