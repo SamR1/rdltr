@@ -70,6 +70,9 @@ const actions = {
     if (Object.keys(params).length > 0) {
       url += '?'
       Object.keys(params).map(key => {
+        if (key === 'cat_id') {
+          dispatch('updateSelectedCategory', +params[key])
+        }
         url += `&${key}=${params[key]}`
       })
     }

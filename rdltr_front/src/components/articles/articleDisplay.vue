@@ -27,10 +27,14 @@
         </div>
       </div>
       <div v-else>
-        <app-badge
+        <router-link
+          style="cursor: pointer"
+          tag="span"
           v-if="article.category"
-          :name="article.category.name"
-        ></app-badge>
+          :to="`/?cat_id=${article.category.id}`"
+        >
+          <app-badge :name="article.category.name"></app-badge>
+        </router-link>
         <i
           aria-hidden="true"
           class="fa fa-pencil link"
