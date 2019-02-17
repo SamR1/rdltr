@@ -17,3 +17,22 @@ export const getActionValue = (itemType, transformation) => {
   }
   return result
 }
+
+export const getTargetLocationFromStore = (store, pageOffset = 0) => {
+  const location =
+    store.page || pageOffset !== 0
+      ? {
+          name: 'articlesPage',
+          params: { page: store.pagination.page + pageOffset },
+        }
+      : { name: 'home' }
+  const query = {}
+  if (store.selectedCategory) {
+    query.cat_id = store.selectedCategory
+  }
+  if (store.query) {
+    query.q = store.query
+  }
+  location.query = query
+  return location
+}

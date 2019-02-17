@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { getTargetLocationFromStore } from '../../utils'
+
 export default {
   props: ['displayLabel', 'filter'],
   computed: {
@@ -46,10 +48,7 @@ export default {
   methods: {
     filterArticles() {
       if (this.filter) {
-        return this.$store.dispatch('getArticles', {
-          cat_id: this.selectedCategory,
-          page: this.pagination.page,
-        })
+        this.$router.push(getTargetLocationFromStore(this.$store.getters))
       }
     },
   },

@@ -1,38 +1,43 @@
 <template>
   <div id="pagination" class="row">
     <div class="col-1 text-center">
-      <router-link
+      <button
         class="btn-rdltr"
-        tag="button"
         type="submit"
         v-show="pagination.has_prev"
-        :to="{ name: 'articlesPage', params: { page: pagination.page - 1 } }"
+        @click="getTargetLink(-1)"
       >
         <i class="fa fa-chevron-left" aria-hidden="true"></i>
-      </router-link>
+      </button>
     </div>
     <div class="col-10 text-center page" v-if="pagination.pages > 0">
       page {{ pagination.page }} / {{ pagination.pages }}
     </div>
     <div class="col-1 text-center">
-      <router-link
+      <button
         class="btn-rdltr"
-        tag="button"
         type="submit"
         v-show="pagination.has_next"
-        :to="{ name: 'articlesPage', params: { page: pagination.page + 1 } }"
+        @click="getTargetLink(1)"
       >
         <i class="fa fa-chevron-right" aria-hidden="true"></i>
-      </router-link>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+import { getTargetLocationFromStore } from '../../utils'
+
 export default {
   computed: {
     pagination() {
       return this.$store.getters.pagination
+    },
+  },
+  methods: {
+    getTargetLink(offset) {
+      this.$router.push(getTargetLocationFromStore(this.$store.getters, offset))
     },
   },
 }

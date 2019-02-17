@@ -43,6 +43,7 @@
 <script>
 import Articles from '../articles/articlesList'
 import CategorySelect from '../common/categorySelect'
+import { getTargetLocationFromStore } from '../../utils'
 
 export default {
   components: {
@@ -61,7 +62,7 @@ export default {
   },
   methods: {
     onSearch() {
-      return this.$store.dispatch('getArticles', { query: this.query })
+      this.$router.push(getTargetLocationFromStore(this.$store.getters))
     },
   },
 }

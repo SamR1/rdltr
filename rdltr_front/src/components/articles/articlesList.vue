@@ -45,12 +45,18 @@ export default {
   },
   watch: {
     $route(to, from) {
-      this.$store.dispatch('getArticles', to.params)
+      this.$store.dispatch(
+        'getArticles',
+        Object.assign({}, to.params, to.query)
+      )
     },
   },
-  created() {
+  created: function() {
     if (this.$store.getters.isAuthenticated) {
-      return this.$store.dispatch('getArticles', this.$route.params)
+      return this.$store.dispatch(
+        'getArticles',
+        Object.assign({}, this.$route.params, this.$route.query)
+      )
     }
   },
 }

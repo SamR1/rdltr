@@ -18,6 +18,7 @@ const routes = [
   {
     path: '/',
     component: HomePage,
+    name: 'home',
   },
   {
     path: '/register',

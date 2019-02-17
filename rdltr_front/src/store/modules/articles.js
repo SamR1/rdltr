@@ -58,25 +58,13 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on fetching article'))
   },
-  getArticles({ commit, dispatch, rootState, state }, params) {
+  getArticles({ commit, dispatch }, params) {
     let url = 'articles'
     if (Object.keys(params).length > 0) {
       url += '?'
-      if (params.page) {
-        url += `&page=${params.page}`
-      }
-
-      if (params.cat_id) {
-        url += `&cat_id=${params.cat_id}`
-      } else if (+rootState.selectedCategory > 0) {
-        url += `&cat_id=${rootState.selectedCategory}`
-      }
-
-      if (params.query) {
-        url += `&q=${params.query}`
-      } else if (state.query !== '') {
-        url += `&q=${state.query}`
-      }
+      Object.keys(params).map(key => {
+        url += `&${key}=${params[key]}`
+      })
     }
     authApi
       .get(url)
