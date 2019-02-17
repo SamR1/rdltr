@@ -40,6 +40,7 @@
           class="fa fa-pencil link"
           @click="updateSelectedCategory"
         ></i>
+        <i class="fa fa-trash" aria-hidden="true" @click="onDeleteArticle"></i>
       </div>
       <h1>{{ article.title }}</h1>
       <div id="tag-update" v-if="onTagEdition">
@@ -145,6 +146,11 @@ export default {
     this.$store.commit('setErrorMessage', null)
   },
   methods: {
+    onDeleteArticle() {
+      this.$store
+        .dispatch('deleteArticle', this.article.id)
+        .then(() => this.$router.push('/'))
+    },
     onUpdateCategory() {
       this.$store
         .dispatch('updateArticle', {
@@ -199,6 +205,10 @@ export default {
 }
 
 .fa {
+  color: #8c95aa;
+}
+
+.fa-pencil {
   font-size: 0.8em;
 }
 
