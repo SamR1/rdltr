@@ -75,7 +75,7 @@
       </div>
       <p class="article-link">
         Link:
-        <a :href="article.url">
+        <a :href="article.url" target="_blank " rel="noopener noreferrer">
           {{ article.url }}
         </a>
       </p>

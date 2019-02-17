@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from flask import Blueprint, jsonify, request
 from readability import Document
+from requests import ConnectionError
 from sqlalchemy import exc, or_
 
 from .. import app_log, db
@@ -74,7 +75,25 @@ def add_user_article(user_id):
         response_object = {'status': 'error', 'message': 'Invalid payload.'}
         return jsonify(response_object), 400
 
-    url = post_data.get('url')
+    url = post_data.get('url').strip()
+
+    # check if url is valid (regex from Django validator)
+    regex = re.compile(
+        r'^(?:http|ftp)s?://'  # http:// or https://
+        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # noqa
+        r'localhost|'
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'
+        r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'
+        r'(?::\d+)?'
+        r'(?:/?|[/?]\S+)$',
+        re.IGNORECASE,
+    )
+    if not re.match(regex, url):
+        response_object = {
+            'status': 'error',
+            'message': 'Error: Invalid URL, please check it.',
+        }
+        return jsonify(response_object), 400
 
     try:
         response = requests.get(url)
@@ -85,7 +104,13 @@ def add_user_article(user_id):
             'class=".*?"', '', doc.summary(html_partial=False)
         )
         content = BeautifulSoup(html_content, "html.parser").text
-
+    except ConnectionError as e:
+        app_log.error(e)
+        response_object = {
+            'status': 'error',
+            'message': 'Error. Cannot connect to the URL, please check it.',
+        }
+        return jsonify(response_object), 500
     except Exception as e:
         app_log.error(e)
         response_object = {

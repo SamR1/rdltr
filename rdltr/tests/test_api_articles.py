@@ -572,6 +572,54 @@ def test_add_article_invalid_content(
     check_500_error(response)
 
 
+def test_add_article_invalid_url(app, user_1, cat_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(dict(url='invalid-url', category_id=1)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 400
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'error'
+    assert data['message'] == 'Error: Invalid URL, please check it.'
+
+
+def test_add_article_no_existing_url(app, user_1, cat_1):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(
+            dict(url='http://not-existing-url.not', category_id=1)
+        ),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 500
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'error'
+    assert (
+        data['message'] == 'Error. Cannot connect to the URL, please check it.'
+    )
+
+
 @patch('requests.get')
 def test_patch_article_add_comments_ok(
     get_mock, fake_request_ok, app, user_1, article_1

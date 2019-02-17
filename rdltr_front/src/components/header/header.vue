@@ -22,6 +22,11 @@
         <li v-if="auth" class="menu">
           <span @click="onLogout" class="logout">Logout</span>
         </li>
+        <li v-if="auth" class="menu">
+          <router-link to="/articles/add">
+            <i class="fa fa-plus-square" aria-hidden="true"></i>
+          </router-link>
+        </li>
       </ul>
     </nav>
     <div @click="displayMenu" id="nav-icon">

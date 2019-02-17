@@ -19,17 +19,6 @@
               />
             </div>
           </div>
-          <div class="col-md-1">
-            <router-link
-              class="btn-rdltr add-article"
-              to="/articles/add"
-              tag="button"
-              title="add article"
-              type="submit"
-            >
-              <i class="fa fa-plus-square" aria-hidden="true"></i>
-            </router-link>
-          </div>
         </div>
       </div>
     </div>
