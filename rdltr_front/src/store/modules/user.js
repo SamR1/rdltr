@@ -65,7 +65,7 @@ const actions = {
           commit('authUser', token)
           commit('setErrorMessage', '')
           dispatch('getUserProfile')
-          router.replace('/')
+          router.push('/')
         }
       })
       .catch(err => handleError(commit, err, `error on ${data.actionType}`))
@@ -73,7 +73,7 @@ const actions = {
   logout({ commit }) {
     commit('clearUserData')
     localStorage.removeItem('authToken')
-    router.replace('/login')
+    router.push('/login')
   },
   // for now, only the password can be modified
   updateProfile({ commit }, formData) {
@@ -81,7 +81,7 @@ const actions = {
       .post(`/auth/profile/edit`, formData)
       .then(res => {
         if (res.data.status === 'success') {
-          router.replace('/profile')
+          router.push('/profile')
         }
       })
       .catch(err => handleError(commit, err, 'error on password update'))

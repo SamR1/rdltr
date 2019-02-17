@@ -17,9 +17,12 @@
           :display-label="true"
         ></app-tag-multi-select>
         <div class="submit add-article-submit">
-          <button type="submit">Submit</button>
+          <button type="submit" :disabled="loading">Submit</button>
         </div>
       </form>
+      <div class="text-center" v-if="loading">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+      </div>
     </div>
   </div>
 </template>
@@ -41,6 +44,9 @@ export default {
   computed: {
     errorMessage() {
       return this.$store.getters.errorMessage
+    },
+    loading() {
+      return this.$store.getters.loading
     },
     selectedCategory() {
       return this.$store.getters.selectedCategory

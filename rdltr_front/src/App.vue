@@ -36,6 +36,10 @@ html {
   margin-top: 0.5em;
 }
 
+.fa-spinner {
+  color: #8c95aa;
+}
+
 .alert {
   margin: 0.5em 0;
 }

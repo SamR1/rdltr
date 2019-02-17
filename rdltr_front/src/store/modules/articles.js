@@ -38,12 +38,14 @@ const mutations = {
 }
 
 const actions = {
-  addArticle({ commit }, formData) {
+  addArticle({ commit, dispatch }, formData) {
+    dispatch('updateLoading', true)
     authApi
       .post('articles', formData)
       .then(res => {
         if (res.data.status === 'success') {
-          router.replace('/')
+          dispatch('updateLoading', false)
+          router.push(`/articles/${res.data.data[0].id}`)
         }
       })
       .catch(err => handleError(commit, err, 'error on adding article'))

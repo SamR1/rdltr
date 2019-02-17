@@ -11,19 +11,19 @@ const getters = {}
 const mutations = {}
 
 const actions = {
-  addTag({ commit, rootState }, formData) {
+  addTag({ commit }, formData) {
     authApi
       .post('tags', formData)
       .then(() => {
-        router.replace('/settings/tags')
+        router.push('/settings/tags')
       })
       .catch(err => handleError(commit, err, 'error on tag creation'))
   },
-  updateTag({ commit, rootState }, formData) {
+  updateTag({ commit }, formData) {
     authApi
       .patch(`tags/${formData.id}`, formData)
       .then(() => {
-        router.replace('/settings/tags')
+        router.push('/settings/tags')
       })
       .catch(err => handleError(commit, err, 'error on tag update'))
   },

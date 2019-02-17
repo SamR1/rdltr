@@ -12,6 +12,7 @@ export default new Vuex.Store({
   state: {
     selectedCategory: '',
     selectedTags: [],
+    loading: false,
     errorMessage: null,
   },
   mutations: {
@@ -20,6 +21,10 @@ export default new Vuex.Store({
     },
     setErrorMessage(state, errorMessage) {
       state.errorMessage = errorMessage
+      state.loading = false
+    },
+    setLoading(state, loading) {
+      state.loading = loading
     },
     setTags(state, selectedTags) {
       state.selectedTags = selectedTags
@@ -29,6 +34,9 @@ export default new Vuex.Store({
     updateErrorMessage({ commit }, errorMessage) {
       commit('setErrorMessage', errorMessage)
     },
+    updateLoading({ commit }, loading) {
+      commit('setLoading', loading)
+    },
     updateSelectedCategory({ commit }, selectedCategory) {
       commit('setCategory', selectedCategory)
     },
@@ -37,6 +45,9 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    loading(state) {
+      return state.loading
+    },
     selectedCategory(state) {
       return state.selectedCategory
     },
