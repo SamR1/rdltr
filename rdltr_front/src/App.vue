@@ -48,11 +48,17 @@ html {
   color: black;
 }
 
-.article-content img {
+.article-content img,
+.article-content video {
   display: block;
   margin-left: auto;
   margin-right: auto;
   max-width: 100%;
+}
+
+.article-content a > svg {
+  margin: 0 8px 0 -20px;
+  width: 14px;
 }
 
 .article-content pre {

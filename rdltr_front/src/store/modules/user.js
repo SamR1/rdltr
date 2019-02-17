@@ -71,6 +71,7 @@ const actions = {
       .catch(err => handleError(commit, err, `error on ${data.actionType}`))
   },
   logout({ commit }) {
+    commit('clearArticles')
     commit('clearUserData')
     localStorage.removeItem('authToken')
     router.push('/login')

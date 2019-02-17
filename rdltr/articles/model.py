@@ -80,8 +80,10 @@ class Article(db.Model):
     url = db.Column(db.String(), nullable=False)
     title = db.Column(db.String(), nullable=False)
     content = db.Column(db.String(), nullable=False)
+    html_content = db.Column(db.String(), nullable=False)
     date_added = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     comments = db.Column(db.String())
+    read_status = db.Column(db.Boolean(), default=False, nullable=False)
     category = db.relationship(Category, backref='category')
     tags = db.relationship(
         Tag,
@@ -90,18 +92,19 @@ class Article(db.Model):
         backref=db.backref('articles', lazy=True),
     )
 
-    def __init__(self, category_id, url, title, content):
+    def __init__(self, category_id, url, title, content, html_content):
         self.category_id = category_id
         self.url = url
         self.title = title
         self.content = content
+        self.html_content = html_content
 
     def serialize(self):
         return {
             'id': self.id,
             'url': self.url,
             'title': self.title,
-            'content': self.content,
+            'html_content': self.html_content,
             'category': self.category.serialize(),
             'tags': [tag.serialize() for tag in self.tags],
             'comments': self.comments,

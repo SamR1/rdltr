@@ -58,7 +58,10 @@ def test_get_articles_one_result(app, article_1):
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'Python tips'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 1
@@ -88,7 +91,10 @@ def test_get_articles(app, article_1, article_2, article_3):
     assert len(data['data']) == 2
 
     assert data['data'][0]['title'] == 'Another article'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre2</head><body><p>Test2</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] == 'just a comment'
     assert data['data'][0]['category']['id'] == 1
@@ -99,7 +105,10 @@ def test_get_articles(app, article_1, article_2, article_3):
     assert data['data'][0]['tags'] == []
 
     assert data['data'][1]['title'] == 'Python tips'
-    assert data['data'][1]['content'] == '<html></html>'
+    assert (
+        data['data'][1]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][1]['url'] == 'https://test.com'
     assert data['data'][1]['comments'] is None
     assert data['data'][1]['category']['id'] == 1
@@ -130,12 +139,18 @@ def test_get_articles_pagination(app, articles_20):
     assert len(data['data']) == 12
 
     assert data['data'][0]['title'] == 'Python article 20'
-    assert data['data'][0]['content'] == '<html><body>20</body></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre20</head><body><p>Test20</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://python.com'
     assert data['data'][0]['category']['id'] == 1
 
     assert data['data'][11]['title'] == 'Python article 9'
-    assert data['data'][11]['content'] == '<html><body>9</body></html>'
+    assert (
+        data['data'][11]['html_content']
+        == '<html><head><title>Titre9</head><body><p>Test9</p></body></html>'
+    )
     assert data['data'][11]['url'] == 'https://python.com'
     assert data['data'][11]['category']['id'] == 1
 
@@ -152,12 +167,18 @@ def test_get_articles_pagination(app, articles_20):
     assert len(data['data']) == 8
 
     assert data['data'][0]['title'] == 'Python article 8'
-    assert data['data'][0]['content'] == '<html><body>8</body></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre8</head><body><p>Test8</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://python.com'
     assert data['data'][0]['category']['id'] == 1
 
     assert data['data'][7]['title'] == 'Python article 1'
-    assert data['data'][7]['content'] == '<html><body>1</body></html>'
+    assert (
+        data['data'][7]['html_content']
+        == '<html><head><title>Titre1</head><body><p>Test1</p></body></html>'
+    )
     assert data['data'][7]['url'] == 'https://python.com'
     assert data['data'][7]['category']['id'] == 1
 
@@ -197,7 +218,10 @@ def test_get_articles_filter_by_category(
 
     assert data['data'][0]['id'] == 4
     assert data['data'][0]['title'] == 'Great article'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre4</head><body><p>Test4</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] == 'just a comment'
     assert data['data'][0]['category']['id'] == 3
@@ -238,7 +262,10 @@ def test_get_articles_filter_by_query(
 
     assert data['data'][0]['id'] == 4
     assert data['data'][0]['title'] == 'Great article'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre4</head><body><p>Test4</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] == 'just a comment'
     assert data['data'][0]['category']['id'] == 3
@@ -275,7 +302,10 @@ def test_get_article(app, article_1):
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'Python tips'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 1
@@ -344,7 +374,7 @@ def test_add_article_to_default_category_no_tags(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'this is a title'
-    assert data['data'][0]['content'] == html_doc_body_ok
+    assert data['data'][0]['html_content'] == html_doc_body_ok
     assert data['data'][0]['url'] == 'https://example.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 1
@@ -380,7 +410,7 @@ def test_add_article_to_category_no_tags(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'this is a title'
-    assert data['data'][0]['content'] == html_doc_body_ok
+    assert data['data'][0]['html_content'] == html_doc_body_ok
     assert data['data'][0]['url'] == 'https://example.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 1
@@ -420,7 +450,7 @@ def test_add_article_to_category_with_no_existing_tags(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'this is a title'
-    assert data['data'][0]['content'] == html_doc_body_ok
+    assert data['data'][0]['html_content'] == html_doc_body_ok
     assert data['data'][0]['url'] == 'https://example.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 1
@@ -462,7 +492,7 @@ def test_add_article_to_category_with_existing_tag(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'this is a title'
-    assert data['data'][0]['content'] == html_doc_body_ok
+    assert data['data'][0]['html_content'] == html_doc_body_ok
     assert data['data'][0]['url'] == 'https://example.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 1
@@ -567,7 +597,10 @@ def test_patch_article_add_comments_ok(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'Python tips'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] == 'just a comment'
     assert data['data'][0]['category']['id'] == 1
@@ -604,7 +637,10 @@ def test_patch_article_change_category_ok(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'Python tips'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 2
@@ -641,7 +677,10 @@ def test_patch_article_change_with_new_tags(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'Python tips'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 2
@@ -677,7 +716,10 @@ def test_patch_article_change_with_existing_tag(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'Python tips'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 2
@@ -714,7 +756,10 @@ def test_patch_article_change_replacing_tag(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'Python tips'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 2
@@ -751,7 +796,10 @@ def test_patch_article_remove_tags(
     assert data['status'] == 'success'
     assert len(data['data']) == 1
     assert data['data'][0]['title'] == 'Python tips'
-    assert data['data'][0]['content'] == '<html></html>'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None
     assert data['data'][0]['category']['id'] == 1

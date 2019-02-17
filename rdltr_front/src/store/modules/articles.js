@@ -35,6 +35,11 @@ const mutations = {
   updateQuery(state, query) {
     state.query = query
   },
+  clearArticles(state) {
+    state.article = {}
+    state.articles = []
+    state.pagination = {}
+  },
 }
 
 const actions = {

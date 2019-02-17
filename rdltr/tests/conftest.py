@@ -108,7 +108,9 @@ def article_1(cat_1, tag_1, tag_2):
         category_id=cat_1.id,
         url='https://test.com',
         title='Python tips',
-        content='<html></html>',
+        content='Test',
+        html_content='<html><head><title>Titre</head>'
+        '<body><p>Test</p></body></html>',
     )
     article.tags.append(tag_1)
     article.tags.append(tag_2)
@@ -123,7 +125,9 @@ def article_2(cat_1):
         category_id=cat_1.id,
         url='https://test.com',
         title='Another article',
-        content='<html></html>',
+        content='Test2',
+        html_content='<html><head><title>Titre2</head>'
+        '<body><p>Test2</p></body></html>',
     )
     article.comments = 'just a comment'
     db.session.add(article)
@@ -137,7 +141,9 @@ def article_3(cat_2):
         category_id=cat_2.id,
         url='https://test.com',
         title='Another article',
-        content='<html></html>',
+        content='Test3',
+        html_content='<html><head><title>Titre3</head>'
+        '<body><p>Test3</p></body></html>',
     )
     article.comments = 'just a comment'
     db.session.add(article)
@@ -151,7 +157,9 @@ def article_4(cat_4):
         category_id=cat_4.id,
         url='https://test.com',
         title='Great article',
-        content='<html></html>',
+        content='Test4',
+        html_content='<html><head><title>Titre4</head>'
+        '<body><p>Test4</p></body></html>',
     )
     article.comments = 'just a comment'
     db.session.add(article)
@@ -166,7 +174,9 @@ def articles_20(cat_1):
             category_id=cat_1.id,
             url='https://python.com',
             title=f'Python article {n}',
-            content=f'<html><body>{n}</body></html>',
+            content=f'Test{n}',
+            html_content=f'<html><head><title>Titre{n}</head>'
+            f'<body><p>Test{n}</p></body></html>',
         )
         db.session.add(article)
     db.session.commit()

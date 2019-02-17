@@ -42,8 +42,10 @@ def upgrade():
     sa.Column('url', sa.String(), nullable=False),
     sa.Column('title', sa.String(), nullable=False),
     sa.Column('content', sa.String(), nullable=False),
+    sa.Column('html_content', sa.String(), nullable=False),
     sa.Column('date_added', sa.DateTime(), nullable=True),
     sa.Column('comments', sa.String(), nullable=True),
+    sa.Column('read_status', sa.Boolean(), nullable=False),
     sa.ForeignKeyConstraint(['category_id'], ['categories.id'], name='fk_category_articles'),
     sa.PrimaryKeyConstraint('id')
     )

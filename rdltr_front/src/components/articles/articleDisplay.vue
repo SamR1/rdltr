@@ -1,8 +1,8 @@
 <template>
   <div class="container" id="article-detail">
-    <router-link class="btn-rdltr" tag="button" to="/">
-      Back to home
-    </router-link>
+    <button class="btn-rdltr" type="submit" @click="$router.go(-1)">
+      Back
+    </button>
     <p v-if="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </p>
@@ -76,8 +76,8 @@
         </a>
       </p>
       <app-article-content
-        v-if="article.content"
-        :article-content="article.content"
+        v-if="article.html_content"
+        :article-content="article.html_content"
       ></app-article-content>
       <hr />
       <app-article-comments

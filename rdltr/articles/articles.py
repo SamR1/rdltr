@@ -1,6 +1,7 @@
 import re
 
 import requests
+from bs4 import BeautifulSoup
 from flask import Blueprint, jsonify, request
 from readability import Document
 from sqlalchemy import exc, or_
@@ -80,7 +81,11 @@ def add_user_article(user_id):
         doc = Document(response.text)
         title = doc.title()
         # remove all classes
-        content = re.sub('class=".*?"', '', doc.summary(html_partial=False))
+        html_content = re.sub(
+            'class=".*?"', '', doc.summary(html_partial=False)
+        )
+        content = BeautifulSoup(html_content, "html.parser").text
+
     except Exception as e:
         app_log.error(e)
         response_object = {
@@ -105,7 +110,11 @@ def add_user_article(user_id):
         return jsonify(response_object), 500
 
     new_article = Article(
-        category_id=category.id, title=title, content=content, url=url
+        category_id=category.id,
+        title=title,
+        content=content,
+        html_content=html_content,
+        url=url,
     )
     db.session.flush()
     tags = post_data.get('tags')
