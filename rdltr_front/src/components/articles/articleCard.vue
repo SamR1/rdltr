@@ -1,6 +1,6 @@
 <template>
   <div class="col-sm-6 col-md-4 col-lg-3">
-    <div class="card">
+    <div class="card" :class="`status${article.read ? '-read' : ''}`">
       <div class="card-body">
         <button
           aria-label="Close"
@@ -59,5 +59,9 @@ export default {
 .card-footer {
   background-color: transparent;
   border: none;
+}
+
+.status-read {
+  opacity: 0.5;
 }
 </style>

@@ -40,6 +40,12 @@
           class="fa fa-pencil link"
           @click="updateSelectedCategory"
         ></i>
+        <i
+          aria-hidden="true"
+          :class="`fa fa-eye${article.read ? '-slash' : ''}`"
+          :title="`mark as ${article.read ? 'not ' : ''}read`"
+          @click="updateReadStatus"
+        ></i>
         <i class="fa fa-trash" aria-hidden="true" @click="onDeleteArticle"></i>
       </div>
       <h1>{{ article.title }}</h1>
@@ -174,6 +180,13 @@ export default {
         .then(() => {
           this.onTagEdition = false
         })
+    },
+    updateReadStatus() {
+      const data = {
+        id: this.article.id,
+        formData: { update_read_status: !this.article.read },
+      }
+      return this.$store.dispatch('updateArticle', data)
     },
     updateSelectedCategory() {
       return this.$store

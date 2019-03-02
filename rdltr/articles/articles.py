@@ -99,10 +99,12 @@ def add_user_article(user_id):
         response = requests.get(url)
         doc = Document(response.text)
         title = doc.title()
-        # remove all classes
+        # 'html_content' is used for display
+        # and existing classes are removed
         html_content = re.sub(
             'class=".*?"', '', doc.summary(html_partial=False)
         )
+        # 'content' is used for search
         content = BeautifulSoup(html_content, "html.parser").text
     except ConnectionError as e:
         app_log.error(e)
@@ -187,6 +189,9 @@ def update_user_category(user_id, article_id):
         comments = post_data.get('comments')
         if comments:
             article.comments = comments
+        read_status = post_data.get('update_read_status')
+        if read_status is not None:
+            article.read_status = read_status
         new_tags = post_data.get('tags')
         if isinstance(new_tags, list):
             if not new_tags:
@@ -209,7 +214,12 @@ def update_user_category(user_id, article_id):
         db.session.commit()
         response_object = {'status': 'success', 'data': [article.serialize()]}
         return jsonify(response_object), 200
-    except (exc.IntegrityError, exc.OperationalError, exc.InterfaceError) as e:
+    except (
+        exc.IntegrityError,
+        exc.OperationalError,
+        exc.InterfaceError,
+        exc.StatementError,
+    ) as e:
         db.session.rollback()
         app_log.error(e)
         response_object = {

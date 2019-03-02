@@ -130,6 +130,7 @@ def article_2(cat_1):
         '<body><p>Test2</p></body></html>',
     )
     article.comments = 'just a comment'
+    article.read_status = True
     db.session.add(article)
     db.session.commit()
     return article

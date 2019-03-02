@@ -109,4 +109,5 @@ class Article(db.Model):
             'tags': [tag.serialize() for tag in self.tags],
             'comments': self.comments,
             'date_added': self.date_added,
+            'read': self.read_status,
         }
