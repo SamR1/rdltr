@@ -288,6 +288,70 @@ def test_get_articles_filter_by_query(
     assert len(data['data']) == 0
 
 
+def test_get_articles_filter_by_read_status(
+    app, article_1, article_2, article_3, article_4
+):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 3
+
+    response = client.get(
+        '/api/articles?not_read=true',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 2
+
+    assert data['data'][0]['title'] == 'Great article'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre4</head><body><p>Test4</p></body></html>'
+    )
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] == 'just a comment'
+    assert data['data'][0]['read'] is False
+    assert data['data'][0]['category']['id'] == 3
+    assert data['data'][0]['category']['name'] == 'moto'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
+    assert 'date_added' in data['data'][0]
+    assert data['data'][0]['tags'] == []
+
+    assert data['data'][1]['title'] == 'Python tips'
+    assert (
+        data['data'][1]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
+    assert data['data'][1]['url'] == 'https://test.com'
+    assert data['data'][1]['comments'] is None
+    assert data['data'][1]['read'] is False
+    assert data['data'][1]['category']['id'] == 1
+    assert data['data'][1]['category']['name'] == 'python'
+    assert data['data'][1]['category']['description'] is None
+    assert data['data'][1]['category']['is_default'] is False
+    assert 'date_added' in data['data'][1]
+    assert data['data'][1]['tags'][0]['name'] == 'tips'
+
+
 def test_get_article(app, article_1):
     client = app.test_client()
     resp_login = client.post(

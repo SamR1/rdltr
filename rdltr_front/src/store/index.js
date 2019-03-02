@@ -10,10 +10,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    errorMessage: null,
+    loading: false,
+    onlyNotRead: false,
     selectedCategory: '',
     selectedTags: [],
-    loading: false,
-    errorMessage: null,
   },
   mutations: {
     setCategory(state, selectedCategory) {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     setLoading(state, loading) {
       state.loading = loading
+    },
+    setOnlyNotRead(state, onlyNotRead) {
+      state.onlyNotRead = onlyNotRead
     },
     setTags(state, selectedTags) {
       state.selectedTags = selectedTags
@@ -40,22 +44,28 @@ export default new Vuex.Store({
     updateSelectedCategory({ commit }, selectedCategory) {
       commit('setCategory', selectedCategory)
     },
+    updateReadStatus({ commit }, onlyNotRead) {
+      commit('setOnlyNotRead', onlyNotRead)
+    },
     updateSelectedTags({ commit }, selectedTags) {
       commit('setTags', selectedTags)
     },
   },
   getters: {
+    errorMessage(state) {
+      return state.errorMessage
+    },
     loading(state) {
       return state.loading
+    },
+    onlyNotRead(state) {
+      return state.onlyNotRead
     },
     selectedCategory(state) {
       return state.selectedCategory
     },
     selectedTags(state) {
       return state.selectedTags
-    },
-    errorMessage(state) {
-      return state.errorMessage
     },
   },
   modules: {

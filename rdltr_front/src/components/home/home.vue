@@ -19,6 +19,18 @@
               />
             </div>
           </div>
+          <div class="col-md-2 form-check read-status">
+            <input
+              class="form-check-input"
+              id="readStatus"
+              type="checkbox"
+              v-model="onlyNotRead"
+              @change="onSearch"
+            />
+            <label class="form-check-label" for="readStatus">
+              only not read
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -40,6 +52,14 @@ export default {
     AppCategorySelect: CategorySelect,
   },
   computed: {
+    onlyNotRead: {
+      get() {
+        return this.$store.getters.onlyNotRead
+      },
+      set(value) {
+        this.$store.commit('setOnlyNotRead', value)
+      },
+    },
     query: {
       get() {
         return this.$store.getters.query
@@ -76,6 +96,10 @@ export default {
   background-color: #f5f5f7;
   border-radius: 0;
   margin-left: 1em;
+}
+
+.read-status {
+  margin: 0 -15px;
 }
 
 @media (max-width: 767.98px) {

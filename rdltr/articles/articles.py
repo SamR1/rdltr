@@ -21,6 +21,7 @@ def get_user_articles(user_id):
     page = 1 if 'page' not in params.keys() else int(params.get('page'))
     category_id = params.get('cat_id')
     query = params.get('q')
+    only_not_read = params.get('not_read')
     articles_pagination = (
         Article.query.join(Category)
         .filter(
@@ -30,6 +31,7 @@ def get_user_articles(user_id):
             )
             if query
             else True,
+            Article.read_status == False if only_not_read else True,  # noqa
             Category.user_id == user_id,
             Category.id == category_id if category_id else True,
         )
