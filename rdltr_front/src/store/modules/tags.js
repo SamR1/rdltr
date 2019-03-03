@@ -27,7 +27,7 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on tag update'))
   },
-  deleteTag({ commit, dispatch, state }, id) {
+  deleteTag({ commit, dispatch }, id) {
     authApi
       .delete(`tags/${id}`)
       .then(res => {

@@ -44,7 +44,7 @@ export default {
     },
   },
   watch: {
-    $route(to, from) {
+    $route(to) {
       this.$store.dispatch(
         'getArticles',
         Object.assign({}, to.params, to.query)

@@ -1,6 +1,12 @@
 const path = require('path')
 
 module.exports = {
-    publicPath: '/',
-    outputDir: path.resolve(__dirname, '../rdltr/dist'),
-};
+  configureWebpack: {
+    performance: {
+      maxEntrypointSize: 400000,
+      maxAssetSize: 300000,
+    },
+  },
+  publicPath: '/',
+  outputDir: path.resolve(__dirname, '../rdltr/dist'),
+}

@@ -52,9 +52,9 @@ serve:
 	$(MAKE) P="serve-python serve-front" make-p
 
 serve-front:
-	cd rdltr_front && $(NPM) run dev
+	cd rdltr_front && $(NPM) serve
 
-serve-python: build
+serve-python:
 	$(FLASK) run --with-threads -h $(HOST) -p $(PORT)
 
 test:

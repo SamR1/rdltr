@@ -27,7 +27,7 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on category update'))
   },
-  deleteCategory({ commit, dispatch, state }, id) {
+  deleteCategory({ commit, dispatch }, id) {
     authApi
       .delete(`categories/${id}`)
       .then(res => {
