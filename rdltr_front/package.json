@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "vue": "^2.6.6",
+    "vue": "^2.6.8",
     "vue-multiselect": "^2.1.4",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"

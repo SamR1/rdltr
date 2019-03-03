@@ -97,6 +97,10 @@
         v-if="article.html_content"
         :article-content="article.html_content"
       ></app-article-content>
+      <button class="btn-rdltr" type="submit" @click="$router.go(-1)">
+        Back
+      </button>
+      {{ ' ' }}
       <button class="btn-rdltr" type="submit" @click.prevent="updateReadStatus">
         {{ `Mark as ${article.read ? 'not ' : ''}read` }}
       </button>
