@@ -73,6 +73,9 @@ const actions = {
         if (key === 'cat_id') {
           dispatch('updateSelectedCategory', +params[key])
         }
+        if (key === 'not_read') {
+          dispatch('updateReadStatus', params[key])
+        }
         url += `&${key}=${params[key]}`
       })
     }

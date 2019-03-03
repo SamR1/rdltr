@@ -38,6 +38,7 @@
         <i
           aria-hidden="true"
           class="fa fa-pencil link"
+          title="edit category"
           @click="updateSelectedCategory"
         ></i>
         <i
@@ -46,7 +47,12 @@
           :title="`mark as ${article.read ? 'not ' : ''}read`"
           @click="updateReadStatus"
         ></i>
-        <i class="fa fa-trash" aria-hidden="true" @click="onDeleteArticle"></i>
+        <i
+          aria-hidden="true"
+          class="fa fa-trash"
+          title="delete article"
+          @click="onDeleteArticle"
+        ></i>
       </div>
       <h1>{{ article.title }}</h1>
       <div id="tag-update" v-if="onTagEdition">
@@ -77,6 +83,7 @@
         <i
           aria-hidden="true"
           class="fa fa-pencil link"
+          title="edit tags"
           @click="updateSelectedTags"
         ></i>
       </div>
@@ -90,6 +97,9 @@
         v-if="article.html_content"
         :article-content="article.html_content"
       ></app-article-content>
+      <button class="btn-rdltr" type="submit" @click.prevent="updateReadStatus">
+        {{ `Mark as ${article.read ? 'not ' : ''}read` }}
+      </button>
       <hr />
       <app-article-comments
         v-if="article"
