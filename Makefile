@@ -15,7 +15,6 @@ clean:
 	rm -fr *.egg-info
 	rm -fr .pytest_cache
 	rm -fr rdltr_front/node_modules/
-	rm -fr rdltr/dist/
 
 fix-all: fix-python fix-front
 

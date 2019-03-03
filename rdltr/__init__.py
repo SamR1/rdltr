@@ -1,11 +1,10 @@
 import logging
 import os
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, jsonify, render_template
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-
 
 log_file = os.getenv('APP_LOG')
 logging.basicConfig(
