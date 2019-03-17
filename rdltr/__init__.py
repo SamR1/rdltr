@@ -6,7 +6,7 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-log_file = os.getenv('APP_LOG')
+log_file = os.getenv('APP_LOG', 'rdltr.log')
 logging.basicConfig(
     filename=log_file,
     format='%(asctime)s - %(name)s - %(levelname)s - ' '%(message)s',
@@ -24,13 +24,15 @@ def create_app():
 
     # set config
     with app.app_context():
-        app_settings = os.getenv('APP_SETTINGS')
+        app_settings = os.getenv(
+            'APP_SETTINGS', 'rdltr.config.DevelopmentConfig'
+        )
         app.config.from_object(app_settings)
 
         # set up extensions
         bcrypt.init_app(app)
         db.init_app(app)
-        migrate.init_app(app, db)
+        migrate.init_app(app, db, directory='rdltr/migrations')
 
     if app.debug:
         logging.getLogger('sqlalchemy').setLevel(logging.WARNING)

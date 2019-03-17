@@ -16,7 +16,7 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration"""
 
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///rdltr.db')
     SECRET_KEY = 'development key'
     USERNAME = 'admin'
     PASSWORD = 'default'
@@ -28,7 +28,9 @@ class TestingConfig(BaseConfig):
 
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_TEST_URL')
+    SQLALCHEMY_DATABASE_URI = os.getenv(
+        'DATABASE_TEST_URL', 'sqlite:///rdltr_test.db'
+    )
     SECRET_KEY = 'test key'
     USERNAME = 'admin'
     PASSWORD = 'default'
