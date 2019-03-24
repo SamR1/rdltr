@@ -6,7 +6,7 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-log_file = os.getenv('APP_LOG', 'rdltr.log')
+log_file = os.getenv('RDLTR_LOG', 'rdltr.log')
 logging.basicConfig(
     filename=log_file,
     format='%(asctime)s - %(name)s - %(levelname)s - ' '%(message)s',
@@ -25,7 +25,7 @@ def create_app():
     # set config
     with app.app_context():
         app_settings = os.getenv(
-            'APP_SETTINGS', 'rdltr.config.DevelopmentConfig'
+            'RDLTR_SETTINGS', 'rdltr.config.DevelopmentConfig'
         )
         app.config.from_object(app_settings)
 

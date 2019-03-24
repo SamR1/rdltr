@@ -9,8 +9,8 @@
 __pycache__
 rdltr.egg-info/
 /pip-wheel-metadata/
-build/
-dist/
+/build/
+/dist/
 
 
 ## VueJS

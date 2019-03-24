@@ -15,6 +15,9 @@ clean:
 	rm -fr *.egg-info
 	rm -fr .pytest_cache
 	rm -fr rdltr_front/node_modules/
+	rm -rf pip-wheel-metadata/
+	rm -rf dist/
+	rm -rf build/
 
 fix-all: fix-python fix-front
 
