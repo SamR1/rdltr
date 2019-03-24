@@ -15,6 +15,7 @@
         <h5 class="card-title">{{ article.title }}</h5>
         <app-badge
           v-for="tag in article.tags"
+          :tag_id="tag.id"
           :is-tag="true"
           :key="tag.id"
           :name="tag.name"

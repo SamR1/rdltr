@@ -29,12 +29,17 @@
           <div class="submit">
             <button
               :disabled="item.name === ''"
+              class="btn-rdltr"
               type="submit"
               @click.prevent="onSubmit()"
             >
               Submit
             </button>
-            <router-link tag="button" :to="`/settings/${itemType}`">
+            <router-link
+              class="btn-rdltr"
+              tag="button"
+              :to="`/settings/${itemType}`"
+            >
               Cancel
             </router-link>
           </div>
@@ -105,4 +110,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn-rdltr {
+  margin-right: 0.5em;
+}
+</style>

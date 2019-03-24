@@ -20,7 +20,17 @@
       <tbody>
         <tr v-for="item in filteredData" :key="item.id">
           <td v-for="key in columns" :key="key">
-            {{ item[key] }}
+            <router-link
+              v-if="key === 'name'"
+              :to="
+                `/?${itemType === 'categories' ? 'cat' : 'tag'}_id=${item.id}`
+              "
+            >
+              {{ item[key] }}
+            </router-link>
+            <span v-else>
+              {{ item[key] }}
+            </span>
             <span
               class="badge badge-rdltr-small"
               v-if="key === 'name' && item.is_default"
@@ -117,6 +127,11 @@ export default {
 </script>
 
 <style scoped>
+a {
+  color: #8c95aa;
+  text-decoration: none;
+}
+
 .arrow {
   display: inline-block;
   vertical-align: middle;

@@ -18,6 +18,7 @@ articles_blueprint = Blueprint('articles', __name__)
 @authenticate
 def get_user_articles(user_id):
     params = request.args.copy()
+    tag_id = params.get('tag_id')
     page = 1 if 'page' not in params.keys() else int(params.get('page'))
     category_id = params.get('cat_id')
     query = params.get('q')
@@ -34,6 +35,7 @@ def get_user_articles(user_id):
             Article.read_status == False if only_not_read else True,  # noqa
             Category.user_id == user_id,
             Category.id == category_id if category_id else True,
+            Article.tags.any(id=tag_id) if tag_id else True,
         )
         .order_by(Article.date_added.desc())
         .paginate(page, 12, False)

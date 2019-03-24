@@ -70,6 +70,7 @@
         <app-badge
           v-for="tag in article.tags"
           :display-label="false"
+          :tag_id="tag.id"
           :is-tag="true"
           :key="tag.id"
           :name="tag.name"

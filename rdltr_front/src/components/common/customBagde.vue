@@ -1,16 +1,25 @@
 <template>
   <span :class="`badge badge-rdltr${isTag ? '-tag' : ''}`">
-    {{ name }}
+    <router-link v-if="isTag" :to="`/?tag_id=${tag_id}`">
+      {{ name }}
+    </router-link>
+    <span v-else>
+      {{ name }}
+    </span>
   </span>
 </template>
 
 <script>
 export default {
-  props: ['name', 'isTag'],
+  props: ['name', 'isTag', 'tag_id'],
 }
 </script>
 
 <style scoped>
+a {
+  color: #8c95aa;
+  text-decoration: none;
+}
 .badge-rdltr {
   background-color: #8c95aa;
   box-shadow: 0 1px 2px #ccc;
