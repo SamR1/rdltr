@@ -1,8 +1,18 @@
-export const handleError = (commit, err, msg) => {
-  if (err.response) {
-    return commit('setErrorMessage', err.response.data.message)
-  }
-  return commit('setErrorMessage', err.message ? err.message : msg)
+export const handleError = (
+  commit,
+  err,
+  msg = 'Error. Please try again or contact the administrator.'
+) => {
+  return commit(
+    'setErrorMessage',
+    err.response
+      ? err.response.data.message
+        ? err.response.data.message
+        : msg
+      : err.message
+      ? err.message
+      : msg
+  )
 }
 
 export const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)

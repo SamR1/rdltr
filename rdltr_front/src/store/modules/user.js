@@ -50,10 +50,11 @@ const actions = {
       .get('auth/profile')
       .then(res => {
         if (res.data.status === 'success') {
-          commit('userProfile', res.data.user)
+          return commit('userProfile', res.data.user)
         }
+        return handleError(commit, null)
       })
-      .catch(err => handleError(commit, err, 'error on profile'))
+      .catch(err => handleError(commit, err))
   },
   loginOrRegister({ commit, dispatch }, data) {
     api
@@ -65,10 +66,11 @@ const actions = {
           commit('authUser', token)
           commit('setErrorMessage', '')
           dispatch('getUserProfile')
-          router.push('/')
+          return router.push('/')
         }
+        return handleError(commit, null)
       })
-      .catch(err => handleError(commit, err, `error on ${data.actionType}`))
+      .catch(err => handleError(commit, err))
   },
   logout({ commit }) {
     commit('clearArticles')
@@ -82,10 +84,11 @@ const actions = {
       .post(`/auth/profile/edit`, formData)
       .then(res => {
         if (res.data.status === 'success') {
-          router.push('/profile')
+          return router.push('/profile')
         }
+        return handleError(commit, null)
       })
-      .catch(err => handleError(commit, err, 'error on password update'))
+      .catch(err => handleError(commit, err))
   },
 }
 

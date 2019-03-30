@@ -74,9 +74,9 @@ def register_user():
             new_category.description = 'Default category'
             new_category.is_default = True
             db.session.add(new_category)
-            db.session.commit()
             # generate auth token
             auth_token = new_user.encode_auth_token(new_user.id)
+            db.session.commit()
             response_object = {
                 'status': 'success',
                 'message': 'Successfully registered.',

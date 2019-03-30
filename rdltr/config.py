@@ -46,4 +46,5 @@ class ProductionConfig(BaseConfig):
     """Production configuration"""
 
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('RDLTR_DB_URL', 'sqlite:///rdltr.db')
+    SQLALCHEMY_DATABASE_URI = os.getenv('RDLTR_DB_URL')
+    SECRET_KEY = os.getenv('RDLTR_SECRET_KEY')
