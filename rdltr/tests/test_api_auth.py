@@ -265,6 +265,28 @@ def test_user_registration_no_db(app_wo_db):
     check_500_error(response)
 
 
+def test_user_registration_not_allowed(app_no_registration):
+    client = app_no_registration.test_client()
+    response = client.post(
+        '/api/auth/register',
+        data=json.dumps(
+            dict(
+                username='test',
+                email='test@test.com',
+                password='12345678',
+                password_conf='12345678',
+            )
+        ),
+        content_type='application/json',
+    )
+
+    assert response.content_type == 'application/json'
+    assert response.status_code == 403
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'error'
+    assert data['message'] == 'Error. Registration is disabled.'
+
+
 def test_login_registered_user(app, user_1):
     client = app.test_client()
     response = client.post(

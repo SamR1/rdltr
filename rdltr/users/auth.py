@@ -22,6 +22,13 @@ def handle_error(e, db):
 
 @auth_blueprint.route('/auth/register', methods=['POST'])
 def register_user():
+    if not current_app.config.get('REGISTRATION_ALLOWED'):
+        response_object = {
+            'status': 'error',
+            'message': 'Error. Registration is disabled.',
+        }
+        return jsonify(response_object), 403
+
     # get post data
     post_data = request.get_json()
     if (

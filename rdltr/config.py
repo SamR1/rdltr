@@ -10,6 +10,9 @@ class BaseConfig:
     BCRYPT_LOG_ROUNDS = 13
     TOKEN_EXPIRATION_DAYS = 30
     TOKEN_EXPIRATION_SECONDS = 0
+    REGISTRATION_ALLOWED = (
+        True if os.getenv('RDLTR_ALLOW_REGISTRATION') == "true" else False
+    )
 
 
 class DevelopmentConfig(BaseConfig):
