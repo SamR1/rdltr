@@ -9,16 +9,15 @@
 
 ----
 
-_just a small project to learn Vue (with Flask)_  
+**rdltr** is a _read-it later_ web application: save articles for later reading.  
+Categories and tags can be used to classify articles. 
 
-![application snapshot](docs/snapshot.png)  
+Initially a small project to learn Vue (with Flask)<sup>2</sup>, **rdltr** uses **readability-lxml** to parse HTML content (see [wiki](https://github.com/SamR1/rdltr/wiki) for installation instructions).
 
-**_work in progress_**  
-
-Sources: 
-- application structure inspired by this tutorial: [Full-stack single page application with Vue.js and Flask](https://codeburst.io/full-stack-single-page-application-with-vue-js-and-flask-b1e036315532)
+![application snapshot](https://raw.githubusercontent.com/SamR1/rdltr/master/docs/snapshot.png)  
 
 ---
 
 Notes:  
-_1. Test coverage: only for Python_
+_1. test coverage: only for Python_  
+_2. application structure inspired by this tutorial: [Full-stack single page application with Vue.js and Flask](https://codeburst.io/full-stack-single-page-application-with-vue-js-and-flask-b1e036315532)_  
