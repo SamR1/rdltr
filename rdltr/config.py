@@ -11,7 +11,7 @@ class BaseConfig:
     TOKEN_EXPIRATION_DAYS = 30
     TOKEN_EXPIRATION_SECONDS = 0
     REGISTRATION_ALLOWED = (
-        True if os.getenv('RDLTR_ALLOW_REGISTRATION') == "true" else False
+        False if os.getenv('RDLTR_ALLOW_REGISTRATION') == "false" else True
     )
 
 

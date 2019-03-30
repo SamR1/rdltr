@@ -9,6 +9,7 @@ from .utils_requests import mock_api, mock_response_ko, mock_response_ok
 
 os.environ["FLASK_ENV"] = 'testing'
 os.environ["RDLTR_SETTINGS"] = 'rdltr.config.TestingConfig'
+os.environ["RDLTR_ALLOW_REGISTRATION"] = "true"
 
 
 @pytest.fixture
