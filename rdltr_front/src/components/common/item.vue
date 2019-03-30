@@ -19,7 +19,9 @@
         </p>
         <form>
           <div class="input">
-            <label for="name">Name</label>
+            <label for="name">{{
+              `${itemType === 'categories' ? 'Category' : 'Tag'} name`
+            }}</label>
             <input id="name" required v-model="item.name" />
           </div>
           <div class="input" v-if="itemType === 'categories'">

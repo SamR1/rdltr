@@ -232,6 +232,10 @@ export default {
   margin-top: 1em;
 }
 
+.btn-rdltr {
+  margin-right: 0.5em;
+}
+
 .fa {
   color: #8c95aa;
 }
