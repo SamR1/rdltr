@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { getApiUrl } from '../utils'
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: getApiUrl(),
 })
 
 export default api
