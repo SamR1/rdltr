@@ -52,6 +52,6 @@ export const getTargetLocationFromStore = (store, pageOffset = 0) => {
 
 export const getApiUrl = () => {
   return process.env.NODE_ENV === 'production'
-    ? 'api'
+    ? '/api'
     : 'http://localhost:5000/api'
 }
