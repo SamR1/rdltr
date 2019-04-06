@@ -100,7 +100,8 @@ def add_user_article(user_id):
         return jsonify(response_object), 400
 
     try:
-        response = requests.get(url)
+        headers = {'User-Agent': 'Mozilla/5.0'}  # to avoid 403
+        response = requests.get(url, headers=headers)
         doc = Document(response.text)
         title = doc.title()
         # 'html_content' is used for display
