@@ -46,6 +46,10 @@ export const getTargetLocationFromStore = (store, pageOffset = 0) => {
   if (store.onlyNotRead) {
     query.not_read = store.onlyNotRead
   }
+  if (store.selectedTags) {
+    // for now only one tag is handled
+    query.tag_id = store.selectedTags
+  }
   location.query = query
   return location
 }

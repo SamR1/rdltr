@@ -76,6 +76,9 @@ const actions = {
         if (key === 'not_read') {
           dispatch('updateReadStatus', params[key])
         }
+        if (key === 'tag_id') {
+          dispatch('updateSelectedTags', +params[key])
+        }
         url += `&${key}=${params[key]}`
       })
     }
