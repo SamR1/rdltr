@@ -73,10 +73,6 @@ export default {
 </script>
 
 <style scoped>
-.btn-rdltr {
-  margin-right: 0.5em;
-}
-
 .container-shadow {
   border: 1px solid #eee;
   box-shadow: 0 2px 3px #ccc;

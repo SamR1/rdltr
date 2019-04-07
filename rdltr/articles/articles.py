@@ -117,7 +117,7 @@ def add_user_article(user_id):
 
     try:
         article_content = get_article_content(url)
-    except ConnectionError as e:
+    except (ConnectionError, requests.exceptions.MissingSchema) as e:
         app_log.error(e)
         response_object = {
             'status': 'error',
@@ -230,7 +230,7 @@ def update_user_category(user_id, article_id):
         db.session.commit()
         response_object = {'status': 'success', 'data': [article.serialize()]}
         return jsonify(response_object), 200
-    except ConnectionError as e:
+    except (ConnectionError, requests.exceptions.MissingSchema) as e:
         app_log.error(e)
         response_object = {
             'status': 'error',

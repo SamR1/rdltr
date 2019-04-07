@@ -6,7 +6,7 @@
     <p v-if="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </p>
-    <div v-if="article">
+    <div v-if="article.title">
       <div id="category-update" v-if="onCategoryEdition">
         <app-category-select displayLabel="false"></app-category-select>
         <div class="submit">
@@ -244,16 +244,8 @@ export default {
   margin: 0.7em 0;
 }
 
-#category-update button {
-  margin-left: 0.5em;
-}
-
 .article-link {
   margin-top: 1em;
-}
-
-.btn-rdltr {
-  margin-right: 0.5em;
 }
 
 .fa {

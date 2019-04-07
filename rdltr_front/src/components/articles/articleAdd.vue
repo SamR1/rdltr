@@ -12,10 +12,7 @@
           <input id="link" required v-model="link" />
         </div>
         <app-category-select display-label="true"></app-category-select>
-        <app-tag-multi-select
-          v-if="selectedTags"
-          :display-label="true"
-        ></app-tag-multi-select>
+        <app-tag-multi-select :display-label="true"></app-tag-multi-select>
         <div class="submit add-article-submit">
           <button type="submit" :disabled="loading">Submit</button>
         </div>

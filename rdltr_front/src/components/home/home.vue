@@ -95,11 +95,6 @@ export default {
 .input-group-text {
   background-color: #f5f5f7;
   border-radius: 0;
-  margin-left: 1em;
-}
-
-.read-status {
-  margin: 0 -15px;
 }
 
 @media (max-width: 767.98px) {

@@ -112,8 +112,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.btn-rdltr {
-  margin-right: 0.5em;
-}
-</style>
+<style scoped></style>

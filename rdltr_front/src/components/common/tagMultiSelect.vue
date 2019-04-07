@@ -48,6 +48,6 @@ export default {
 
 <style scoped>
 .tag-input {
-  margin-top: 0.5em;
+  margin: 0.5em 0;
 }
 </style>

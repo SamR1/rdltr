@@ -77,6 +77,7 @@ html {
   cursor: pointer;
   font: inherit;
   height: calc(2.25rem + 2px);
+  margin-right: 0.5em;
   padding: 0.5em 0.8em;
 }
 

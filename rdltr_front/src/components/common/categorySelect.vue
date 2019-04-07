@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="category-select">
     <label v-if="displayLabel === 'true'">
       Category
     </label>
@@ -58,4 +58,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+#category-select {
+  margin-right: 0.5em;
+}
+</style>
