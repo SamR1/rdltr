@@ -48,7 +48,10 @@ export default {
   methods: {
     filterArticles() {
       if (this.filter) {
-        this.$router.push(getTargetLocationFromStore(this.$store.getters))
+        this.$store.commit('setTags', [])
+        return this.$router.push(
+          getTargetLocationFromStore(this.$store.getters)
+        )
       }
     },
   },

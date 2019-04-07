@@ -55,6 +55,16 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on adding article'))
   },
+  deleteArticle({ commit, dispatch, state }, id) {
+    authApi
+      .delete(`articles/${id}`)
+      .then(res => {
+        if (res.status === 204) {
+          dispatch('getArticles', { page: state.pagination.page })
+        }
+      })
+      .catch(err => handleError(commit, err, 'error on article deletion'))
+  },
   getArticle({ commit }, id) {
     authApi
       .get(`articles/${id}`)
@@ -70,17 +80,26 @@ const actions = {
     if (Object.keys(params).length > 0) {
       url += '?'
       Object.keys(params).map(key => {
-        if (key === 'cat_id') {
-          dispatch('updateSelectedCategory', +params[key])
-        }
-        if (key === 'not_read') {
-          dispatch('updateReadStatus', params[key])
-        }
-        if (key === 'tag_id') {
-          dispatch('updateSelectedTags', +params[key])
-        }
         url += `&${key}=${params[key]}`
       })
+    }
+    if ('cat_id' in params) {
+      dispatch('updateSelectedCategory', +params['cat_id'])
+    } else {
+      dispatch('updateSelectedCategory', '')
+    }
+    if ('not_read' in params) {
+      dispatch('updateReadStatus', params['not_read'])
+    } else {
+      dispatch('updateReadStatus', false)
+    }
+    if ('tag_id' in params) {
+      dispatch('updateSelectedTags', +params['tag_id'])
+    } else {
+      dispatch('updateSelectedTags', [])
+    }
+    if (!('q' in params)) {
+      commit('updateQuery', '')
     }
     authApi
       .get(url)
@@ -97,6 +116,18 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on fetching articles'))
   },
+  reloadArticle({ commit, dispatch }, data) {
+    dispatch('updateLoading', true)
+    authApi
+      .patch(`articles/${data.id}`, data.formData)
+      .then(res => {
+        if (res.data.status === 'success') {
+          commit('getUserArticle', res.data.data[0])
+          dispatch('updateLoading', false)
+        }
+      })
+      .catch(err => handleError(commit, err, 'error on article reload'))
+  },
   updateArticle({ commit }, data) {
     authApi
       .patch(`articles/${data.id}`, data.formData)
@@ -106,16 +137,6 @@ const actions = {
         }
       })
       .catch(err => handleError(commit, err, 'error on article update'))
-  },
-  deleteArticle({ commit, dispatch, state }, id) {
-    authApi
-      .delete(`articles/${id}`)
-      .then(res => {
-        if (res.status === 204) {
-          dispatch('getArticles', { page: state.pagination.page })
-        }
-      })
-      .catch(err => handleError(commit, err, 'error on article deletion'))
   },
 }
 

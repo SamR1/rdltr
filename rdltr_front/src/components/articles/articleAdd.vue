@@ -58,6 +58,9 @@ export default {
   beforeDestroy() {
     this.$store.commit('setErrorMessage', null)
   },
+  mounted() {
+    this.$store.commit('setTags', [])
+  },
   methods: {
     onSubmit() {
       const formData = {

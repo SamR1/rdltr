@@ -14,6 +14,22 @@ from .model import Article, Category, Tag
 articles_blueprint = Blueprint('articles', __name__)
 
 
+def get_article_content(url):
+    headers = {'User-Agent': 'Mozilla/5.0'}  # to avoid 403
+    response = requests.get(url, headers=headers)
+    doc = Document(response.text)
+    # 'html_content' is used for display
+    # and existing classes are removed
+    html_content = re.sub('class=".*?"', '', doc.summary(html_partial=False))
+    # 'content' is used for search
+    content = BeautifulSoup(html_content, "html.parser").text
+    return {
+        'title': doc.title(),
+        'content': content,
+        'html_content': html_content,
+    }
+
+
 @articles_blueprint.route('/articles', methods=['GET'])
 @authenticate
 def get_user_articles(user_id):
@@ -100,17 +116,7 @@ def add_user_article(user_id):
         return jsonify(response_object), 400
 
     try:
-        headers = {'User-Agent': 'Mozilla/5.0'}  # to avoid 403
-        response = requests.get(url, headers=headers)
-        doc = Document(response.text)
-        title = doc.title()
-        # 'html_content' is used for display
-        # and existing classes are removed
-        html_content = re.sub(
-            'class=".*?"', '', doc.summary(html_partial=False)
-        )
-        # 'content' is used for search
-        content = BeautifulSoup(html_content, "html.parser").text
+        article_content = get_article_content(url)
     except ConnectionError as e:
         app_log.error(e)
         response_object = {
@@ -143,9 +149,9 @@ def add_user_article(user_id):
 
     new_article = Article(
         category_id=category.id,
-        title=title,
-        content=content,
-        html_content=html_content,
+        title=article_content['title'],
+        content=article_content['content'],
+        html_content=article_content['html_content'],
         url=url,
     )
     db.session.flush()
@@ -216,9 +222,21 @@ def update_user_category(user_id, article_id):
                         db.session.flush()
                     article.tags.append(tag)
                     db.session.flush()
+        if post_data.get('reload'):
+            article_content = get_article_content(article.url)
+            article.title = article_content['title']
+            article.content = article_content['content']
+            article.html_content = article_content['html_content']
         db.session.commit()
         response_object = {'status': 'success', 'data': [article.serialize()]}
         return jsonify(response_object), 200
+    except ConnectionError as e:
+        app_log.error(e)
+        response_object = {
+            'status': 'error',
+            'message': 'Error. Cannot connect to the URL, please check it.',
+        }
+        return jsonify(response_object), 500
     except (
         exc.IntegrityError,
         exc.OperationalError,

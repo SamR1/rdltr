@@ -1087,6 +1087,200 @@ def test_patch_article_change_read_status_ok(
 
 
 @patch('requests.get')
+def test_patch_article_reload_content(
+    get_mock, fake_request_ok, app, article_1
+):
+    get_mock.return_value = fake_request_ok.return_value
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+
+    response = client.get(
+        '/api/articles/1',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'Python tips'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['read'] is False
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
+    assert len(data['data'][0]['tags']) == 2
+    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][1]['name'] == 'tuto'
+
+    response = client.patch(
+        '/api/articles/1',
+        data=json.dumps(dict(reload=True)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'this is a title'
+    assert (
+        data['data'][0]['html_content']
+        == '<body id="readabilityBody">\n        <p>this is a paragraph</p>\n    </body>\n'  # noqa
+    )
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['read'] is False
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
+    assert len(data['data'][0]['tags']) == 2
+    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][1]['name'] == 'tuto'
+
+
+@patch('requests.get')
+def test_patch_article_reload_content_false(
+    get_mock, fake_request_ok, app, article_1
+):
+    get_mock.return_value = fake_request_ok.return_value
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+
+    response = client.get(
+        '/api/articles/1',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'Python tips'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['read'] is False
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
+    assert len(data['data'][0]['tags']) == 2
+    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][1]['name'] == 'tuto'
+
+    response = client.patch(
+        '/api/articles/1',
+        data=json.dumps(dict(reload=False)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'Python tips'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['read'] is False
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
+    assert len(data['data'][0]['tags']) == 2
+    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][1]['name'] == 'tuto'
+
+    response = client.patch(
+        '/api/articles/1',
+        data=json.dumps(dict(reload="")),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'Python tips'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre</head><body><p>Test</p></body></html>'
+    )
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['read'] is False
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
+    assert len(data['data'][0]['tags']) == 2
+    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][1]['name'] == 'tuto'
+
+
+def test_patch_article_reload_url_ko(app, article_1):
+    article_1.url = 'http://not-existing-url.not'
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.patch(
+        '/api/articles/1',
+        data=json.dumps(dict(reload=True)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 500
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'error'
+    assert (
+        data['message'] == 'Error. Cannot connect to the URL, please check it.'
+    )
+
+
+@patch('requests.get')
 def test_patch_article_invalid_payload(
     get_mock, fake_request_ok, app, user_1, article_1
 ):

@@ -14,6 +14,11 @@ export default {
   mounted() {
     this.displayContent()
   },
+  watch: {
+    articleContent: function() {
+      this.displayContent()
+    },
+  },
 }
 </script>
 

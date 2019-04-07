@@ -49,8 +49,14 @@
         ></i>
         <i
           aria-hidden="true"
-          class="fa fa-trash"
+          title="reload article"
+          :class="`fa fa-refresh${loading ? ' fa-spin' : ''}`"
+          @click="onReloadArticle"
+        ></i>
+        <i
+          aria-hidden="true"
           title="delete article"
+          :class="`fa fa-trash${loading ? ' fa-disabled' : ''}`"
           @click="onDeleteArticle"
         ></i>
       </div>
@@ -146,6 +152,11 @@ export default {
         return this.$store.getters.errorMessage
       },
     },
+    loading: {
+      get() {
+        return this.$store.getters.loading
+      },
+    },
     selectedCategory: {
       get() {
         return this.$store.getters.selectedCategory
@@ -168,9 +179,18 @@ export default {
   },
   methods: {
     onDeleteArticle() {
-      this.$store
-        .dispatch('deleteArticle', this.article.id)
-        .then(() => this.$router.push('/'))
+      if (!this.loading) {
+        this.$store
+          .dispatch('deleteArticle', this.article.id)
+          .then(() => this.$router.push('/'))
+      }
+    },
+    onReloadArticle() {
+      const data = {
+        id: this.article.id,
+        formData: { reload: true },
+      }
+      return this.$store.dispatch('reloadArticle', data)
     },
     onUpdateCategory() {
       this.$store
@@ -238,6 +258,10 @@ export default {
 
 .fa {
   color: #8c95aa;
+}
+
+.fa-disabled {
+  opacity: 0.5;
 }
 
 .fa-pencil {
