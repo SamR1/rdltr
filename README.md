@@ -1,5 +1,7 @@
 # rdltr
 
+[![PyPI version](https://img.shields.io/pypi/v/rdltr.svg)](https://pypi.org/project/rdltr/)
+[![Downloads](https://pepy.tech/badge/rdltr)](https://pepy.tech/project/rdltr)
 [![Python Version](https://img.shields.io/badge/python-3.6+-brightgreen.svg)](https://python.org)
 [![Flask Version](https://img.shields.io/badge/flask-1.0-brightgreen.svg)](http://flask.pocoo.org/)
 [![Vue Version](https://img.shields.io/badge/vue-2.6.8-brightgreen.svg)](https://vuejs.org/)  
