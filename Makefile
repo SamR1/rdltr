@@ -25,7 +25,6 @@ fix-front:
 	cd rdltr_front && $(NPM) lint --fix
 
 fix-python:
-	$(ISORT) -rc $(FLASK_APP)
 	black $(FLASK_APP)
 
 install: install-python install-front
