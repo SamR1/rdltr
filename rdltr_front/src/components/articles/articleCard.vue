@@ -1,13 +1,19 @@
 <template>
   <div class="col-sm-6 col-md-4 col-lg-3">
+    <conf-modal
+      v-if="showModal"
+      :title="article.title"
+      :onDeleteArticle="onDeleteArticle"
+      @close="showModal = false"
+    ></conf-modal>
     <div class="card" :class="`status${article.read ? '-read' : ''}`">
       <div class="card-body">
         <button
           aria-label="Close"
           class="close"
-          title="delete artcle"
+          title="delete article"
           type="button"
-          @click="onDeleteArticle"
+          @click="showModal = true"
         >
           <span aria-hidden="true">&times;</span>
         </button>
@@ -37,12 +43,19 @@
 
 <script>
 import CustomBadge from '../common/customBagde'
+import ConfModal from '../common/deleteConfirmationModal'
 
 export default {
   components: {
     AppBadge: CustomBadge,
+    ConfModal: ConfModal,
   },
   props: ['article'],
+  data: function() {
+    return {
+      showModal: false,
+    }
+  },
   methods: {
     onDeleteArticle() {
       return this.$store.dispatch('deleteArticle', this.article.id)

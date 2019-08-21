@@ -1,5 +1,10 @@
 <template>
   <div class="container" id="article-detail">
+    <conf-modal
+      v-if="showModal"
+      :onDeleteArticle="onDeleteArticle"
+      @close="showModal = false"
+    ></conf-modal>
     <button class="btn-rdltr" type="submit" @click="$router.go(-1)">
       Back
     </button>
@@ -57,7 +62,7 @@
           aria-hidden="true"
           title="delete article"
           :class="`fa fa-trash${loading ? ' fa-disabled' : ''}`"
-          @click="onDeleteArticle"
+          @click="showModal = true"
         ></i>
       </div>
       <h1>{{ article.title }}</h1>
@@ -123,8 +128,9 @@
 <script>
 import ArticleContent from './articleContentDisplay'
 import ArticleComments from './articleComments'
-import CustomBadge from '../common/customBagde'
 import CategorySelect from '../common/categorySelect'
+import ConfModal from '../common/deleteConfirmationModal'
+import CustomBadge from '../common/customBagde'
 import TagMultiSelect from '../common/tagMultiSelect'
 
 export default {
@@ -134,11 +140,13 @@ export default {
     AppArticleComments: ArticleComments,
     AppArticleContent: ArticleContent,
     AppTagMultiSelect: TagMultiSelect,
+    ConfModal: ConfModal,
   },
   data() {
     return {
       onCategoryEdition: false,
       onTagEdition: false,
+      showModal: false,
     }
   },
   computed: {
