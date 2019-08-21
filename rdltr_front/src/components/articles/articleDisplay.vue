@@ -112,7 +112,6 @@
       <button class="btn-rdltr" type="submit" @click="$router.go(-1)">
         Back
       </button>
-      {{ ' ' }}
       <button class="btn-rdltr" type="submit" @click.prevent="updateReadStatus">
         {{ `Mark as ${article.read ? 'not ' : ''}read` }}
       </button>

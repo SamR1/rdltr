@@ -12,10 +12,11 @@
       <p id="comments" v-else>{{ comments ? comments : 'No comments yet' }}</p>
     </div>
     <div class="submit" v-if="onCommentsEdition">
-      <button type="submit" @click.prevent="onSubmit()">
+      <button class="btn-rdltr" type="submit" @click.prevent="onSubmit()">
         Submit
       </button>
       <button
+        class="btn-rdltr"
         type="submit"
         @click.prevent="onCommentsEdition = !onCommentsEdition"
       >
