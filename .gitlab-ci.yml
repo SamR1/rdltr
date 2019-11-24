@@ -1,17 +1,22 @@
 image: python:3.7
 
-.qa:
-  script:
+.python:
+  before_script:
     - export RDLTR_DB_TEST_URL=sqlite:///rdltr_test.db
+  script:
     - python setup.py test
 
-qa-3.6:
-  extends: .qa
+python-3.6:
+  extends: .python
   image: python:3.6
 
-qa-3.7:
-  extends: .qa
+python-3.7:
+  before_script:
+    - pip install coveralls
+  extends: .python
+  after_script:
+    - coveralls
 
-qa-3.8:
-  extends: .qa
+python-3.8:
+  extends: .python
   image: python:3.8
