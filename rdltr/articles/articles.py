@@ -39,6 +39,7 @@ def get_user_articles(user_id):
     category_id = params.get('cat_id')
     query = params.get('q')
     only_not_read = params.get('not_read')
+    only_favorites = params.get('only_favorites')
     articles_pagination = (
         Article.query.join(Category)
         .filter(
@@ -49,6 +50,7 @@ def get_user_articles(user_id):
             if query
             else True,
             Article.read_status == False if only_not_read else True,  # noqa
+            Article.favorite == True if only_favorites else True,  # noqa
             Category.user_id == user_id,
             Category.id == category_id if category_id else True,
             Article.tags.any(id=tag_id) if tag_id else True,

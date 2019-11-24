@@ -43,6 +43,9 @@ export const getTargetLocationFromStore = (store, pageOffset = 0) => {
   if (store.query) {
     query.q = store.query
   }
+  if (store.onlyFavorites) {
+    query.only_favorites = store.onlyFavorites
+  }
   if (store.onlyNotRead) {
     query.not_read = store.onlyNotRead
   }

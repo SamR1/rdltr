@@ -31,6 +31,18 @@
               only not read
             </label>
           </div>
+          <div class="col-md-2 form-check favorite">
+            <input
+              class="form-check-input"
+              id="favorites"
+              type="checkbox"
+              v-model="onlyFavorites"
+              @change="onSearch"
+            />
+            <label class="form-check-label" for="favorites">
+              only favorites
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -52,6 +64,14 @@ export default {
     AppCategorySelect: CategorySelect,
   },
   computed: {
+    onlyFavorites: {
+      get() {
+        return this.$store.getters.onlyFavorites
+      },
+      set(value) {
+        this.$store.commit('setOnlyFavorites', value)
+      },
+    },
     onlyNotRead: {
       get() {
         return this.$store.getters.onlyNotRead

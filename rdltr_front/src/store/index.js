@@ -13,10 +13,14 @@ export default new Vuex.Store({
     errorMessage: null,
     loading: false,
     onlyNotRead: false,
+    onlyFavorites: false,
     selectedCategory: '',
     selectedTags: [],
   },
   mutations: {
+    setOnlyFavorites(state, onlyFavorites) {
+      state.onlyFavorites = onlyFavorites
+    },
     setCategory(state, selectedCategory) {
       state.selectedCategory = selectedCategory
     },
@@ -38,6 +42,9 @@ export default new Vuex.Store({
     updateErrorMessage({ commit }, errorMessage) {
       commit('setErrorMessage', errorMessage)
     },
+    updateFavorites({ commit }, onlyFavorites) {
+      commit('setOnlyFavorites', onlyFavorites)
+    },
     updateLoading({ commit }, loading) {
       commit('setLoading', loading)
     },
@@ -57,6 +64,9 @@ export default new Vuex.Store({
     },
     loading(state) {
       return state.loading
+    },
+    onlyFavorites(state) {
+      return state.onlyFavorites
     },
     onlyNotRead(state) {
       return state.onlyNotRead

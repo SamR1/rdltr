@@ -405,6 +405,56 @@ def test_get_articles_filter_by_read_status(
     assert data['data'][1]['tags'][0]['name'] == 'tips'
 
 
+def test_get_articles_filter_by_favorites(
+    app, article_1, article_2, article_3, article_4
+):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.get(
+        '/api/articles',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 3
+
+    response = client.get(
+        '/api/articles?only_favorites=true',
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+
+    assert data['data'][0]['title'] == 'Another article'
+    assert (
+        data['data'][0]['html_content']
+        == '<html><head><title>Titre2</head><body><p>Test2</p></body></html>'
+    )
+    assert data['data'][0]['url'] == 'https://test.com'
+    assert data['data'][0]['comments'] == 'just a comment'
+    assert data['data'][0]['read']
+    assert data['data'][0]['favorite']
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default'] is False
+    assert 'date_added' in data['data'][0]
+    assert data['data'][0]['tags'] == []
+
+
 def test_get_article(app, article_1):
     client = app.test_client()
     resp_login = client.post(
