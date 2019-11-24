@@ -6,9 +6,10 @@
 
 #### New Features
 
+* [Issue 4](https://github.com/SamR1/rdltr/issues/4) - add favorites
 * [Issue 3](https://github.com/SamR1/rdltr/issues/3) - add a confirmation before deleting an article
 
-In this release 1 issue was closed.
+In this release 2 issues were closed.
 
 
 ## Version 0.1.3 (2019/04/07)
