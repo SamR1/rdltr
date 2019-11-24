@@ -7,7 +7,7 @@
 [![Vue Version](https://img.shields.io/badge/vue-2.6.8-brightgreen.svg)](https://vuejs.org/)  
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/70a84eefaea5413abf464a053abf9d19)](https://www.codacy.com/app/SamR1/rdltr)
 [![Coverage Status](https://coveralls.io/repos/github/SamR1/rdltr/badge.svg?branch=master)](https://coveralls.io/github/SamR1/rdltr?branch=master)<sup><sup>1</sup></sup>
-[![Build Status](https://travis-ci.org/SamR1/rdltr.svg?branch=master)](https://travis-ci.org/SamR1/rdltr)
+[![pipeline status](https://gitlab.com/SamR1/rdltr/badges/master/pipeline.svg)](https://gitlab.com/SamR1/rdltr/commits/master)
 
 ----
 
