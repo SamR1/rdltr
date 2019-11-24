@@ -18,7 +18,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
         <app-badge :name="article.category.name"></app-badge>
-        <h5 class="card-title">{{ article.title }}</h5>
+        <h5 class="card-title">
+          {{ article.title }} <i v-if="article.favorite" class="fa fa-star"></i>
+        </h5>
         <app-badge
           v-for="tag in article.tags"
           :tag_id="tag.id"

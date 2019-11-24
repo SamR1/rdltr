@@ -54,6 +54,12 @@
         ></i>
         <i
           aria-hidden="true"
+          :class="`fa fa-star${article.favorite ? '' : '-o'}`"
+          :title="`${article.favorite ? 'un' : ''} favorite article`"
+          @click="updateFavorite"
+        ></i>
+        <i
+          aria-hidden="true"
           title="reload article"
           :class="`fa fa-refresh${loading ? ' fa-spin' : ''}`"
           @click="onReloadArticle"
@@ -222,6 +228,13 @@ export default {
         .then(() => {
           this.onTagEdition = false
         })
+    },
+    updateFavorite() {
+      const data = {
+        id: this.article.id,
+        formData: { update_favorite: !this.article.favorite },
+      }
+      return this.$store.dispatch('updateArticle', data)
     },
     updateReadStatus() {
       const data = {
