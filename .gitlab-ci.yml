@@ -14,10 +14,11 @@ python-3.7:
   before_script:
     - pip install coveralls
   extends: .python
+  script:
+    - python setup.py test
+    - echo "SUCCESS" > .job_status
   after_script:
-    - export GIT_BRANCH="${CI_COMMIT_REF_NAME}"
-    - echo $GIT_BRANCH
-    - coveralls
+    - if [ "$(cat .job_status)" == "SUCCESS" ]; then GIT_BRANCH="${CI_COMMIT_REF_NAME}" coveralls; fi
 
 python-3.8:
   extends: .python
