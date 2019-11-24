@@ -1,0 +1,17 @@
+image: python:3.7
+
+.qa:
+  script:
+    - export RDLTR_DB_TEST_URL=sqlite:///rdltr_test.db
+    - python setup.py test
+
+qa-3.6:
+  extends: .qa
+  image: python:3.6
+
+qa-3.7:
+  extends: .qa
+
+qa-3.8:
+  extends: .qa
+  image: python:3.8
