@@ -144,6 +144,7 @@ def article_2(cat_1):
     )
     article.comments = 'just a comment'
     article.read_status = True
+    article.favorite = True
     db.session.add(article)
     db.session.commit()
     return article

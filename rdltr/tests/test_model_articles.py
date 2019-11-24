@@ -54,6 +54,7 @@ def test_article_1_model(app, user_1, cat_1, article_1):
     assert 'tips' == article_1.tags[0].name
     assert article_1.date_added
     assert not article_1.read_status
+    assert not article_1.favorite
 
     serialized_article = article_1.serialize()
     assert 1 == serialized_article['id']
@@ -68,6 +69,7 @@ def test_article_1_model(app, user_1, cat_1, article_1):
     assert 1 == serialized_article['category']['id']
     assert 'date_added' in serialized_article
     assert not serialized_article['read']
+    assert not serialized_article['favorite']
 
 
 def test_article_2_model(app, user_1, cat_1, article_2):
@@ -84,6 +86,7 @@ def test_article_2_model(app, user_1, cat_1, article_2):
     assert 0 == len(article_2.tags)
     assert article_2.date_added
     assert article_2.read_status
+    assert article_2.favorite
 
     serialized_article = article_2.serialize()
     assert 1 == serialized_article['id']
@@ -98,3 +101,4 @@ def test_article_2_model(app, user_1, cat_1, article_2):
     assert 1 == serialized_article['category']['id']
     assert 'date_added' in serialized_article
     assert serialized_article['read']
+    assert serialized_article['favorite']

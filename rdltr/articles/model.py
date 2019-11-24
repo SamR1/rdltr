@@ -84,6 +84,7 @@ class Article(db.Model):
     date_added = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     comments = db.Column(db.String())
     read_status = db.Column(db.Boolean(), default=False, nullable=False)
+    favorite = db.Column(db.Boolean(), default=False, nullable=False)
     category = db.relationship(Category, backref='category')
     tags = db.relationship(
         Tag,
@@ -110,4 +111,5 @@ class Article(db.Model):
             'comments': self.comments,
             'date_added': self.date_added,
             'read': self.read_status,
+            'favorite': self.favorite,
         }

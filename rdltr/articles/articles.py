@@ -203,6 +203,9 @@ def update_user_category(user_id, article_id):
         read_status = post_data.get('update_read_status')
         if read_status is not None:
             article.read_status = read_status
+        favorite = post_data.get('update_favorite')
+        if favorite is not None:
+            article.favorite = favorite
         new_tags = post_data.get('tags')
         if isinstance(new_tags, list):
             if not new_tags:
