@@ -1,6 +1,12 @@
 import json
+import os
 import random
 import string
+
+URL = (
+    f"http://{os.getenv('RDLTR_HOST', '0.0.0.0')}:"
+    f"{os.getenv('RDLTR_PORT', '5000')}/"
+)
 
 
 def check_400_invalid_payload(response):
