@@ -1,8 +1,8 @@
 import json
 from unittest.mock import patch
 
-from .utils import check_400_invalid_payload, check_500_error
-from .utils_requests import html_doc_body_ok
+from rdltr.tests.utils import check_400_invalid_payload, check_500_error
+from rdltr.tests.utils_requests import html_doc_body_ok
 
 
 def check_500_category_not_found(response):

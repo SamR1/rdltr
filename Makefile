@@ -60,7 +60,10 @@ serve-python:
 	$(FLASK) run --with-threads -h $(HOST) -p $(PORT)
 
 test:
-	$(PYTEST) $(FLASK_APP) $(PYTEST_ARGS)
+	$(PYTEST) $(FLASK_APP)/tests/tests --cov $(FLASK_APP) --cov-report term-missing $(PYTEST_ARGS)
+
+test-ui:
+	$(PYTEST) $(FLASK_APP)/tests/ui_tests --driver firefox $(PYTEST_ARGS)
 
 upgrade-db:
 	$(FLASK) db upgrade

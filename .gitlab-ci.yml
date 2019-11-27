@@ -4,7 +4,7 @@ image: python:3.7
   before_script:
     - export RDLTR_DB_TEST_URL=sqlite:///rdltr_test.db
   script:
-    - python setup.py test
+    - pytest rdltr/tests/tests --cov rdltr --cov-report term-missing
 
 python-3.6:
   extends: .python
@@ -15,7 +15,7 @@ python-3.7:
     - pip install coveralls
   extends: .python
   script:
-    - python setup.py test
+    - pytest rdltr/tests/tests --cov rdltr --cov-report term-missing
     - echo "SUCCESS" > .job_status
   after_script:
     - if [ "$(cat .job_status)" == "SUCCESS" ]; then GIT_BRANCH="${CI_COMMIT_REF_NAME}" coveralls; fi

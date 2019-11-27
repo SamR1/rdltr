@@ -1,6 +1,6 @@
 import json
 
-from .utils import check_400_invalid_payload
+from rdltr.tests.utils import check_400_invalid_payload
 
 
 def check_404_category(response):

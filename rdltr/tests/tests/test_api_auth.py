@@ -1,7 +1,7 @@
 import json
 import time
 
-from .utils import (
+from rdltr.tests.utils import (
     check_400_invalid_credentials,
     check_400_invalid_payload,
     check_500_error,
