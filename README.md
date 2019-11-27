@@ -14,7 +14,10 @@
 **rdltr** is a _read-it later_ web application: save articles for later reading.  
 Categories and tags can be used to classify articles. 
 
-Initially a small project to learn Vue (with Flask)<sup>2</sup>, **rdltr** uses **readability-lxml** to parse HTML content (see [wiki](https://github.com/SamR1/rdltr/wiki) for installation instructions).
+Initially a small project to learn Vue (with Flask)<sup>2</sup>, **rdltr** uses 
+**[readability-lxml](https://github.com/buriy/python-readability)** to parse HTML 
+content (see [wiki](https://github.com/SamR1/rdltr/wiki/Installation) for 
+installation instructions).
 
 ![application snapshot](https://raw.githubusercontent.com/SamR1/rdltr/master/docs/snapshot.png)  
 
