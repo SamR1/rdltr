@@ -1,6 +1,11 @@
 image: python:3.7
 
+stages:
+  - tests
+  - selenium
+
 .python:
+  stage: tests
   before_script:
     - export RDLTR_DB_TEST_URL=sqlite:///rdltr_test.db
     - pip install -e .[test]
@@ -8,10 +13,12 @@ image: python:3.7
     - pytest rdltr/tests/tests --cov rdltr --cov-report term-missing
 
 python-3.6:
+  stage: tests
   extends: .python
   image: python:3.6
 
 python-3.7:
+  stage: tests
   before_script:
     - export RDLTR_DB_TEST_URL=sqlite:///rdltr_test.db
     - pip install -e .[test]
@@ -26,3 +33,17 @@ python-3.7:
 python-3.8:
   extends: .python
   image: python:3.8
+
+firefox:
+  stage: selenium
+  services:
+    - name: selenium/standalone-firefox
+      alias: selenium
+  variables:
+    RDLTR_DB_TEST_URL: sqlite:///rdltr_test.db
+  before_script:
+    - pip install -e .[test]
+  script:
+    - setsid nohup rdltr > nohup.out &
+    - export RDLTR_HOST=$(hostname --ip-address)
+    - pytest rdltr/tests/ui_tests --driver Remote --capability browserName firefox --host selenium --port 4444
