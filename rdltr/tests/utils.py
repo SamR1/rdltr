@@ -1,4 +1,6 @@
 import json
+import random
+import string
 
 
 def check_400_invalid_payload(response):
@@ -26,3 +28,7 @@ def check_500_error(response):
         'Error. Please try again or contact the administrator.'
         in data['message']
     )
+
+
+def random_string(length=8):
+    return ''.join(random.choice(string.ascii_letters) for x in range(length))
