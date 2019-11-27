@@ -3,6 +3,7 @@ image: python:3.7
 .python:
   before_script:
     - export RDLTR_DB_TEST_URL=sqlite:///rdltr_test.db
+    - pip install -e .[test]
   script:
     - pytest rdltr/tests/tests --cov rdltr --cov-report term-missing
 
