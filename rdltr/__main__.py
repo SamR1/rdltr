@@ -15,7 +15,7 @@ def number_of_workers():
 
 
 os.environ['RDLTR_SETTINGS'] = 'rdltr.config.ProductionConfig'
-HOST = os.getenv('RDLTR_HOST', 'localhost')
+HOST = os.getenv('RDLTR_HOST', '0.0.0.0')
 PORT = os.getenv('RDLTR_PORT', '5000')
 WORKERS = os.getenv('RDLTR_WORKERS', number_of_workers())
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
