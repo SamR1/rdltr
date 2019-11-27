@@ -13,8 +13,10 @@ python-3.6:
 
 python-3.7:
   before_script:
+    - export RDLTR_DB_TEST_URL=sqlite:///rdltr_test.db
+    - pip install -e .[test]
     - pip install coveralls
-  extends: .python
+    - echo "FAILED" > .job_status
   script:
     - pytest rdltr/tests/tests --cov rdltr --cov-report term-missing
     - echo "SUCCESS" > .job_status
