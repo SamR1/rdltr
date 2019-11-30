@@ -1,25 +1,4 @@
-from rdltr.tests.utils import URL, random_string
-
-
-def register(selenium, user_infos):
-    selenium.get(f"{URL}register")
-    nav = selenium.find_element_by_tag_name('nav')
-    menus = nav.find_elements_by_class_name('menu')
-    assert "Register" in menus[0].text
-    menus[0].click()
-    selenium.implicitly_wait(2)
-
-    username = selenium.find_element_by_id('username')
-    username.send_keys(user_infos.get('username'))
-    email = selenium.find_element_by_id('email')
-    email.send_keys(user_infos.get('email'))
-    password = selenium.find_element_by_id('password')
-    password.send_keys(user_infos.get('password'))
-    password_conf = selenium.find_element_by_id('confirm-password')
-    password_conf.send_keys(user_infos.get('password_conf'))
-
-    submit_button = selenium.find_element_by_tag_name('button')
-    submit_button.click()
+from rdltr.tests.utils import URL, random_string, register
 
 
 def test_register_ok(selenium):
@@ -70,3 +49,24 @@ def test_register_password_confirmation_not_ok(selenium):
 
     errors = selenium.find_element_by_class_name('alert-danger').text
     assert "Password and password confirmation don't match" in errors
+
+
+def test_register_multiple_errors(selenium):
+    user_name = random_string(2)
+    user_infos = {
+        'username': user_name,
+        'email': f'{user_name}@example',
+        'password': 'pass',
+        'password_conf': 'pass',
+    }
+    register(selenium, user_infos)
+
+    assert selenium.current_url == f"{URL}register"
+    nav = selenium.find_element_by_tag_name('nav').text
+    assert "Register" in nav
+    assert "Log in" in nav
+
+    errors = selenium.find_element_by_class_name('alert-danger').text
+    assert "Username: 3 to 12 characters required" in errors
+    assert "Valid email must be provided" in errors
+    assert "Password: 8 characters required" in errors
