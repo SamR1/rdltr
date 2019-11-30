@@ -14,7 +14,8 @@ def number_of_workers():
     return (multiprocessing.cpu_count() * 2) + 1
 
 
-os.environ['RDLTR_SETTINGS'] = 'rdltr.config.ProductionConfig'
+if not os.getenv('RDLTR_SETTINGS'):
+    os.environ['RDLTR_SETTINGS'] = 'rdltr.config.ProductionConfig'
 HOST = os.getenv('RDLTR_HOST', '0.0.0.0')
 PORT = os.getenv('RDLTR_PORT', '5000')
 WORKERS = os.getenv('RDLTR_WORKERS', number_of_workers())
