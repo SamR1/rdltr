@@ -46,7 +46,6 @@ def register(selenium, user_infos):
     menus = nav.find_elements_by_class_name('menu')
     assert "Register" in menus[0].text
     menus[0].click()
-    selenium.implicitly_wait(2)
 
     username = selenium.find_element_by_id('username')
     username.send_keys(user_infos.get('username'))
@@ -67,7 +66,6 @@ def login(selenium, user_infos, redirect_to_url=False):
     menus = selenium.find_elements_by_class_name('menu')
     assert "Log in" in menus[1].text
     menus[1].click()
-    selenium.implicitly_wait(2)
 
     email = selenium.find_element_by_id('email')
     email.send_keys(user_infos.get('email'))

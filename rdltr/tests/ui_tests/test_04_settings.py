@@ -11,14 +11,12 @@ def fill_form(selenium, form_values, is_category=True):
         description.send_keys(form_values['description'])
     submit_button = selenium.find_element_by_tag_name('button')
     submit_button.click()
-    selenium.implicitly_wait(2)
 
 
 def test_settings_display_categories(selenium):
     register_valid_user(selenium)
     menus = selenium.find_elements_by_class_name('menu')
     menus[1].click()
-    selenium.implicitly_wait(2)
 
     box = selenium.find_element_by_class_name("rdltr-box")
     buttons = box.find_elements_by_tag_name("button")
@@ -27,7 +25,6 @@ def test_settings_display_categories(selenium):
     assert 'Back to home' in buttons[2].text
 
     buttons[0].click()
-    selenium.implicitly_wait(2)
 
     container = selenium.find_element_by_class_name("container")
     rows = container.find_elements_by_class_name("row")
@@ -66,7 +63,6 @@ def test_settings_display_tags(selenium):
 
     box = selenium.find_element_by_class_name("rdltr-box")
     box.find_elements_by_tag_name("button")[1].click()
-    selenium.implicitly_wait(2)
 
     container = selenium.find_element_by_class_name("container")
     rows = container.find_elements_by_class_name("row")
@@ -98,7 +94,6 @@ def test_settings_update_categories(selenium):
 
     add_button = selenium.find_elements_by_tag_name("button")[1]
     add_button.click()
-    selenium.implicitly_wait(2)
 
     # add a category
     form_values = {"name": "news", "description": "News category"}
@@ -118,7 +113,6 @@ def test_settings_update_categories(selenium):
 
     # edit the category
     tbody_td[7].find_element_by_class_name("fa-pencil").click()
-    selenium.implicitly_wait(2)
 
     form_values = {
         "name": "sports",
@@ -139,7 +133,6 @@ def test_settings_update_categories(selenium):
 
     # delete the category
     tbody_td[7].find_element_by_class_name("fa-trash").click()
-    selenium.implicitly_wait(2)
 
     tbody_td = selenium.find_element_by_tag_name(
         "tbody"
@@ -158,7 +151,6 @@ def test_settings_update_tags(selenium):
 
     add_button = selenium.find_elements_by_tag_name("button")[1]
     add_button.click()
-    selenium.implicitly_wait(2)
 
     # add a tag
     fill_form(selenium, {"name": "python"}, is_category=False)
@@ -171,7 +163,6 @@ def test_settings_update_tags(selenium):
 
     # edit the tag
     edit_icon.click()
-    selenium.implicitly_wait(2)
 
     fill_form(selenium, {"name": "tests"}, is_category=False)
     tbody_td = selenium.find_element_by_tag_name(
@@ -181,7 +172,6 @@ def test_settings_update_tags(selenium):
 
     # delete the category
     tbody_td[2].find_element_by_class_name("fa-trash").click()
-    selenium.implicitly_wait(2)
 
     tbody_td = selenium.find_element_by_tag_name(
         "tbody"
