@@ -64,8 +64,7 @@ def register(selenium, user_infos):
 def login(selenium, user_infos, redirect_to_url=False):
     if redirect_to_url:
         selenium.get(f"{URL}login")
-    nav = selenium.find_element_by_tag_name('nav')
-    menus = nav.find_elements_by_class_name('menu')
+    menus = selenium.find_elements_by_class_name('menu')
     assert "Log in" in menus[1].text
     menus[1].click()
     selenium.implicitly_wait(2)
@@ -77,3 +76,15 @@ def login(selenium, user_infos, redirect_to_url=False):
 
     submit_button = selenium.find_element_by_tag_name('button')
     submit_button.click()
+
+
+def register_valid_user(selenium):
+    user_name = random_string()
+    user_infos = {
+        'username': user_name,
+        'email': f'{user_name}@example.com',
+        'password': 'p@ssw0rd',
+        'password_conf': 'p@ssw0rd',
+    }
+    register(selenium, user_infos)
+    return user_infos

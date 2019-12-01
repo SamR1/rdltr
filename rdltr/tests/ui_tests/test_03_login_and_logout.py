@@ -1,15 +1,8 @@
-from rdltr.tests.utils import login, random_string, register
+from rdltr.tests.utils import login, random_string, register_valid_user
 
 
 def test_logout_and_login_ok(selenium):
-    user_name = random_string()
-    user_infos = {
-        'username': user_name,
-        'email': f'{user_name}@example.com',
-        'password': 'p@ssw0rd',
-        'password_conf': 'p@ssw0rd',
-    }
-    register(selenium, user_infos)
+    user_infos = register_valid_user(selenium)
     nav = selenium.find_element_by_tag_name('nav')
     nav_text = nav.text
     assert "Register" not in nav_text
@@ -22,7 +15,7 @@ def test_logout_and_login_ok(selenium):
     login(selenium, user_infos)
     nav = selenium.find_element_by_tag_name('nav')
     nav_text = nav.text
-    assert user_name in nav_text
+    assert user_infos['username'] in nav_text
     assert "Settings" in nav_text
     assert "Logout" in nav_text
 
