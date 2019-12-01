@@ -9,9 +9,12 @@ from rdltr.tests.utils_requests import html_doc_ok
 class MockServer(BaseHTTPRequestHandler):
     def do_GET(self):
         message = ''
+        code = requests.codes.ok
         if self.path == '/html_ok':
             message = html_doc_ok
-        self.send_response(requests.codes.ok)
+        if self.path == '/not_found':
+            code = requests.codes.not_found
+        self.send_response(code)
         self.end_headers()
         self.wfile.write(bytes(message, 'utf-8'))
 

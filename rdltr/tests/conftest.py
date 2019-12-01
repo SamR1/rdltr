@@ -6,7 +6,12 @@ from .. import create_app, db
 from ..articles.model import Article, Category, Tag
 from ..users.model import User
 from .utils_mock_server import MockTestServer
-from .utils_requests import mock_api, mock_response_ko, mock_response_ok
+from .utils_requests import (
+    mock_api,
+    mock_response_empty,
+    mock_response_not_found,
+    mock_response_ok,
+)
 
 os.environ["FLASK_ENV"] = 'testing'
 os.environ["RDLTR_SETTINGS"] = 'rdltr.config.TestingConfig'
@@ -200,13 +205,18 @@ def articles_20(cat_1):
 
 
 @pytest.fixture()
-def fake_request_ok():
+def mock_request_ok():
     return mock_api(mock_response_ok)
 
 
 @pytest.fixture()
-def fake_request_ko():
-    return mock_api(mock_response_ko)
+def mock_request_not_found():
+    return mock_api(mock_response_not_found)
+
+
+@pytest.fixture()
+def mock_request_empty():
+    return mock_api(mock_response_empty)
 
 
 @pytest.fixture

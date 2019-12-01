@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 from flask import Blueprint, jsonify, request
 from readability import Document
+from readability.readability import Unparseable
 from requests import ConnectionError
 from sqlalchemy import exc, or_
 
@@ -14,9 +15,18 @@ from .model import Article, Category, Tag
 articles_blueprint = Blueprint('articles', __name__)
 
 
+class URLException(Exception):
+    ...
+
+
 def get_article_content(url):
     headers = {'User-Agent': 'Mozilla/5.0'}  # to avoid 403
     response = requests.get(url, headers=headers)
+    if response.status_code >= 400:
+        raise URLException(
+            'Error. Cannot get the requested resource, please check '
+            f'the URL (code: {response.status_code})'
+        )
     doc = Document(response.text)
     # 'html_content' is used for display
     # and existing classes are removed
@@ -126,11 +136,15 @@ def add_user_article(user_id):
             'message': 'Error. Cannot connect to the URL, please check it.',
         }
         return jsonify(response_object), 500
-    except Exception as e:
+    except URLException as e:
+        app_log.error(e)
+        response_object = {'status': 'error', 'message': str(e)}
+        return jsonify(response_object), 500
+    except Unparseable as e:
         app_log.error(e)
         response_object = {
             'status': 'error',
-            'message': 'Error. Please try again or contact the administrator.',
+            'message': 'Error. Cannot parse the document.',
         }
         return jsonify(response_object), 500
 

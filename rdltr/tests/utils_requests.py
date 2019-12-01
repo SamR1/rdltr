@@ -8,7 +8,8 @@ def mock_api(html):
 
 
 class MockResponse:
-    def __init__(self, html_content):
+    def __init__(self, html_content, code=200):
+        self.status_code = code
         self.text = html_content
 
 
@@ -28,5 +29,6 @@ html_doc_body_ok = """<body id="readabilityBody">
     </body>
 """
 
+mock_response_empty = MockResponse('')
+mock_response_not_found = MockResponse('', code=404)
 mock_response_ok = MockResponse(html_doc_ok)
-mock_response_ko = MockResponse('')

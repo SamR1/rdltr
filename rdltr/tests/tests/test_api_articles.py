@@ -525,9 +525,9 @@ def test_get_article_no_result_another_user_article(app, user_1, article_3):
 
 @patch('requests.get')
 def test_add_article_to_default_category_no_tags(
-    get_mock, fake_request_ok, app, user_1, cat_3
+    get_mock, mock_request_ok, app, user_1, cat_3
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -563,9 +563,9 @@ def test_add_article_to_default_category_no_tags(
 
 @patch('requests.get')
 def test_add_article_to_category_no_tags(
-    get_mock, fake_request_ok, app, user_1, cat_1
+    get_mock, mock_request_ok, app, user_1, cat_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -601,9 +601,9 @@ def test_add_article_to_category_no_tags(
 
 @patch('requests.get')
 def test_add_article_to_category_with_no_existing_tags(
-    get_mock, fake_request_ok, app, user_1, cat_1
+    get_mock, mock_request_ok, app, user_1, cat_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -645,9 +645,9 @@ def test_add_article_to_category_with_no_existing_tags(
 
 @patch('requests.get')
 def test_add_article_to_category_with_existing_tag(
-    get_mock, fake_request_ok, app, user_1, cat_1, tag_1
+    get_mock, mock_request_ok, app, user_1, cat_1, tag_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -688,8 +688,8 @@ def test_add_article_to_category_with_existing_tag(
 
 
 @patch('requests.get')
-def test_add_article_no_category(get_mock, fake_request_ok, app, user_1):
-    get_mock.return_value = fake_request_ok.return_value
+def test_add_article_no_category(get_mock, mock_request_ok, app, user_1):
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -710,9 +710,9 @@ def test_add_article_no_category(get_mock, fake_request_ok, app, user_1):
 
 @patch('requests.get')
 def test_add_article_invalid_payload(
-    get_mock, fake_request_ok, app, user_1, cat_1
+    get_mock, mock_request_ok, app, user_1, cat_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -733,9 +733,9 @@ def test_add_article_invalid_payload(
 
 @patch('requests.get')
 def test_add_article_invalid_content(
-    get_mock, fake_request_ko, app, user_1, cat_1
+    get_mock, mock_request_empty, app, user_1, cat_1
 ):
-    get_mock.return_value = fake_request_ko.return_value
+    get_mock.return_value = mock_request_empty.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -751,7 +751,41 @@ def test_add_article_invalid_content(
         ),
         content_type='application/json',
     )
-    check_500_error(response)
+    assert response.content_type == 'application/json'
+    assert response.status_code == 500
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'error'
+    assert 'Error. Cannot parse the document.' in data['message']
+
+
+@patch('requests.get')
+def test_add_article_not_found(
+    get_mock, mock_request_not_found, app, user_1, cat_1
+):
+    get_mock.return_value = mock_request_not_found.return_value
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(dict(url='https://example.com', category_id=1)),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.content_type == 'application/json'
+    assert response.status_code == 500
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'error'
+    assert (
+        'Error. Cannot get the requested resource, '
+        'please check the URL (code: 404)' in data['message']
+    )
 
 
 def test_add_article_invalid_url(app, user_1, cat_1):
@@ -804,9 +838,9 @@ def test_add_article_no_existing_url(app, user_1, cat_1):
 
 @patch('requests.get')
 def test_patch_article_add_comments_ok(
-    get_mock, fake_request_ok, app, user_1, article_1
+    get_mock, mock_request_ok, app, user_1, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -846,9 +880,9 @@ def test_patch_article_add_comments_ok(
 
 @patch('requests.get')
 def test_patch_article_change_category_ok(
-    get_mock, fake_request_ok, app, user_1, article_1, cat_4
+    get_mock, mock_request_ok, app, user_1, article_1, cat_4
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -888,9 +922,9 @@ def test_patch_article_change_category_ok(
 
 @patch('requests.get')
 def test_patch_article_change_with_new_tags(
-    get_mock, fake_request_ok, app, user_1, article_1, cat_4
+    get_mock, mock_request_ok, app, user_1, article_1, cat_4
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -929,9 +963,9 @@ def test_patch_article_change_with_new_tags(
 
 @patch('requests.get')
 def test_patch_article_change_with_existing_tag(
-    get_mock, fake_request_ok, app, user_1, article_1, cat_4, tag_1
+    get_mock, mock_request_ok, app, user_1, article_1, cat_4, tag_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -971,9 +1005,9 @@ def test_patch_article_change_with_existing_tag(
 
 @patch('requests.get')
 def test_patch_article_change_replacing_tag(
-    get_mock, fake_request_ok, app, user_1, article_1, cat_4, tag_1
+    get_mock, mock_request_ok, app, user_1, article_1, cat_4, tag_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1013,9 +1047,9 @@ def test_patch_article_change_replacing_tag(
 
 @patch('requests.get')
 def test_patch_article_remove_tags(
-    get_mock, fake_request_ok, app, user_1, article_1
+    get_mock, mock_request_ok, app, user_1, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1053,9 +1087,9 @@ def test_patch_article_remove_tags(
 
 @patch('requests.get')
 def test_patch_article_tags_error(
-    get_mock, fake_request_ok, app, user_1, article_1
+    get_mock, mock_request_ok, app, user_1, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1076,9 +1110,9 @@ def test_patch_article_tags_error(
 
 @patch('requests.get')
 def test_patch_article_change_read_status_ok(
-    get_mock, fake_request_ok, app, article_1
+    get_mock, mock_request_ok, app, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1159,9 +1193,9 @@ def test_patch_article_change_read_status_ok(
 
 @patch('requests.get')
 def test_patch_article_change_favorite_status_ok(
-    get_mock, fake_request_ok, app, article_1
+    get_mock, mock_request_ok, app, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1242,9 +1276,9 @@ def test_patch_article_change_favorite_status_ok(
 
 @patch('requests.get')
 def test_patch_article_reload_content(
-    get_mock, fake_request_ok, app, article_1
+    get_mock, mock_request_ok, app, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1314,9 +1348,9 @@ def test_patch_article_reload_content(
 
 @patch('requests.get')
 def test_patch_article_reload_content_false(
-    get_mock, fake_request_ok, app, article_1
+    get_mock, mock_request_ok, app, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1441,9 +1475,9 @@ def test_patch_article_reload_url_ko(app, article_1):
 
 @patch('requests.get')
 def test_patch_article_invalid_payload(
-    get_mock, fake_request_ok, app, user_1, article_1
+    get_mock, mock_request_ok, app, user_1, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1464,9 +1498,9 @@ def test_patch_article_invalid_payload(
 
 @patch('requests.get')
 def test_patch_article_incorrect_category_ok(
-    get_mock, fake_request_ok, app, user_1, article_1
+    get_mock, mock_request_ok, app, user_1, article_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1487,9 +1521,9 @@ def test_patch_article_incorrect_category_ok(
 
 @patch('requests.get')
 def test_patch_article_not_existing(
-    get_mock, fake_request_ok, app, user_1, cat_1
+    get_mock, mock_request_ok, app, user_1, cat_1
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1510,9 +1544,9 @@ def test_patch_article_not_existing(
 
 @patch('requests.get')
 def test_patch_article_another_user_category(
-    get_mock, fake_request_ok, app, user_1, article_1, cat_2
+    get_mock, mock_request_ok, app, user_1, article_1, cat_2
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1533,9 +1567,9 @@ def test_patch_article_another_user_category(
 
 @patch('requests.get')
 def test_patch_article_another_user_article(
-    get_mock, fake_request_ok, app, user_1, article_3
+    get_mock, mock_request_ok, app, user_1, article_3
 ):
-    get_mock.return_value = fake_request_ok.return_value
+    get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
