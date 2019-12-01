@@ -14,7 +14,7 @@ def fill_form(selenium, form_values, is_category=True):
     selenium.implicitly_wait(2)
 
 
-def test_display_categories_settings(selenium):
+def test_settings_display_categories(selenium):
     register_valid_user(selenium)
     menus = selenium.find_elements_by_class_name('menu')
     menus[1].click()
@@ -60,7 +60,7 @@ def test_display_categories_settings(selenium):
     assert len(tbody_td[3].find_elements_by_class_name("fa-trash")) == 0
 
 
-def test_display_tags_settings(selenium):
+def test_settings_display_tags(selenium):
     register_valid_user(selenium)
     selenium.get(f"{URL}settings")
 
@@ -92,7 +92,7 @@ def test_display_tags_settings(selenium):
     assert tbody_td == []
 
 
-def test_update_categories(selenium):
+def test_settings_update_categories(selenium):
     register_valid_user(selenium)
     selenium.get(f"{URL}settings/categories")
 
@@ -136,7 +136,6 @@ def test_update_categories(selenium):
     assert "sports" in tbody_td[5].text
     assert tbody_td[5].find_elements_by_class_name("badge-rdltr-small") == []
     assert "All articles about sports" in tbody_td[6].text
-    assert len(tbody_td[7].find_elements_by_class_name("fa-trash")) == 1
 
     # delete the category
     tbody_td[7].find_element_by_class_name("fa-trash").click()
@@ -153,7 +152,7 @@ def test_update_categories(selenium):
     assert "Default category" in tbody_td[2].text
 
 
-def test_update_tags(selenium):
+def test_settings_update_tags(selenium):
     register_valid_user(selenium)
     selenium.get(f"{URL}settings/tags")
 
