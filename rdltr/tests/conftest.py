@@ -5,6 +5,7 @@ import pytest
 from .. import create_app, db
 from ..articles.model import Article, Category, Tag
 from ..users.model import User
+from .utils_mock_server import MockTestServer
 from .utils_requests import mock_api, mock_response_ko, mock_response_ok
 
 os.environ["FLASK_ENV"] = 'testing'
@@ -206,3 +207,11 @@ def fake_request_ok():
 @pytest.fixture()
 def fake_request_ko():
     return mock_api(mock_response_ko)
+
+
+@pytest.fixture
+def mock_server(request):
+    server = MockTestServer()
+    server.start()
+    yield server
+    server.close_session()

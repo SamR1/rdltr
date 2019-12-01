@@ -170,7 +170,7 @@ def test_settings_update_tags(selenium):
     ).find_elements_by_tag_name("td")
     assert "tests" in tbody_td[1].text
 
-    # delete the category
+    # delete the tag
     tbody_td[2].find_element_by_class_name("fa-trash").click()
 
     tbody_td = selenium.find_element_by_tag_name(

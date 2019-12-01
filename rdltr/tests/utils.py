@@ -42,8 +42,7 @@ def random_string(length=8):
 
 def register(selenium, user_infos):
     selenium.get(f"{URL}register")
-    nav = selenium.find_element_by_tag_name('nav')
-    menus = nav.find_elements_by_class_name('menu')
+    menus = selenium.find_elements_by_class_name('menu')
     assert "Register" in menus[0].text
     menus[0].click()
 
