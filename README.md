@@ -21,7 +21,7 @@ Initially a small project to learn Vue (with Flask)<sup>2</sup>, **rdltr** uses
 content (see [wiki](https://github.com/SamR1/rdltr/wiki/Installation) for 
 installation instructions).
 
-![application snapshot](https://raw.githubusercontent.com/SamR1/rdltr/master/docs/snapshot.png)  
+![application screenshot](https://raw.githubusercontent.com/SamR1/rdltr/master/docs/screenshot.png)  
 
 ---
 

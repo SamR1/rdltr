@@ -1,6 +1,6 @@
 # Change log
 
-## Version 0.1.4 (20xx/xx/xx)
+## Version 0.1.4 (2019/12/08)
 
 ### Issues Closed
 
@@ -9,7 +9,11 @@
 * [Issue 4](https://github.com/SamR1/rdltr/issues/4) - add favorites
 * [Issue 3](https://github.com/SamR1/rdltr/issues/3) - add a confirmation before deleting an article
 
-In this release 2 issues were closed.
+#### Bugs Fixed
+
+* [Issue 11](https://github.com/SamR1/rdltr/issues/11) - incorrect encoding on some articles
+
+In this release 3 issues were closed.
 
 
 ## Version 0.1.3 (2019/04/07)
