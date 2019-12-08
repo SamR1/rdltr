@@ -36,3 +36,33 @@ def test_login_not_existing_user(selenium):
     assert "Log in" in nav_text
     errors = selenium.find_element_by_class_name('alert-danger').text
     assert "Invalid credentials." in errors
+
+
+def test_password_update_ok(selenium):
+    user_infos = register_valid_user(selenium)
+    menus = selenium.find_elements_by_class_name('menu')
+    menus[2].click()
+    login(selenium, user_infos)
+    menus = selenium.find_elements_by_class_name('menu')
+    menus[0].click()
+
+    submit_button = selenium.find_element_by_tag_name('button')
+    submit_button.click()
+
+    new_password = 'newp@ssw0rd'
+    password = selenium.find_element_by_id('oldPassword')
+    password.send_keys(user_infos.get('password'))
+
+    password = selenium.find_element_by_id('password')
+    password.send_keys(new_password)
+    password_conf = selenium.find_element_by_id('confirm-password')
+    password_conf.send_keys(new_password)
+
+    submit_button = selenium.find_element_by_tag_name('button')
+    submit_button.click()
+
+    menus = selenium.find_elements_by_class_name('menu')
+    menus[2].click()
+
+    user_infos['password'] = new_password
+    login(selenium, user_infos)
