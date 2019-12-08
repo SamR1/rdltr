@@ -38,9 +38,10 @@
         </div>
         <div class="submit" v-if="actionType === 'editProfile'">
           <button type="submit" @click.prevent="onSubmit()">Submit</button>
-          <router-link class="cancel" tag="button" to="/profile"
-            >Cancel</router-link
-          >
+          <button type="submit" @click.prevent="onCancel()">Cancel</button>
+          <!--          <router-link class="cancel" tag="button" to="/profile"-->
+          <!--            >Cancel</router-link-->
+          <!--          >-->
         </div>
         <div v-else class="submit">
           <router-link tag="button" to="/profile/edit">
@@ -74,6 +75,14 @@ export default {
     },
   },
   methods: {
+    onCancel() {
+      this.$store.dispatch('updateErrorMessage', null).then(() => {
+        this.oldPassword = ''
+        this.newPassword = ''
+        this.confirmNewPassword = ''
+        return this.$router.push('/profile')
+      })
+    },
     onSubmit() {
       const formData = {
         old_password: this.oldPassword,
@@ -87,6 +96,9 @@ export default {
       })
     },
   },
+  beforeDestroy() {
+    this.$store.commit('setErrorMessage', null)
+  },
 }
 </script>
 
@@ -95,5 +107,8 @@ export default {
   background-color: inherit;
   border: None;
   color: #4e4e4e;
+}
+.submit button {
+  margin-right: 0.5em;
 }
 </style>

@@ -24,7 +24,11 @@
         </li>
         <li v-if="auth" class="menu">
           <router-link to="/articles/add">
-            <i class="fa fa-plus-square" aria-hidden="true"></i>
+            <i
+              class="fa fa-plus"
+              aria-hidden="true"
+              title="add a new article"
+            ></i>
           </router-link>
         </li>
       </ul>

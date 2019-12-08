@@ -3,10 +3,10 @@
     <div class="modal-wrapper">
       <div class="modal-container">
         <div class="modal-body">
-          Are you sure you want to delete
-          {{ title ? ` the article '${title}'` : ' this article' }}?
-        </div>
-        <div class="modal-footer">
+          <p>
+            Are you sure you want to delete
+            {{ title ? ` the article '${title}'` : ' this article' }}?
+          </p>
           <button class="btn-rdltr" @click="onDeleteArticle">
             OK
           </button>
