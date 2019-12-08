@@ -3,6 +3,9 @@ import os
 import random
 import string
 
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 URL = (
     f"http://{os.getenv('RDLTR_HOST', '0.0.0.0')}:"
     f"{os.getenv('RDLTR_PORT', '5000')}/"
@@ -84,4 +87,11 @@ def register_valid_user(selenium):
         'password_conf': 'p@ssw0rd',
     }
     register(selenium, user_infos)
+    WebDriverWait(selenium, 10).until(EC.url_changes(f"{URL}register"))
+    return user_infos
+
+
+def login_valid_user(selenium, user_infos):
+    login(selenium, user_infos)
+    WebDriverWait(selenium, 10).until(EC.url_changes(f"{URL}login"))
     return user_infos

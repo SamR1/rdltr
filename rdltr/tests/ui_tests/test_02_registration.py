@@ -2,11 +2,12 @@ from rdltr.tests.utils import URL, random_string, register, register_valid_user
 
 
 def test_register_ok(selenium):
-    user_infos = register_valid_user(selenium)
+    register_valid_user(selenium)
     nav = selenium.find_element_by_tag_name('nav').text
     assert "Register" not in nav
     assert "Log in" not in nav
-    assert user_infos['username'] in nav
+    assert "Settings" in nav
+    assert "Logout" in nav
 
 
 def test_register_invalid_email(selenium):

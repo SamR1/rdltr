@@ -11,11 +11,11 @@
           <input id="email" disabled type="email" v-model="user.email" />
         </div>
         <div class="input">
-          <label for="email">Inscription date</label>
+          <label for="creationDate">Inscription date</label>
           <input id="creationDate" disabled v-model="user.created_at" />
         </div>
         <div v-if="actionType === 'editProfile'" class="input">
-          <label for="password">Old password</label>
+          <label for="oldPassword">Old password</label>
           <input
             id="oldPassword"
             required

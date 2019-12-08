@@ -1,4 +1,9 @@
-from rdltr.tests.utils import login, random_string, register_valid_user
+from rdltr.tests.utils import (
+    login,
+    login_valid_user,
+    random_string,
+    register_valid_user,
+)
 
 
 def test_logout_and_login_ok(selenium):
@@ -12,7 +17,7 @@ def test_logout_and_login_ok(selenium):
     menus = nav.find_elements_by_class_name('menu')
     menus[2].click()
 
-    login(selenium, user_infos)
+    login_valid_user(selenium, user_infos)
     nav = selenium.find_element_by_tag_name('nav')
     nav_text = nav.text
     assert user_infos['username'] in nav_text
@@ -42,13 +47,17 @@ def test_password_update_ok(selenium):
     user_infos = register_valid_user(selenium)
     menus = selenium.find_elements_by_class_name('menu')
     menus[2].click()
-    login(selenium, user_infos)
+    login_valid_user(selenium, user_infos)
+
+    # click on user name
     menus = selenium.find_elements_by_class_name('menu')
     menus[0].click()
 
+    # click on 'Change password'
     submit_button = selenium.find_element_by_tag_name('button')
     submit_button.click()
 
+    # update password
     new_password = 'newp@ssw0rd'
     password = selenium.find_element_by_id('oldPassword')
     password.send_keys(user_infos.get('password'))
@@ -61,8 +70,10 @@ def test_password_update_ok(selenium):
     submit_button = selenium.find_element_by_tag_name('button')
     submit_button.click()
 
+    # log out
     menus = selenium.find_elements_by_class_name('menu')
     menus[2].click()
 
-    user_infos['password'] = new_password
-    login(selenium, user_infos)
+    # log in
+    user_infos['password'] = user_infos['password_conf'] = new_password
+    login_valid_user(selenium, user_infos)
