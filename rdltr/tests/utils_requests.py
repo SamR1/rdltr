@@ -11,6 +11,7 @@ class MockResponse:
     def __init__(self, html_content, code=200):
         self.status_code = code
         self.text = html_content
+        self.apparent_encoding = "utf-8"
 
 
 html_doc_ok = """
