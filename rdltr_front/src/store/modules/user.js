@@ -66,7 +66,7 @@ const actions = {
           commit('authUser', token)
           commit('setErrorMessage', '')
           dispatch('getUserProfile')
-          return router.push('/')
+          return router.push(data.redirect_url || '/')
         }
         return handleError(commit, null)
       })

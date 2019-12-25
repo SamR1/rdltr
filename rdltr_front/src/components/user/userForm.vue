@@ -68,7 +68,12 @@ export default {
         formData.username = this.username
         formData.password_conf = this.confirmPassword
       }
-      return this.$store.dispatch('loginOrRegister', { actionType, formData })
+      const redirect_url = this.$route.query.from
+      return this.$store.dispatch('loginOrRegister', {
+        actionType,
+        formData,
+        redirect_url,
+      })
     },
   },
 }

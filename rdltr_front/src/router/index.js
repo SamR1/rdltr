@@ -109,7 +109,11 @@ router.beforeEach((to, from, next) => {
       !store.getters.isAuthenticated &&
       !['/login', '/register'].includes(to.path)
     ) {
-      return next('/login')
+      const path =
+        to.path === '/'
+          ? { path: '/login' }
+          : { path: '/login', query: { from: to.path } }
+      next(path)
     }
   })
   next()
