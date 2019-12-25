@@ -179,5 +179,5 @@ def test_add_article_from_bookmark_unauthenticated_user(selenium, mock_server):
     password.send_keys(user_infos.get('password'))
     submit_button = selenium.find_element_by_tag_name('button')
     submit_button.click()
-
+    selenium.implicitly_wait(1)
     check_article(selenium, bookmark_url)

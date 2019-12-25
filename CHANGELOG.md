@@ -1,6 +1,6 @@
 # Change log
 
-## Version 0.1.5 (2019/12/xx)
+## Version 0.1.5 (2019/12/25)
 
 ### Issues Closed
 
@@ -9,7 +9,11 @@
 * [Issue 13](https://github.com/SamR1/rdltr/issues/13) - add an article via a share link
 * [Issue 12](https://github.com/SamR1/rdltr/issues/12) - add redirection after login
 
-In this release 2 issues were closed.
+#### Bugs Fixed
+
+* [Issue 14](https://github.com/SamR1/rdltr/issues/14) - some articles still have encoding issues
+
+In this release 3 issues were closed.
 
 
 ## Version 0.1.4 (2019/12/08)

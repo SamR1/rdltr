@@ -27,7 +27,11 @@ def get_article_content(url):
             'Error. Cannot get the requested resource, please check '
             f'the URL (code: {response.status_code})'
         )
-    response.encoding = response.apparent_encoding
+    if not response.encoding or (
+        response.apparent_encoding.lower() != response.encoding.lower()
+        and response.apparent_encoding.lower() == 'utf-8'
+    ):
+        response.encoding = response.apparent_encoding
     doc = Document(response.text)
     # 'html_content' is used for display
     # and existing classes are removed
