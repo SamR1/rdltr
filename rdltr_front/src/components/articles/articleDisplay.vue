@@ -5,7 +5,7 @@
       :onDeleteArticle="onDeleteArticle"
       @close="showModal = false"
     ></conf-modal>
-    <button class="btn-rdltr" type="submit" @click="$router.go(-1)">
+    <button class="btn-rdltr" type="submit" @click="goBack">
       Back
     </button>
     <p v-if="errorMessage" class="alert alert-danger">
@@ -197,6 +197,11 @@ export default {
           .dispatch('deleteArticle', this.article.id)
           .then(() => this.$router.push('/'))
       }
+    },
+    goBack() {
+      return window.history.length > 1
+        ? this.$router.go(-1)
+        : this.$router.push('/')
     },
     onReloadArticle() {
       const data = {
