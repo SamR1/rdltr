@@ -1,3 +1,5 @@
+from urllib import parse
+
 from rdltr.tests.utils import URL, register_valid_user
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -23,6 +25,20 @@ def add_valid_article_with_tag(selenium, url):
     return url
 
 
+def check_article(selenium, article_url):
+    WebDriverWait(selenium, 10).until(EC.url_matches(f'{URL}articles'))
+    assert selenium.find_element_by_class_name('badge-rdltr').text == 'default'
+    assert selenium.find_element_by_tag_name('h1').text == 'this is a title'
+    assert (
+        selenium.find_element_by_class_name('article-link').text
+        == f'Link: {article_url}'
+    )
+    assert (
+        selenium.find_element_by_id('article-content').text
+        == 'this is a paragraph'
+    )
+
+
 def test_add_article_no_category_no_tag(selenium, mock_server):
     register_valid_user(selenium)
 
@@ -36,17 +52,7 @@ def test_add_article_no_category_no_tag(selenium, mock_server):
     submit_button = selenium.find_element_by_tag_name('button')
     submit_button.click()
 
-    WebDriverWait(selenium, 10).until(EC.url_changes(f'{URL}articles/add'))
-    assert selenium.find_element_by_class_name('badge-rdltr').text == 'default'
-    assert selenium.find_element_by_tag_name('h1').text == 'this is a title'
-    assert (
-        selenium.find_element_by_class_name('article-link').text
-        == f'Link: {url}'
-    )
-    assert (
-        selenium.find_element_by_id('article-content').text
-        == 'this is a paragraph'
-    )
+    check_article(selenium, url)
 
 
 def test_add_article_with_category_and_tag(selenium, mock_server):
@@ -149,3 +155,29 @@ def test_home_after_adding_article(selenium, mock_server):
     )
 
     assert 'page 1 / 1' in selenium.find_element_by_id('pagination').text
+
+
+def test_add_article_from_bookmark(selenium, mock_server):
+    register_valid_user(selenium)
+    bookmark_url = f'http://localhost:{mock_server.port}/html_ok'
+    rdltr_url = f"{URL}bookmarklet?url={parse.quote(bookmark_url)}"
+    selenium.get(rdltr_url)
+    check_article(selenium, bookmark_url)
+
+
+def test_add_article_from_bookmark_unauthenticated_user(selenium, mock_server):
+    user_infos = register_valid_user(selenium)
+    menus = selenium.find_elements_by_class_name('menu')
+    menus[2].click()
+
+    bookmark_url = f'http://localhost:{mock_server.port}/html_ok'
+    selenium.get(f"{URL}bookmarklet?url={parse.quote(bookmark_url)}")
+
+    email = selenium.find_element_by_id('email')
+    email.send_keys(user_infos.get('email'))
+    password = selenium.find_element_by_id('password')
+    password.send_keys(user_infos.get('password'))
+    submit_button = selenium.find_element_by_tag_name('button')
+    submit_button.click()
+
+    check_article(selenium, bookmark_url)

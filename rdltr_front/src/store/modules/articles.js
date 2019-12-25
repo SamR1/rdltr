@@ -50,7 +50,7 @@ const actions = {
       .then(res => {
         if (res.data.status === 'success') {
           dispatch('updateLoading', false)
-          router.push(`/articles/${res.data.data[0].id}`)
+          router.replace(`/articles/${res.data.data[0].id}`)
         }
       })
       .catch(err => handleError(commit, err, 'error on adding article'))

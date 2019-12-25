@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import AddArticle from '../components/articles/articleAdd'
+import Bookmarklet from '../components/articles/bookmarklet'
 import DisplayArticle from '../components/articles/articleDisplay'
 import HomePage from '../components/home/home'
 import Item from '../components/common/item'
@@ -53,6 +54,10 @@ const routes = [
     path: '/articles/page/:page',
     component: HomePage,
     name: 'articlesPage',
+  },
+  {
+    path: '/bookmarklet',
+    component: Bookmarklet,
   },
   {
     path: '/settings',
@@ -112,7 +117,7 @@ router.beforeEach((to, from, next) => {
       const path =
         to.path === '/'
           ? { path: '/login' }
-          : { path: '/login', query: { from: to.path } }
+          : { path: '/login', query: { from: to.fullPath } }
       next(path)
     }
   })
