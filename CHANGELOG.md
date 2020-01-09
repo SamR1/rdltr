@@ -1,5 +1,16 @@
 # Change log
 
+## Version 0.1.6 (2020/01/xx)
+
+### Issues Closed
+
+#### New Features
+
+* [Issue 8](https://github.com/SamR1/rdltr/issues/8) - Scrape from browser DOM
+
+In this release 1 issue was closed.
+
+
 ## Version 0.1.5 (2019/12/25)
 
 ### Issues Closed
