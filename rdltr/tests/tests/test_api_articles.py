@@ -561,6 +561,50 @@ def test_add_article_to_default_category_no_tags(
     assert len(data['data'][0]['tags']) == 0
 
 
+def test_add_article_from_browser(app, user_1, cat_3):
+    client = app.test_client()
+    resp_login = client.post(
+        '/api/auth/login',
+        data=json.dumps(dict(email='test@test.com', password='12345678')),
+        content_type='application/json',
+    )
+    response = client.post(
+        '/api/articles',
+        data=json.dumps(
+            dict(
+                html_content='<html><head><title>Article from browser</head>'
+                '<body><p>Test Browser</p></body></html>',
+                title='Article from browser',
+                url='https://example.com',
+            )
+        ),
+        headers=dict(
+            Authorization='Bearer '
+            + json.loads(resp_login.data.decode())['auth_token']
+        ),
+        content_type='application/json',
+    )
+    assert response.status_code == 201
+    data = json.loads(response.data.decode())
+    assert data['status'] == 'success'
+    assert len(data['data']) == 1
+    assert data['data'][0]['title'] == 'Article from browser'
+    assert (
+        data['data'][0]['html_content']
+        == '<body id="readabilityBody"><p>Test Browser</p></body>'
+    )
+    assert data['data'][0]['url'] == 'https://example.com'
+    assert data['data'][0]['comments'] is None
+    assert data['data'][0]['read'] is False
+    assert data['data'][0]['favorite'] is False
+    assert data['data'][0]['category']['id'] == 1
+    assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['is_default']
+    assert 'date_added' in data['data'][0]
+    assert len(data['data'][0]['tags']) == 0
+
+
 @patch('requests.get')
 def test_add_article_to_category_no_tags(
     get_mock, mock_request_ok, app, user_1, cat_1
