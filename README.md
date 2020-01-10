@@ -15,15 +15,18 @@
 
 **rdltr** is a _read-it later_ web application: save articles for later reading.  
 Categories and tags can be used to classify articles.  
-It is also possible to add articles from [FreshRSS](https://freshrss.org/) (see 
-[#13](https://github.com/SamR1/rdltr/issues/13)).
+
+It is also possible to add articles from [FreshRSS](https://freshrss.org/).  
+A Firefox add-on is available: [SamR1/rdltr-addon](https://github.com/SamR1/rdltr-addon), allowing
+ to add article from browser side.  
+All features are detailed in [wiki](https://github.com/SamR1/rdltr/wiki/Features).
+
+![application screenshot](https://raw.githubusercontent.com/SamR1/rdltr/master/docs/screenshot.png)  
 
 Initially a small project to learn Vue (with Flask)<sup>2</sup>, **rdltr** uses 
 **[readability-lxml](https://github.com/buriy/python-readability)** to parse HTML 
 content (see [wiki](https://github.com/SamR1/rdltr/wiki/Installation) for 
 installation instructions).
-
-![application screenshot](https://raw.githubusercontent.com/SamR1/rdltr/master/docs/screenshot.png)  
 
 ---
 
