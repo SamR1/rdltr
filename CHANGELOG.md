@@ -1,6 +1,6 @@
 # Change log
 
-## Version 0.1.6 (2020/01/xx)
+## Version 0.1.6 (2020/01/10)
 
 ### Issues Closed
 
