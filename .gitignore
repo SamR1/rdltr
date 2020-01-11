@@ -11,7 +11,7 @@ rdltr.egg-info/
 /pip-wheel-metadata/
 /build/
 /dist/
-
+/docsrc/build/
 
 ## VueJS
 rdltr_front/node_modules/
