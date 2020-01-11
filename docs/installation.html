@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Changelog" href="changelog.html" />
@@ -98,6 +99,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#upgrade">Upgrade</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">from PyPI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">from source (for development)</a></li>
 </ul>
 </li>
 </ul>
@@ -301,6 +303,28 @@ $ make upgrade-db
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ rdltr_db
 </pre></div>
 </div>
+<ul class="simple">
+<li><p>restart the application</p></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>from source (for development)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Pull this repo:</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> rdltr
+$ git pull
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>if needed, upgrade database</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ make upgrade-db
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>restart the application</p></li>
+</ul>
 </div>
 </div>
 </div>

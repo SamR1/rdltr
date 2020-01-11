@@ -11,9 +11,10 @@ Categories and tags can be used to classify articles.
 
 .. figure:: _images/screenshot.png
    :alt: rdltr screenshot
+   :figclass: doc-img
 
 Initially a small project to learn Vue (with Flask), **rdltr** uses
-** `readability-lxml <https://github.com/buriy/python-readability>`__ ** to parse HTML
+`readability-lxml <https://github.com/buriy/python-readability>`__ to parse HTML
 content.
 
 .. toctree::
@@ -23,11 +24,3 @@ content.
    features
    installation
    changelog
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`

@@ -1,5 +1,15 @@
 # Changelog
 
+## Version 0.1.7 (2020/01/xx)
+
+### Issues Closed
+
+#### New Features
+
+* [Issue 15](https://github.com/SamR1/rdltr/issues/15) - improve documentation
+
+In this release 1 issue was closed.
+
 ## Version 0.1.6 (2020/01/10)
 
 ### Issues Closed

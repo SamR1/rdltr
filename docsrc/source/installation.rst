@@ -98,3 +98,24 @@ from PyPI
 .. code-block:: bash
 
     $ rdltr_db
+
+- restart the application
+
+
+from source (for development)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+- Pull this repo:
+
+.. code-block:: bash
+
+    $ cd rdltr
+    $ git pull
+
+- if needed, upgrade database
+
+.. code-block:: bash
+
+    $ make upgrade-db
+
+- restart the application
