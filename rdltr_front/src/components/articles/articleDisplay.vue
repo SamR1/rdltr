@@ -188,7 +188,7 @@ export default {
   },
   beforeDestroy() {
     this.$store.commit('getUserArticle', {})
-    this.$store.commit('setErrorMessage', null)
+    this.$store.dispatch('updateErrorMessage', null)
   },
   methods: {
     onDeleteArticle() {

@@ -69,7 +69,7 @@ export default {
         return this.$store.getters.onlyFavorites
       },
       set(value) {
-        this.$store.commit('setOnlyFavorites', value)
+        this.$store.dispatch('updateFavorites', value)
       },
     },
     onlyNotRead: {
@@ -77,7 +77,7 @@ export default {
         return this.$store.getters.onlyNotRead
       },
       set(value) {
-        this.$store.commit('setOnlyNotRead', value)
+        this.$store.dispatch('updateReadStatus', value)
       },
     },
     query: {
@@ -85,7 +85,7 @@ export default {
         return this.$store.getters.query
       },
       set(value) {
-        this.$store.commit('updateQuery', value)
+        this.$store.dispatch('updateQuery', value)
       },
     },
   },

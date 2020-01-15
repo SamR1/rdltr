@@ -84,8 +84,8 @@ export default {
         if (selectItem.length > 0) {
           this.item = selectItem[0]
         } else {
-          this.$store.commit(
-            'setErrorMessage',
+          this.$store.dispatch(
+            'updateErrorMessage',
             `${getActionValue(this.itemType, ['singular'])} not found!`
           )
         }
@@ -93,7 +93,7 @@ export default {
     },
   },
   beforeDestroy() {
-    this.$store.commit('setErrorMessage', null)
+    this.$store.dispatch('updateErrorMessage', null)
   },
   methods: {
     onSubmit() {

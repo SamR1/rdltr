@@ -52,11 +52,11 @@ export default {
   },
   watch: {
     $route() {
-      this.$store.commit('setErrorMessage', null)
+      this.$store.dispatch('updateErrorMessage', null)
     },
   },
   beforeDestroy() {
-    this.$store.commit('setErrorMessage', null)
+    this.$store.dispatch('updateErrorMessage', null)
   },
   methods: {
     onSubmit(actionType) {

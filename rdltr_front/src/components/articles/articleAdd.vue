@@ -53,10 +53,10 @@ export default {
     },
   },
   beforeDestroy() {
-    this.$store.commit('setErrorMessage', null)
+    this.$store.dispatch('updateErrorMessage', null)
   },
   mounted() {
-    this.$store.commit('setTags', [])
+    this.$store.dispatch('updateSelectedTags', [])
   },
   methods: {
     onSubmit() {

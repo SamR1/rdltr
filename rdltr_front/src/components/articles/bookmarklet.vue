@@ -32,7 +32,7 @@ export default {
     },
   },
   beforeDestroy() {
-    this.$store.commit('setErrorMessage', null)
+    this.$store.dispatch('updateErrorMessage', null)
   },
   mounted() {
     if (this.isAuthenticated) {
@@ -42,7 +42,7 @@ export default {
         }
         return this.$store.dispatch('addArticle', formData)
       } else {
-        this.$store.commit('setErrorMessage', 'Error: no URL provided.')
+        this.$store.dispatch('updateErrorMessage', 'Error: no URL provided.')
       }
     }
   },

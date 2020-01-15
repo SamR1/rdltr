@@ -48,7 +48,7 @@ export default {
   methods: {
     filterArticles() {
       if (this.filter) {
-        this.$store.commit('setTags', [])
+        this.$store.dispatch('updateSelectedTags', [])
         return this.$router.push(
           getTargetLocationFromStore(this.$store.getters)
         )
