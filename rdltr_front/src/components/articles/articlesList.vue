@@ -1,6 +1,9 @@
 <template>
   <div id="user-articles">
-    <div v-if="!errorMessage">
+    <p v-if="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </p>
+    <div v-else>
       <div class="row articles-msg" v-if="pagination.total > 0">
         {{ pagination.total }}
         {{ `article${pagination.total !== 1 ? 's' : ''}` }}
