@@ -427,7 +427,7 @@ def test_get_articles_filter_by_favorites(
     assert len(data['data']) == 3
 
     response = client.get(
-        '/api/articles?only_favorites=true',
+        '/api/articles?favorites=true',
         headers=dict(
             Authorization='Bearer '
             + json.loads(resp_login.data.decode())['auth_token']

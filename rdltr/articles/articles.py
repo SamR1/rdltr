@@ -58,7 +58,7 @@ def get_user_articles(user_id):
     category_id = params.get('cat_id')
     query = params.get('q')
     only_not_read = params.get('not_read')
-    only_favorites = params.get('only_favorites')
+    only_favorites = params.get('favorites')
     articles_pagination = (
         Article.query.join(Category)
         .filter(
