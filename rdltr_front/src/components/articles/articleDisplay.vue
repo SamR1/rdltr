@@ -187,7 +187,7 @@ export default {
     }
   },
   beforeDestroy() {
-    this.$store.commit('getUserArticle', {})
+    this.$store.dispatch('emptyArticle')
     this.$store.dispatch('updateErrorMessage', null)
   },
   methods: {

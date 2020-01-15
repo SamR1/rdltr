@@ -65,6 +65,9 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on article deletion'))
   },
+  emptyArticle({ commit }) {
+    commit('getUserArticle', {})
+  },
   getArticle({ commit }, id) {
     authApi
       .get(`articles/${id}`)
@@ -142,6 +145,9 @@ const actions = {
         }
       })
       .catch(err => handleError(commit, err, 'error on article update'))
+  },
+  updateQuery({ commit }, query) {
+    commit('updateQuery', query)
   },
 }
 
