@@ -28,13 +28,13 @@
               class="fa fa-plus"
               aria-hidden="true"
               title="add a new article"
-            ></i>
+            />
           </router-link>
         </li>
       </ul>
     </nav>
     <div @click="displayMenu" id="nav-icon">
-      <i class="fa fa-bars"></i>
+      <i class="fa fa-bars" />
     </div>
   </header>
 </template>

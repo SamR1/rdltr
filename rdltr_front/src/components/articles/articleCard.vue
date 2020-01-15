@@ -5,7 +5,7 @@
       :title="article.title"
       :onDeleteArticle="onDeleteArticle"
       @close="showModal = false"
-    ></conf-modal>
+    />
     <div class="card" :class="`status${article.read ? '-read' : ''}`">
       <div class="card-body">
         <button
@@ -17,9 +17,9 @@
         >
           <span aria-hidden="true">&times;</span>
         </button>
-        <app-badge :name="article.category.name"></app-badge>
+        <app-badge :name="article.category.name" />
         <h5 class="card-title">
-          {{ article.title }} <i v-if="article.favorite" class="fa fa-star"></i>
+          {{ article.title }} <i v-if="article.favorite" class="fa fa-star" />
         </h5>
         <app-badge
           v-for="tag in article.tags"
@@ -27,8 +27,8 @@
           :is-tag="true"
           :key="tag.id"
           :name="tag.name"
-        ></app-badge>
-        <p class="card-text"></p>
+        />
+        <p class="card-text" />
       </div>
       <div class="card-footer">
         <router-link

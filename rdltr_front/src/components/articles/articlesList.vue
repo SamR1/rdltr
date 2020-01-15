@@ -19,7 +19,7 @@
         </app-article-card>
       </div>
     </div>
-    <app-pagination></app-pagination>
+    <app-pagination />
   </div>
 </template>
 

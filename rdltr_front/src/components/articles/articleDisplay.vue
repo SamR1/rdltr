@@ -4,7 +4,7 @@
       v-if="showModal"
       :onDeleteArticle="onDeleteArticle"
       @close="showModal = false"
-    ></conf-modal>
+    />
     <button class="btn-rdltr" type="submit" @click="goBack">
       Back
     </button>
@@ -13,7 +13,7 @@
     </p>
     <div v-if="article.title">
       <div id="category-update" v-if="onCategoryEdition">
-        <app-category-select displayLabel="false"></app-category-select>
+        <app-category-select displayLabel="false" />
         <div class="submit">
           <button
             class="btn-rdltr"
@@ -38,42 +38,42 @@
           v-if="article.category"
           :to="`/?cat_id=${article.category.id}`"
         >
-          <app-badge :name="article.category.name"></app-badge>
+          <app-badge :name="article.category.name" />
         </router-link>
         <i
           aria-hidden="true"
           class="fa fa-pencil link"
           title="edit category"
           @click="updateSelectedCategory"
-        ></i>
+        />
         <i
           aria-hidden="true"
           :class="`fa fa-eye${article.read ? '-slash' : ''}`"
           :title="`mark as ${article.read ? 'not ' : ''}read`"
           @click="updateReadStatus"
-        ></i>
+        />
         <i
           aria-hidden="true"
           :class="`fa fa-star${article.favorite ? '' : '-o'}`"
           :title="`${article.favorite ? 'un' : ''} favorite article`"
           @click="updateFavorite"
-        ></i>
+        />
         <i
           aria-hidden="true"
           title="reload article"
           :class="`fa fa-refresh${loading ? ' fa-spin' : ''}`"
           @click="onReloadArticle"
-        ></i>
+        />
         <i
           aria-hidden="true"
           title="delete article"
           :class="`fa fa-trash${loading ? ' fa-disabled' : ''}`"
           @click="showModal = true"
-        ></i>
+        />
       </div>
       <h1>{{ article.title }}</h1>
       <div id="tag-update" v-if="onTagEdition">
-        <app-tag-multi-select></app-tag-multi-select>
+        <app-tag-multi-select />
         <div class="submit">
           <button class="btn-rdltr" type="submit" @click="onUpdateTags">
             Update
@@ -91,7 +91,7 @@
           :is-tag="true"
           :key="tag.id"
           :name="tag.name"
-        ></app-badge>
+        />
         <span
           class="no-tags"
           v-show="article.tags && article.tags.length === 0"
@@ -103,7 +103,7 @@
           class="fa fa-pencil link"
           title="edit tags"
           @click="updateSelectedTags"
-        ></i>
+        />
       </div>
       <p class="article-link">
         Link:
@@ -114,7 +114,7 @@
       <app-article-content
         v-if="article.html_content"
         :article-content="article.html_content"
-      ></app-article-content>
+      />
       <button class="btn-rdltr" type="submit" @click="$router.go(-1)">
         Back
       </button>
@@ -125,7 +125,7 @@
       <app-article-comments
         v-if="article"
         :article-comments="article.comments"
-      ></app-article-comments>
+      />
     </div>
   </div>
 </template>

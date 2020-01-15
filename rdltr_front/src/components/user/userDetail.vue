@@ -39,9 +39,6 @@
         <div class="submit" v-if="actionType === 'editProfile'">
           <button type="submit" @click.prevent="onSubmit()">Submit</button>
           <button type="submit" @click.prevent="onCancel()">Cancel</button>
-          <!--          <router-link class="cancel" tag="button" to="/profile"-->
-          <!--            >Cancel</router-link-->
-          <!--          >-->
         </div>
         <div v-else class="submit">
           <router-link tag="button" to="/profile/edit">

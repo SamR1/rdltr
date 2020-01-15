@@ -7,7 +7,7 @@
         v-show="pagination.has_prev"
         @click="getTargetLink(-1)"
       >
-        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+        <i class="fa fa-chevron-left" aria-hidden="true" />
       </button>
     </div>
     <div class="col-10 text-center page" v-if="pagination.pages > 0">
@@ -20,7 +20,7 @@
         v-show="pagination.has_next"
         @click="getTargetLink(1)"
       >
-        <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        <i class="fa fa-chevron-right" aria-hidden="true" />
       </button>
     </div>
   </div>

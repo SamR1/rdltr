@@ -8,7 +8,7 @@
       :options="userTags"
       :taggable="true"
       @tag="addTag"
-    ></app-multiselect>
+    />
   </div>
 </template>
 

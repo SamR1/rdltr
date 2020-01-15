@@ -11,14 +11,14 @@
           <label for="link">Link</label>
           <input id="link" required v-model="link" />
         </div>
-        <app-category-select display-label="true"></app-category-select>
-        <app-tag-multi-select :display-label="true"></app-tag-multi-select>
+        <app-category-select display-label="true" />
+        <app-tag-multi-select :display-label="true" />
         <div class="submit add-article-submit">
           <button type="submit" :disabled="loading">Submit</button>
         </div>
       </form>
       <div class="text-center" v-if="loading">
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" />
       </div>
     </div>
   </div>

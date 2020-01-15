@@ -26,7 +26,7 @@
           </div>
           <div class="input" v-if="itemType === 'categories'">
             <label for="description">Description</label>
-            <textarea id="description" v-model="item.description"></textarea>
+            <textarea id="description" v-model="item.description" />
           </div>
           <div class="submit">
             <button
@@ -112,4 +112,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

@@ -7,7 +7,7 @@
         {{ errorMessage }}
       </p>
       <div class="text-center" v-if="loading">
-        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw" />
       </div>
     </div>
   </div>
@@ -49,4 +49,4 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped />

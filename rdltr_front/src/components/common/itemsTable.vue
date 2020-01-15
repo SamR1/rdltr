@@ -46,14 +46,14 @@
                 params: { id: item.id },
               }"
             >
-              <i aria-hidden="true" class="fa fa-pencil"></i>
+              <i aria-hidden="true" class="fa fa-pencil" />
             </router-link>
             <i
               aria-hidden="true"
               class="fa fa-trash link"
               v-if="!item.is_default"
               @click="deleteItem(item.id)"
-            ></i>
+            />
           </td>
         </tr>
       </tbody>
