@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.1.7 (2020/01/xx)
+## Version 0.1.7 (2020/01/15)
 
 ### Issues Closed
 
@@ -8,7 +8,12 @@
 
 * [Issue 15](https://github.com/SamR1/rdltr/issues/15) - improve documentation
 
-In this release 1 issue was closed.
+#### Bugs Fixed
+
+* [Issue 16](https://github.com/SamR1/rdltr/issues/16) - cannot get favorite articles anymore
+
+In this release 2 issue were closed.
+
 
 ## Version 0.1.6 (2020/01/10)
 
