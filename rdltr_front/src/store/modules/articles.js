@@ -88,6 +88,11 @@ const actions = {
     } else {
       dispatch('updateSelectedCategory', '')
     }
+    if ('favorites' in params) {
+      dispatch('updateFavorites', params['favorites'])
+    } else {
+      dispatch('updateFavorites', false)
+    }
     if ('not_read' in params) {
       dispatch('updateReadStatus', params['not_read'])
     } else {
