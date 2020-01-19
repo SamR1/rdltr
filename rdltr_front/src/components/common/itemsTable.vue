@@ -10,7 +10,7 @@
             :key="key"
             @click="sortBy(key)"
           >
-            {{ key | capitalize }}
+            {{ key | formatText }}
             <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
             </span>
           </th>
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { getActionValue } from '../../utils'
+import { getActionValue, capitalize } from '../../utils'
 
 export default {
   props: {
@@ -72,8 +72,8 @@ export default {
     itemType: String,
   },
   filters: {
-    capitalize: function(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1)
+    formatText: function(str) {
+      return capitalize(str).replace('_', ' ')
     },
   },
   data: function() {

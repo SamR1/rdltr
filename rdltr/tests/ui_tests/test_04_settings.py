@@ -45,7 +45,8 @@ def test_settings_display_categories(selenium):
     assert "Id" in thead_th[0].text
     assert "Name" in thead_th[1].text
     assert "Description" in thead_th[2].text
-    assert "Action" in thead_th[3].text
+    assert "Nb articles" in thead_th[3].text
+    assert "Action" in thead_th[4].text
     tbody_td = table.find_element_by_tag_name(
         "tbody"
     ).find_elements_by_tag_name("td")
@@ -54,7 +55,8 @@ def test_settings_display_categories(selenium):
         len(tbody_td[1].find_elements_by_class_name("badge-rdltr-small")) == 1
     )
     assert "Default category" in tbody_td[2].text
-    assert len(tbody_td[3].find_elements_by_class_name("fa-trash")) == 0
+    assert "0" in tbody_td[3].text
+    assert len(tbody_td[4].find_elements_by_class_name("fa-trash")) == 0
 
 
 def test_settings_display_tags(selenium):
@@ -81,7 +83,8 @@ def test_settings_display_tags(selenium):
     ).find_elements_by_tag_name("th")
     assert "Id" in thead_th[0].text
     assert "Name" in thead_th[1].text
-    assert "Action" in thead_th[2].text
+    assert "Nb articles" in thead_th[2].text
+    assert "Action" in thead_th[3].text
     tbody_td = table.find_element_by_tag_name(
         "tbody"
     ).find_elements_by_tag_name("td")
@@ -106,13 +109,15 @@ def test_settings_update_categories(selenium):
         len(tbody_td[1].find_elements_by_class_name("badge-rdltr-small")) == 1
     )
     assert "Default category" in tbody_td[2].text
-    assert "news" in tbody_td[5].text
-    assert tbody_td[5].find_elements_by_class_name("badge-rdltr-small") == []
-    assert "News category" in tbody_td[6].text
-    assert len(tbody_td[7].find_elements_by_class_name("fa-trash")) == 1
+    assert "0" in tbody_td[3].text
+    assert "news" in tbody_td[6].text
+    assert tbody_td[6].find_elements_by_class_name("badge-rdltr-small") == []
+    assert "News category" in tbody_td[7].text
+    assert "0" in tbody_td[8].text
+    assert len(tbody_td[9].find_elements_by_class_name("fa-trash")) == 1
 
     # edit the category
-    tbody_td[7].find_element_by_class_name("fa-pencil").click()
+    tbody_td[9].find_element_by_class_name("fa-pencil").click()
 
     form_values = {
         "name": "sports",
@@ -127,17 +132,19 @@ def test_settings_update_categories(selenium):
         len(tbody_td[1].find_elements_by_class_name("badge-rdltr-small")) == 1
     )
     assert "Default category" in tbody_td[2].text
-    assert "sports" in tbody_td[5].text
-    assert tbody_td[5].find_elements_by_class_name("badge-rdltr-small") == []
-    assert "All articles about sports" in tbody_td[6].text
+    assert "0" in tbody_td[3].text
+    assert "sports" in tbody_td[6].text
+    assert tbody_td[6].find_elements_by_class_name("badge-rdltr-small") == []
+    assert "All articles about sports" in tbody_td[7].text
+    assert "0" in tbody_td[8].text
 
     # delete the category
-    tbody_td[7].find_element_by_class_name("fa-trash").click()
+    tbody_td[9].find_element_by_class_name("fa-trash").click()
 
     tbody_td = selenium.find_element_by_tag_name(
         "tbody"
     ).find_elements_by_tag_name("td")
-    assert len(tbody_td) == 4
+    assert len(tbody_td) == 5
     assert "default" in tbody_td[1].text
     assert (
         len(tbody_td[1].find_elements_by_class_name("badge-rdltr-small")) == 1
@@ -158,8 +165,9 @@ def test_settings_update_tags(selenium):
         "tbody"
     ).find_elements_by_tag_name("td")
     assert "python" in tbody_td[1].text
-    edit_icon = tbody_td[2].find_element_by_class_name("fa-pencil")
-    assert len(tbody_td[2].find_elements_by_class_name("fa-trash")) == 1
+    assert "0" in tbody_td[2].text
+    edit_icon = tbody_td[3].find_element_by_class_name("fa-pencil")
+    assert len(tbody_td[3].find_elements_by_class_name("fa-trash")) == 1
 
     # edit the tag
     edit_icon.click()
@@ -171,7 +179,7 @@ def test_settings_update_tags(selenium):
     assert "tests" in tbody_td[1].text
 
     # delete the tag
-    tbody_td[2].find_element_by_class_name("fa-trash").click()
+    tbody_td[3].find_element_by_class_name("fa-trash").click()
 
     tbody_td = selenium.find_element_by_tag_name(
         "tbody"

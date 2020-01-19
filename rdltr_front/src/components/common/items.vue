@@ -57,8 +57,8 @@ export default {
     },
     itemsColumns() {
       return this.itemType === 'categories'
-        ? ['id', 'name', 'description']
-        : ['id', 'name']
+        ? ['id', 'name', 'description', 'nb_articles']
+        : ['id', 'name', 'nb_articles']
     },
     items() {
       return this.itemType === 'categories'
