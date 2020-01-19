@@ -52,6 +52,7 @@ def test_get_one_category(app, user_1, cat_1):
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'python'
     assert data['data'][0]['is_default'] is False
+    assert data['data'][0]['nb_articles'] == 0
 
 
 def test_add_category_minimal_payload(app, user_1):
@@ -79,6 +80,7 @@ def test_add_category_minimal_payload(app, user_1):
     assert data['data'][0]['name'] == 'moto'
     assert not data['data'][0]['description']
     assert data['data'][0]['is_default'] is False
+    assert data['data'][0]['nb_articles'] == 0
 
     response = client.get(
         '/api/auth/profile',
@@ -97,6 +99,7 @@ def test_add_category_minimal_payload(app, user_1):
     assert data['user']['categories'][0]['id'] == 1
     assert data['user']['categories'][0]['user_id'] == 1
     assert data['user']['categories'][0]['name'] == 'moto'
+    assert data['user']['categories'][0]['nb_articles'] == 0
     assert data['user']['tags'] == []
 
 
@@ -127,6 +130,7 @@ def test_add_category_full_payload(app, user_1):
     assert data['data'][0]['name'] == 'moto'
     assert data['data'][0]['description'] == 'related to motorcycles'
     assert data['data'][0]['is_default'] is False
+    assert data['data'][0]['nb_articles'] == 0
 
 
 def test_add_category_invalid_payload(app, user_1):
@@ -194,6 +198,7 @@ def test_add_another_user_existing_category(app, user_1, cat_2):
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'moto'
     assert data['data'][0]['is_default'] is False
+    assert data['data'][0]['nb_articles'] == 0
 
 
 def test_update_existing_category_minimal(app, user_1, cat_1):
@@ -221,6 +226,7 @@ def test_update_existing_category_minimal(app, user_1, cat_1):
     assert data['data'][0]['name'] == 'new label'
     assert data['data'][0]['description'] is None
     assert data['data'][0]['is_default'] is False
+    assert data['data'][0]['nb_articles'] == 0
 
 
 def test_update_existing_category(app, user_1, cat_1):
@@ -248,6 +254,7 @@ def test_update_existing_category(app, user_1, cat_1):
     assert data['data'][0]['name'] == 'new label'
     assert data['data'][0]['description'] == 'new description'
     assert data['data'][0]['is_default'] is False
+    assert data['data'][0]['nb_articles'] == 0
 
 
 def test_update_existing_category_name(app, user_1, cat_1, cat_4):
@@ -408,6 +415,7 @@ def test_delete_category_with_articles(app, cat_3, article_4):
     assert data['data'][0]['title'] == 'Great article'
     assert data['data'][0]['category']['id'] == 2
     assert data['data'][0]['category']['name'] == 'moto'
+    assert data['data'][0]['category']['nb_articles'] == 1
 
     response = client.delete(
         '/api/categories/2',
@@ -433,6 +441,7 @@ def test_delete_category_with_articles(app, cat_3, article_4):
     assert data['data'][0]['title'] == 'Great article'
     assert data['data'][0]['category']['id'] == 1
     assert data['data'][0]['category']['name'] == 'python'
+    assert data['data'][0]['category']['nb_articles'] == 1
 
 
 def test_delete_default_category(app, cat_3):

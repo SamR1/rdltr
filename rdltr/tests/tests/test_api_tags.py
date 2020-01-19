@@ -51,6 +51,7 @@ def test_get_one_tag(app, user_1, tag_1):
     assert data['data'][0]['id'] == 1
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'tips'
+    assert data['data'][0]['nb_articles'] == 0
 
 
 def test_add_tag(app, user_1):
@@ -76,6 +77,7 @@ def test_add_tag(app, user_1):
     assert data['data'][0]['id'] == 1
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'moto'
+    assert data['data'][0]['nb_articles'] == 0
 
     response = client.get(
         '/api/auth/profile',
@@ -95,6 +97,7 @@ def test_add_tag(app, user_1):
     assert data['user']['tags'][0]['id'] == 1
     assert data['user']['tags'][0]['user_id'] == 1
     assert data['user']['tags'][0]['name'] == 'moto'
+    assert data['user']['tags'][0]['nb_articles'] == 0
 
 
 def test_add_tag_invalid_payload(app, user_1):
@@ -161,6 +164,7 @@ def test_add_another_user_existing_tag(app, user_1, tag_3):
     assert data['data'][0]['id'] == 2
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'moto'
+    assert data['data'][0]['nb_articles'] == 0
 
 
 def test_update_existing(app, user_1, tag_1):
@@ -186,6 +190,7 @@ def test_update_existing(app, user_1, tag_1):
     assert data['data'][0]['id'] == 1
     assert data['data'][0]['user_id'] == 1
     assert data['data'][0]['name'] == 'new label'
+    assert data['data'][0]['nb_articles'] == 0
 
 
 def test_update_another_user_tag(app, user_1, tag_3):

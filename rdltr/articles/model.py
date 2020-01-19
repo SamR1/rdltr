@@ -44,6 +44,7 @@ class Category(db.Model):
             'name': self.name,
             'description': self.description,
             'is_default': self.is_default,
+            'nb_articles': len(self.articles),
         }
 
 
@@ -66,7 +67,12 @@ class Tag(db.Model):
         self.name = name
 
     def serialize(self):
-        return {'id': self.id, 'user_id': self.user_id, 'name': self.name}
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'name': self.name,
+            'nb_articles': len(self.articles),
+        }
 
 
 class Article(db.Model):

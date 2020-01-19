@@ -11,6 +11,7 @@ def test_category_model(app, user_1, cat_1):
     assert 'python' == serialized_cat['name']
     assert not serialized_cat['description']
     assert serialized_cat['is_default'] is False
+    assert serialized_cat['nb_articles'] == 0
 
 
 def test_category_2_model(app, user_1, user_2, cat_2):
@@ -26,6 +27,7 @@ def test_category_2_model(app, user_1, user_2, cat_2):
     assert 'moto' == serialized_cat['name']
     assert 'related to motorcycles' == serialized_cat['description']
     assert serialized_cat['is_default'] is False
+    assert serialized_cat['nb_articles'] == 0
 
 
 def test_tag_model(app, user_1, tag_1):
@@ -37,6 +39,7 @@ def test_tag_model(app, user_1, tag_1):
     assert 1 == serialized_tag['id']
     assert 1 == serialized_tag['user_id']
     assert 'tips' == serialized_tag['name']
+    assert serialized_tag['nb_articles'] == 0
 
 
 def test_article_1_model(app, user_1, cat_1, article_1):

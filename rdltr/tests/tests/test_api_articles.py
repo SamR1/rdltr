@@ -69,8 +69,10 @@ def test_get_articles_one_result(app, article_1):
     assert data['data'][0]['category']['id'] == 1
     assert data['data'][0]['category']['name'] == 'python'
     assert data['data'][0]['category']['description'] is None
+    assert data['data'][0]['category']['nb_articles'] == 1
     assert 'date_added' in data['data'][0]
     assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][0]['nb_articles'] == 1
 
 
 def test_get_articles(app, article_1, article_2, article_3):
@@ -105,6 +107,7 @@ def test_get_articles(app, article_1, article_2, article_3):
     assert data['data'][0]['category']['name'] == 'python'
     assert data['data'][0]['category']['description'] is None
     assert data['data'][0]['category']['is_default'] is False
+    assert data['data'][0]['category']['nb_articles'] == 2
     assert 'date_added' in data['data'][0]
     assert data['data'][0]['tags'] == []
 
@@ -121,8 +124,10 @@ def test_get_articles(app, article_1, article_2, article_3):
     assert data['data'][1]['category']['name'] == 'python'
     assert data['data'][1]['category']['description'] is None
     assert data['data'][1]['category']['is_default'] is False
+    assert data['data'][1]['category']['nb_articles'] == 2
     assert 'date_added' in data['data'][1]
     assert data['data'][1]['tags'][0]['name'] == 'tips'
+    assert data['data'][1]['tags'][0]['nb_articles'] == 1
 
 
 def test_get_articles_pagination(app, articles_20):

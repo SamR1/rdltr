@@ -491,6 +491,7 @@ def test_user_profile_full_ok(app):
             'name': 'default',
             'description': 'Default category',
             'is_default': True,
+            'nb_articles': 0,
         }
     ]
     assert data['user']['tags'] == []
