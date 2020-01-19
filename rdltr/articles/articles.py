@@ -127,7 +127,7 @@ def add_user_article(user_id):
         # check if url is valid (regex from Django validator)
         regex = re.compile(
             r'^(?:http|ftp)s?://'  # http:// or https://
-            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
+            r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'  # noqa
             r'localhost|'
             r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|'
             r'\[?[A-F0-9]*:[A-F0-9:]+\]?)'
@@ -149,7 +149,8 @@ def add_user_article(user_id):
             app_log.error(e)
             response_object = {
                 'status': 'error',
-                'message': 'Error. Cannot connect to the URL, please check it.',
+                'message': 'Error. Cannot connect to the URL, '
+                           'please check it.',
             }
             return jsonify(response_object), 500
         except URLException as e:
