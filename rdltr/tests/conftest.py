@@ -122,6 +122,14 @@ def tag_3(user_2):
 
 
 @pytest.fixture()
+def tag_4(user_1):
+    tag = Tag(name='new', user_id=user_1.id)
+    db.session.add(tag)
+    db.session.commit()
+    return tag
+
+
+@pytest.fixture()
 def article_1(cat_1, tag_1, tag_2):
     article = Article(
         category_id=cat_1.id,

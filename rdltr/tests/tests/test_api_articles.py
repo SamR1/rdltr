@@ -1012,7 +1012,7 @@ def test_patch_article_change_with_new_tags(
 
 @patch('requests.get')
 def test_patch_article_change_with_existing_tag(
-    get_mock, mock_request_ok, app, user_1, article_1, cat_4, tag_1
+    get_mock, mock_request_ok, app, user_1, article_1, cat_4, tag_4
 ):
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
@@ -1023,7 +1023,7 @@ def test_patch_article_change_with_existing_tag(
     )
     response = client.patch(
         '/api/articles/1',
-        data=json.dumps(dict(category_id=2, tags=['tips'])),
+        data=json.dumps(dict(category_id=2, tags=['new'])),
         headers=dict(
             Authorization='Bearer '
             + json.loads(resp_login.data.decode())['auth_token']
@@ -1048,8 +1048,8 @@ def test_patch_article_change_with_existing_tag(
     assert data['data'][0]['category']['description'] is None
     assert data['data'][0]['category']['is_default'] is False
     assert len(data['data'][0]['tags']) == 1
-    assert data['data'][0]['tags'][0]['id'] == 1
-    assert data['data'][0]['tags'][0]['name'] == 'tips'
+    assert data['data'][0]['tags'][0]['id'] == 3
+    assert data['data'][0]['tags'][0]['name'] == 'new'
 
 
 @patch('requests.get')
