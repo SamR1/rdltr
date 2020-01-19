@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.1.8 (2020/01/xx)
+
+### Issues Closed
+
+#### New Features
+
+* [Issue 17](https://github.com/SamR1/rdltr/issues/17) - Display number of articles for each category and tag
+
+In this release 1 issue was closed.
+
+
 ## Version 0.1.7 (2020/01/15)
 
 ### Issues Closed

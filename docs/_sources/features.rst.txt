@@ -8,7 +8,7 @@ Users
 - User registration can be disabled with the environment variable `RDLTR_ALLOW_REGISTRATION` initialized to `false` (see `Installation <installation.html>`__)
 
 .. note::
-    **rdltr** was originaly intended to be mono-user. No administration is planned for now.
+    **rdltr** was originally intended to be single-user application. No administration is planned for now.
 
 Settings
 ^^^^^^^^
@@ -41,7 +41,7 @@ Pre-existing default category can not be deleted.
 
 Articles
 ^^^^^^^^
-- User can add an article from an URL: **rdltr** get only the article content (server-side scraping).
+- User can add an article from an URL: **rdltr** get only the article content (server-side scraping). Links to images or videos remain unchanged and therefore point to the original resources.
 
 .. figure:: _images/screenshot_add.png
    :alt: rdltr screenshot
