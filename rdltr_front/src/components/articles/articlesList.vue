@@ -52,8 +52,11 @@ export default {
     pagination() {
       return this.$store.getters.pagination
     },
+    userTags() {
+      return this.$store.getters.userTags
+    },
     tag: function() {
-      if ('tag_id' in this.$route.query && this.$store.getters.user.tags) {
+      if ('tag_id' in this.$route.query && this.userTags) {
         return this.$store.getters.user.tags.filter(
           tag => tag.id === +this.$route.query['tag_id']
         )[0]

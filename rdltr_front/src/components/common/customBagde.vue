@@ -1,6 +1,6 @@
 <template>
   <span :class="`badge badge-rdltr${isTag ? '-tag' : ''}`">
-    <router-link v-if="isTag" :to="`/?tag_id=${tag_id}`">
+    <router-link v-if="isTag" :to="fullPath(tag_id)">
       {{ name }}
     </router-link>
     <span v-else>
@@ -12,6 +12,21 @@
 <script>
 export default {
   props: ['name', 'isTag', 'tag_id'],
+  methods: {
+    fullPath(tagId) {
+      if (
+        this.$route.fullPath.match(/\/articles\/\d+/g) ||
+        this.$route.fullPath === '/'
+      ) {
+        return `/?tag_id=${tagId}`
+      }
+      const path = this.$route.fullPath.replace(/articles\/page\/\d+/g, '')
+      if (path.includes('tag_id')) {
+        return path.replace(/tag_id=\d+/g, `tag_id=${tagId}`)
+      }
+      return `${path}&tag_id=${tagId}`
+    },
+  },
 }
 </script>
 
