@@ -27,7 +27,7 @@
         </app-article-card>
       </div>
     </div>
-    <app-pagination />
+    <app-pagination class="footer" />
   </div>
 </template>
 
@@ -97,6 +97,14 @@ export default {
 .display-tag {
   margin-left: 0.5em;
   margin-top: -4px;
+}
+
+.footer {
+  bottom: 9px;
+  height: 50px;
+  margin: -0.5em -1em;
+  position: absolute;
+  width: 100%;
 }
 
 a {

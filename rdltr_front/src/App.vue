@@ -25,6 +25,16 @@ html {
   margin: 0;
 }
 
+html {
+  height: 100vh;
+}
+
+body {
+  min-height: 100vh;
+  padding-bottom: 50px;
+  position: relative;
+}
+
 @media screen and (max-width: 400px) {
   .contnr {
     width: auto;
