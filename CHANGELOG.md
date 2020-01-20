@@ -1,14 +1,17 @@
 # Changelog
 
-## Version 0.1.8 (2020/01/xx)
+## Version 0.1.8 (2020/01/20)
 
 ### Issues Closed
 
 #### New Features
 
-* [Issue 17](https://github.com/SamR1/rdltr/issues/17) - Display number of articles for each category and tag
+* [#18](https://github.com/SamR1/rdltr/issues/18) - improve navigation
+* [#17](https://github.com/SamR1/rdltr/issues/17) - display number of articles for each category and tag
+* [ae01c14](https://github.com/SamR1/rdltr/commit/ae01c14b8d4e59644d47ac17e9c93d0097155c3e), 
+[8427384](https://github.com/SamR1/rdltr/commit/8427384158205c0358eb33be5396ec60e7d360b5) - improve tag filtering
 
-In this release 1 issue was closed.
+In this release 2 issue were closed.
 
 
 ## Version 0.1.7 (2020/01/15)
@@ -17,11 +20,11 @@ In this release 1 issue was closed.
 
 #### New Features
 
-* [Issue 15](https://github.com/SamR1/rdltr/issues/15) - improve documentation
+* [#15](https://github.com/SamR1/rdltr/issues/15) - improve documentation
 
 #### Bugs Fixed
 
-* [Issue 16](https://github.com/SamR1/rdltr/issues/16) - cannot get favorite articles anymore
+* [#16](https://github.com/SamR1/rdltr/issues/16) - cannot get favorite articles anymore
 
 In this release 2 issue were closed.
 
@@ -32,7 +35,7 @@ In this release 2 issue were closed.
 
 #### New Features
 
-* [Issue 8](https://github.com/SamR1/rdltr/issues/8) - Scrape from browser DOM
+* [#8](https://github.com/SamR1/rdltr/issues/8) - Scrape from browser DOM
 
 In this release 1 issue was closed.
 
@@ -43,12 +46,12 @@ In this release 1 issue was closed.
 
 #### New Features
 
-* [Issue 13](https://github.com/SamR1/rdltr/issues/13) - add an article via a share link
-* [Issue 12](https://github.com/SamR1/rdltr/issues/12) - add redirection after login
+* [#13](https://github.com/SamR1/rdltr/issues/13) - add an article via a share link
+* [#12](https://github.com/SamR1/rdltr/issues/12) - add redirection after login
 
 #### Bugs Fixed
 
-* [Issue 14](https://github.com/SamR1/rdltr/issues/14) - some articles still have encoding issues
+* [#14](https://github.com/SamR1/rdltr/issues/14) - some articles still have encoding issues
 
 In this release 3 issues were closed.
 
@@ -59,12 +62,12 @@ In this release 3 issues were closed.
 
 #### New Features
 
-* [Issue 4](https://github.com/SamR1/rdltr/issues/4) - add favorites
-* [Issue 3](https://github.com/SamR1/rdltr/issues/3) - add a confirmation before deleting an article
+* [#4](https://github.com/SamR1/rdltr/issues/4) - add favorites
+* [#3](https://github.com/SamR1/rdltr/issues/3) - add a confirmation before deleting an article
 
 #### Bugs Fixed
 
-* [Issue 11](https://github.com/SamR1/rdltr/issues/11) - incorrect encoding on some articles
+* [#11](https://github.com/SamR1/rdltr/issues/11) - incorrect encoding on some articles
 
 In this release 3 issues were closed.
 
@@ -75,12 +78,12 @@ In this release 3 issues were closed.
 
 #### New Features
 
-* [Issue 7](https://github.com/SamR1/rdltr/issues/7) - add possibility to reload an article
+* [#7](https://github.com/SamR1/rdltr/issues/7) - add possibility to reload an article
 
 #### Bugs Fixed
 
-* [Issue 5](https://github.com/SamR1/rdltr/issues/5) - some articles can't be downloaded
-* [Issue 2](https://github.com/SamR1/rdltr/issues/2) - can't access the second page when filtering on a tag
+* [#5](https://github.com/SamR1/rdltr/issues/5) - some articles can't be downloaded
+* [#2](https://github.com/SamR1/rdltr/issues/2) - can't access the second page when filtering on a tag
 
 In this release 3 issues were closed.
 
@@ -89,7 +92,7 @@ In this release 3 issues were closed.
 
 #### Bugs Fixed
 
-* [Issue 1](https://github.com/SamR1/rdltr/issues/1) - API URL can't be changed
+* [#1](https://github.com/SamR1/rdltr/issues/1) - API URL can't be changed
 
 In this release 1 issue was closed.
 
