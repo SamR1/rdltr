@@ -5,8 +5,13 @@
     </p>
     <div v-else>
       <div class="row articles-msg" v-if="pagination.total > 0">
-        {{ pagination.total }}
-        {{ `article${pagination.total !== 1 ? 's' : ''}` }}
+        <div>
+          {{ pagination.total }}
+          {{ `article${pagination.total !== 1 ? 's' : ''}` }}
+        </div>
+        <div v-if="tag" class="display-tag">
+          <app-badge :tag_id="tag.id" :is-tag="true" :name="tag.name" />
+        </div>
       </div>
       <div class="row">
         <p class="text-center articles-msg" v-if="articles.length === 0">
@@ -28,11 +33,13 @@
 
 <script>
 import ArticleCard from './articleCard'
+import CustomBadge from '../common/customBagde'
 import Pagination from '../home/pagination'
 
 export default {
   components: {
     AppArticleCard: ArticleCard,
+    AppBadge: CustomBadge,
     AppPagination: Pagination,
   },
   computed: {
@@ -44,6 +51,14 @@ export default {
     },
     pagination() {
       return this.$store.getters.pagination
+    },
+    tag: function() {
+      if ('tag_id' in this.$route.query && this.$store.getters.user.tags) {
+        return this.$store.getters.user.tags.filter(
+          tag => tag.id === +this.$route.query['tag_id']
+        )[0]
+      }
+      return null
     },
   },
   watch: {
@@ -73,6 +88,12 @@ export default {
 
 .articles-msg {
   margin-left: 1em;
+  align-items: center;
+}
+
+.display-tag {
+  margin-left: 0.5em;
+  margin-top: -4px;
 }
 
 a {
