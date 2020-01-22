@@ -4,28 +4,33 @@
       {{ errorMessage }}
     </p>
     <div v-else>
-      <div class="row articles-msg" v-if="pagination.total > 0">
-        <div>
-          {{ pagination.total }}
-          {{ `article${pagination.total !== 1 ? 's' : ''}` }}
-        </div>
-        <div v-if="tag" class="display-tag">
-          <app-badge :tag_id="tag.id" :is-tag="true" :name="tag.name" />
-        </div>
-        <clear-filter></clear-filter>
+      <div class="text-center" v-if="loading">
+        <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
       </div>
-      <div class="row">
-        <p class="text-center articles-msg" v-if="articles.length === 0">
-          No articles. Add
-          <router-link to="/articles/add">one</router-link>
-          ! <clear-filter></clear-filter>
-        </p>
-        <app-article-card
-          v-for="article in articles"
-          :key="article.id"
-          :article="article"
-        >
-        </app-article-card>
+      <div v-else>
+        <div class="row articles-msg" v-if="pagination.total > 0">
+          <div>
+            {{ pagination.total }}
+            {{ `article${pagination.total !== 1 ? 's' : ''}` }}
+          </div>
+          <div v-if="tag" class="display-tag">
+            <app-badge :tag_id="tag.id" :is-tag="true" :name="tag.name" />
+          </div>
+          <clear-filter></clear-filter>
+        </div>
+        <div class="row">
+          <p class="text-center articles-msg" v-if="articles.length === 0">
+            No articles. Add
+            <router-link to="/articles/add">one</router-link>
+            ! <clear-filter></clear-filter>
+          </p>
+          <app-article-card
+            v-for="article in articles"
+            :key="article.id"
+            :article="article"
+          >
+          </app-article-card>
+        </div>
       </div>
     </div>
     <app-pagination class="footer" />
@@ -51,6 +56,9 @@ export default {
     },
     errorMessage() {
       return this.$store.getters.errorMessage
+    },
+    loading() {
+      return this.$store.getters.loading
     },
     pagination() {
       return this.$store.getters.pagination
@@ -79,7 +87,9 @@ export default {
     if (this.$store.getters.isAuthenticated) {
       return this.$store.dispatch(
         'getArticles',
-        Object.assign({}, this.$route.params, this.$route.query)
+        Object.assign({}, this.$route.params, this.$route.query, {
+          displaySpinner: true,
+        })
       )
     }
   },

@@ -79,6 +79,9 @@ const actions = {
       .catch(err => handleError(commit, err, 'error on fetching article'))
   },
   getArticles({ commit, dispatch }, params) {
+    if (params.displaySpinner) {
+      dispatch('updateLoading', true)
+    }
     let url = 'articles'
     if (Object.keys(params).length > 0) {
       url += '?'
@@ -118,6 +121,9 @@ const actions = {
             res.data.pagination.page > res.data.pagination.pages
           ) {
             return router.replace(`/articles/page/${res.data.pagination.pages}`)
+          }
+          if (params.displaySpinner) {
+            dispatch('updateLoading', false)
           }
           commit('getUserArticles', res.data)
         }

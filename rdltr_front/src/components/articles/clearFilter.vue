@@ -5,7 +5,7 @@
     to="/"
     v-if="displayClearFilters()"
   >
-    <i class="fa fa-times" aria-hidden="true"></i> clear all filters
+    &times; clear all filters
   </router-link>
 </template>
 <script>
