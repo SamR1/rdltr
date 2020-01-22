@@ -24,7 +24,7 @@ export default {
       if (path.includes('tag_id')) {
         return path.replace(/tag_id=\d+/g, `tag_id=${tagId}`)
       }
-      return `${path}&tag_id=${tagId}`
+      return `${path}${path === '/' ? '?' : '&'}tag_id=${tagId}`
     },
   },
 }
