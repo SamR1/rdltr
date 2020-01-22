@@ -26,18 +26,18 @@ from PyPI
 
 If needed, the default configuration can be overridden:
 
-=========================== ======================================= ================================================================
-variable                              description                   app default value
-=========================== ======================================= ================================================================
-`RDLTR_SETTINGS`            application configuration               "rdltr.config.ProductionConfig"
-`RDLTR_DB_URL`              database location                       **no defaut value, must be initialized**
-`RDLTR_SECRET_KEY`          application secret key                  **no defaut value, must be initialized**
-`RDLTR_LOG`                 application log file                    no default value (log printed on the console)
-`RDLTR_HOST`                host used by gunicorn                   localhost
-`RDLTR_PORT`                port used by gunicorn                   5000
-`RDLTR_WORKERS`             number of workers spawned by gunicorn   `calculated <http://docs.gunicorn.org/en/stable/custom.html>`__
-`RDLTR_ALLOW_REGISTRATION`  is users registration allowed ?         true
-=========================== ======================================= ================================================================
+============================= ======================================= ================================================================
+variable                       description                             app default value
+============================= ======================================= ================================================================
+``RDLTR_SETTINGS``            application configuration               "rdltr.config.ProductionConfig"
+``RDLTR_DB_URL``              database location                       **no defaut value, must be initialized**
+``RDLTR_SECRET_KEY``          application secret key                  **no defaut value, must be initialized**
+``RDLTR_LOG``                 application log file                    no default value (log printed on the console)
+``RDLTR_HOST``                host used by gunicorn                   localhost
+``RDLTR_PORT``                port used by gunicorn                   5000
+``RDLTR_WORKERS``             number of workers spawned by gunicorn   `calculated <http://docs.gunicorn.org/en/stable/custom.html>`__
+``RDLTR_ALLOW_REGISTRATION``  is users registration allowed ?         ``true``
+============================= ======================================= ================================================================
 
 - initialize the database
 

@@ -4,8 +4,8 @@ Features
 Users
 ^^^^^
 
-- User can register.
-- User registration can be disabled with the environment variable `RDLTR_ALLOW_REGISTRATION` initialized to `false` (see `Installation <installation.html>`__)
+- User must to register to use **rdltr**.
+- User registration can be disabled with the environment variable ``RDLTR_ALLOW_REGISTRATION`` initialized to ``false`` (see `Installation <installation.html>`__)
 
 .. note::
     **rdltr** was originally intended to be single-user application. No administration is planned for now.
@@ -29,7 +29,8 @@ Settings
 
    **rdltr** categories (example)
 
-Pre-existing default category can not be deleted.
+.. note::
+    Pre-existing default category can not be deleted.
 
 - Tags
 
@@ -41,7 +42,7 @@ Pre-existing default category can not be deleted.
 
 Articles
 ^^^^^^^^
-- User can add an article from an URL: **rdltr** get only the article content (server-side scraping). Links to images or videos remain unchanged and therefore point to the original resources.
+- User can add an article from an URL: **rdltr** gets only the article content (server-side scraping). Links to images or videos remain unchanged and therefore point to the original resources.
 
 .. figure:: _images/screenshot_add.png
    :alt: rdltr screenshot
@@ -63,7 +64,7 @@ Articles
     if the content was initially scraped browser-side, the reloaded content can be incomplete or different.
 
 - User can add comments.
-- A keywords **search** is available.
+- A keywords **search** (on article title and content) is available.
 
 .. figure:: _images/screenshot.png
    :alt: rdltr screenshot

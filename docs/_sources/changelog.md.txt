@@ -1,5 +1,20 @@
 # Changelog
 
+## Version 0.1.9 (2020/01/22)
+
+### Issues Closed
+
+#### New Features
+
+* [#20](https://github.com/SamR1/rdltr/issues/20) - reset filters
+
+#### Bugs Fixed
+
+* [#19](https://github.com/SamR1/rdltr/issues/19) - tag url is incorrect on following pages when only filtering on a tag
+
+In this release 2 issue were closed.
+
+
 ## Version 0.1.8 (2020/01/20)
 
 ### Issues Closed

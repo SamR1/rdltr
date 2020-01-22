@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Features &mdash; rdltr 0.1.8
+  <title>Features &mdash; rdltr 0.1.9
  documentation</title>
   
 
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.1.8
+                0.1.9
 
               </div>
             
@@ -168,8 +168,8 @@
 <div class="section" id="users">
 <h2>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>User can register.</p></li>
-<li><p>User registration can be disabled with the environment variable <cite>RDLTR_ALLOW_REGISTRATION</cite> initialized to <cite>false</cite> (see <a class="reference external" href="installation.html">Installation</a>)</p></li>
+<li><p>User must to register to use <strong>rdltr</strong>.</p></li>
+<li><p>User registration can be disabled with the environment variable <code class="docutils literal notranslate"><span class="pre">RDLTR_ALLOW_REGISTRATION</span></code> initialized to <code class="docutils literal notranslate"><span class="pre">false</span></code> (see <a class="reference external" href="installation.html">Installation</a>)</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -192,7 +192,10 @@
 <img alt="rdltr categories screenshot" src="_images/screenshot_categories.png" />
 <p class="caption"><span class="caption-text"><strong>rdltr</strong> categories (example)</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Pre-existing default category can not be deleted.</p>
+</div>
 <ul class="simple">
 <li><p>Tags</p></li>
 </ul>
@@ -204,7 +207,7 @@
 <div class="section" id="articles">
 <h2>Articles<a class="headerlink" href="#articles" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>User can add an article from an URL: <strong>rdltr</strong> get only the article content (server-side scraping). Links to images or videos remain unchanged and therefore point to the original resources.</p></li>
+<li><p>User can add an article from an URL: <strong>rdltr</strong> gets only the article content (server-side scraping). Links to images or videos remain unchanged and therefore point to the original resources.</p></li>
 </ul>
 <div class="doc-img figure align-default">
 <img alt="rdltr screenshot" src="_images/screenshot_add.png" />
@@ -225,7 +228,7 @@
 </div>
 <ul class="simple">
 <li><p>User can add comments.</p></li>
-<li><p>A keywords <strong>search</strong> is available.</p></li>
+<li><p>A keywords <strong>search</strong> (on article title and content) is available.</p></li>
 </ul>
 <div class="doc-img figure align-default">
 <img alt="rdltr screenshot" src="_images/screenshot.png" />
