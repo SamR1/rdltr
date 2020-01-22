@@ -12,7 +12,7 @@
 
 * [#19](https://github.com/SamR1/rdltr/issues/19) - tag url is incorrect on following pages when only filtering on a tag
 
-In this release 2 issue were closed.
+In this release 2 issues were closed.
 
 
 ## Version 0.1.8 (2020/01/20)
@@ -26,7 +26,7 @@ In this release 2 issue were closed.
 * [ae01c14](https://github.com/SamR1/rdltr/commit/ae01c14b8d4e59644d47ac17e9c93d0097155c3e), 
 [8427384](https://github.com/SamR1/rdltr/commit/8427384158205c0358eb33be5396ec60e7d360b5) - improve tag filtering
 
-In this release 2 issue were closed.
+In this release 2 issues were closed.
 
 
 ## Version 0.1.7 (2020/01/15)
@@ -41,7 +41,7 @@ In this release 2 issue were closed.
 
 * [#16](https://github.com/SamR1/rdltr/issues/16) - cannot get favorite articles anymore
 
-In this release 2 issue were closed.
+In this release 2 issues were closed.
 
 
 ## Version 0.1.6 (2020/01/10)
