@@ -12,12 +12,13 @@
         <div v-if="tag" class="display-tag">
           <app-badge :tag_id="tag.id" :is-tag="true" :name="tag.name" />
         </div>
+        <clear-filter></clear-filter>
       </div>
       <div class="row">
         <p class="text-center articles-msg" v-if="articles.length === 0">
           No articles. Add
           <router-link to="/articles/add">one</router-link>
-          !
+          ! <clear-filter></clear-filter>
         </p>
         <app-article-card
           v-for="article in articles"
@@ -33,6 +34,7 @@
 
 <script>
 import ArticleCard from './articleCard'
+import ClearFilter from './clearFilter'
 import CustomBadge from '../common/customBagde'
 import Pagination from '../home/pagination'
 
@@ -41,6 +43,7 @@ export default {
     AppArticleCard: ArticleCard,
     AppBadge: CustomBadge,
     AppPagination: Pagination,
+    ClearFilter: ClearFilter,
   },
   computed: {
     articles() {
