@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.1.10 (unreleased)
+
+### Issues Closed
+
+#### New Features
+
+* [#21](https://github.com/SamR1/rdltr/issues/21) - remove tracking from article url
+
+In this release 1 issue was closed.
+
+
 ## Version 0.1.9 (2020/01/22)
 
 ### Issues Closed
