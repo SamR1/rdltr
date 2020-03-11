@@ -13,6 +13,7 @@ from .articles_utils import (
     get_article_content,
     get_article_html_content_from_url,
     is_article_url_valid,
+    remove_tracking,
 )
 from .model import Article, Category, Tag
 
@@ -87,6 +88,7 @@ def add_user_article(user_id):
         return jsonify(response_object), 400
 
     url = post_data.get('url').strip()
+    url = remove_tracking(url)
     # html content from web browser
     if post_data.get('html_content'):
         html_content = re.sub('class=".*?"', '', post_data.get('html_content'))

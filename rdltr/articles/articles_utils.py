@@ -5,6 +5,13 @@ from bs4 import BeautifulSoup
 from readability import Document
 
 
+TRACKING_REMOVAL_REGEXES = [
+    re.compile(r'utm_[^&]+&?'),
+    re.compile(r'&$'),
+    re.compile(r'\?$'),
+]
+
+
 class URLException(Exception):
     ...
 
@@ -52,3 +59,9 @@ def is_article_url_valid(url):
         re.IGNORECASE,
     )
     return re.match(regex, url)
+
+
+def remove_tracking(url):
+    for regex in TRACKING_REMOVAL_REGEXES:
+        url = regex.sub('', url)
+    return url

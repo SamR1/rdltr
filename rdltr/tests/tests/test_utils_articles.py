@@ -6,6 +6,7 @@ from rdltr.articles.articles_utils import (
     get_article_content,
     get_article_html_content_from_url,
     is_article_url_valid,
+    remove_tracking,
 )
 
 from ..utils_requests import html_doc_body_ok, html_doc_ok
@@ -58,3 +59,36 @@ def test_it_returns_false_when_url_is_invalid():
 def test_it_returns_true_when_url_is_valid():
     url = 'https://www.example.com'
     assert is_article_url_valid(url)
+
+
+@pytest.mark.parametrize(
+    'url_input,url_expected',
+    [
+        (
+            'https://www.example.com/article-title',
+            'https://www.example.com/article-title',
+        ),
+        (
+            'https://www.example.com/article-title?utm_source=test',
+            'https://www.example.com/article-title',
+        ),
+        (
+            'https://www.example.com/article-title?utm_test=test',
+            'https://www.example.com/article-title',
+        ),
+        (
+            'https://www.example.com/article-title?utm_source=test&key=value',
+            'https://www.example.com/article-title?key=value',
+        ),
+        (
+            'https://www.example.com/article-title?key1=value1&utm_source=test&key2=value2',  # noqa
+            'https://www.example.com/article-title?key1=value1&key2=value2',
+        ),
+        (
+            'https://www.example.com/article-title?utm_source=test&key=value&utm_campaign=campaign1',  # noqa
+            'https://www.example.com/article-title?key=value',
+        ),
+    ],
+)
+def test_it_remove_tracking(url_input, url_expected):
+    assert remove_tracking(url_input) == url_expected
