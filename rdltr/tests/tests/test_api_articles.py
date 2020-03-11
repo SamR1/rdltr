@@ -1380,7 +1380,7 @@ def test_patch_article_reload_content(
     assert data['data'][0]['title'] == 'this is a title'
     assert (
         data['data'][0]['html_content']
-        == '<body id="readabilityBody">\n        <p>this is a paragraph</p>\n    </body>\n'  # noqa
+        == '<body  id="readabilityBody">\n        <p>this is a paragraph</p>\n    </body>\n'  # noqa
     )
     assert data['data'][0]['url'] == 'https://test.com'
     assert data['data'][0]['comments'] is None

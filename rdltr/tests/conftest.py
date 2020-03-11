@@ -9,6 +9,7 @@ from .utils_mock_server import MockTestServer
 from .utils_requests import (
     mock_api,
     mock_response_empty,
+    mock_response_different_encoding,
     mock_response_not_found,
     mock_response_ok,
 )
@@ -225,6 +226,11 @@ def mock_request_not_found():
 @pytest.fixture()
 def mock_request_empty():
     return mock_api(mock_response_empty)
+
+
+@pytest.fixture()
+def mock_request_different_encoding():
+    return mock_api(mock_response_different_encoding)
 
 
 @pytest.fixture
