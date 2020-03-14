@@ -39,8 +39,8 @@ const mutations = {
 }
 
 const actions = {
-  checkUserAuth({ commit, dispatch }) {
-    if (window.localStorage.authToken) {
+  checkUserAuth({ commit, dispatch, getters }) {
+    if (window.localStorage.authToken && !getters.isAuthenticated) {
       commit('authUser', window.localStorage.authToken)
       dispatch('getUserProfile')
     }

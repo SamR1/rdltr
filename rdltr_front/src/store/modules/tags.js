@@ -2,27 +2,27 @@ import authApi from '../../api/authApi'
 import router from '../../router'
 import { handleError } from '../../utils'
 
-const state = {
-  tags: [],
-}
+const state = {}
 
 const getters = {}
 
 const mutations = {}
 
 const actions = {
-  addTag({ commit }, formData) {
+  addTag({ commit, dispatch }, formData) {
     authApi
       .post('tags', formData)
       .then(() => {
+        dispatch('getUserProfile')
         router.push('/settings/tags')
       })
       .catch(err => handleError(commit, err, 'error on tag creation'))
   },
-  updateTag({ commit }, formData) {
+  updateTag({ commit, dispatch }, formData) {
     authApi
       .patch(`tags/${formData.id}`, formData)
       .then(() => {
+        dispatch('getUserProfile')
         router.push('/settings/tags')
       })
       .catch(err => handleError(commit, err, 'error on tag update'))

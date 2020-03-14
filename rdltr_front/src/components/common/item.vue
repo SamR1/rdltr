@@ -77,6 +77,17 @@ export default {
   },
   watch: {
     items: function(newItems) {
+      this.getItems(newItems)
+    },
+  },
+  created() {
+    this.getItems(this.items)
+  },
+  beforeDestroy() {
+    this.$store.dispatch('updateErrorMessage', null)
+  },
+  methods: {
+    getItems(newItems) {
       if (this.$route.params.id && newItems) {
         const selectItem = newItems.filter(
           item => item.id === +this.$route.params.id
@@ -91,20 +102,12 @@ export default {
         }
       }
     },
-  },
-  beforeDestroy() {
-    this.$store.dispatch('updateErrorMessage', null)
-  },
-  methods: {
     onSubmit() {
-      if (this.$route.params.id) {
-        return this.$store.dispatch(
-          `update${getActionValue(this.itemType, ['capitalize', 'singular'])}`,
-          this.item
-        )
-      }
       return this.$store.dispatch(
-        `add${getActionValue(this.itemType, ['capitalize', 'singular'])}`,
+        `${this.$route.params.id ? 'update' : 'add'}${getActionValue(
+          this.itemType,
+          ['capitalize', 'singular']
+        )}`,
         this.item
       )
     },

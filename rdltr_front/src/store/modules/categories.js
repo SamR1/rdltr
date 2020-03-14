@@ -2,27 +2,27 @@ import authApi from '../../api/authApi'
 import router from '../../router'
 import { handleError } from '../../utils'
 
-const state = {
-  categories: [],
-}
+const state = {}
 
 const getters = {}
 
 const mutations = {}
 
 const actions = {
-  addCategory({ commit }, formData) {
+  addCategory({ commit, dispatch }, formData) {
     authApi
       .post('categories', formData)
       .then(() => {
+        dispatch('getUserProfile')
         router.push('/settings/categories')
       })
       .catch(err => handleError(commit, err, 'error on category creation'))
   },
-  updateCategory({ commit }, formData) {
+  updateCategory({ commit, dispatch }, formData) {
     authApi
       .patch(`categories/${formData.id}`, formData)
       .then(() => {
+        dispatch('getUserProfile')
         router.push('/settings/categories')
       })
       .catch(err => handleError(commit, err, 'error on category update'))
