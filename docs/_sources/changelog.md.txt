@@ -1,6 +1,6 @@
 # Changelog
 
-## Version 0.1.10 (unreleased)
+## Version 0.1.10 (2020/03/15)
 
 ### Issues Closed
 
