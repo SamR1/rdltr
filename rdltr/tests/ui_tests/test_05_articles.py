@@ -105,6 +105,7 @@ def test_add_article_invalid_url(selenium):
     submit_button = selenium.find_element_by_tag_name('button')
     submit_button.click()
 
+    selenium.implicitly_wait(1)
     errors = selenium.find_element_by_class_name('alert-danger').text
     assert 'Error. Cannot connect to the URL, please check it.' in errors
 
