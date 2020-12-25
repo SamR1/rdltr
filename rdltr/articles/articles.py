@@ -71,7 +71,7 @@ def get_user_article(user_id, article_id):
     if not article or article.category.user_id != user_id:
         response_object = {
             'status': 'not found',
-            'message': f'Article not found.',
+            'message': 'Article not found.',
         }
         return jsonify(response_object), 404
 
@@ -176,7 +176,7 @@ def update_user_category(user_id, article_id):
     if not article or article.category.user_id != user_id:
         response_object = {
             'status': 'not found',
-            'message': f'Article not found.',
+            'message': 'Article not found.',
         }
         return jsonify(response_object), 404
 
@@ -186,7 +186,7 @@ def update_user_category(user_id, article_id):
         if not category or category.user_id != user_id:
             response_object = {
                 'status': 'error',
-                'message': f'Article category not found.',
+                'message': 'Article category not found.',
             }
             return jsonify(response_object), 500
         article.category_id = category.id
@@ -257,7 +257,7 @@ def delete_user_category(user_id, article_id):
     if not article or article.category.user_id != user_id:
         response_object = {
             'status': 'not found',
-            'message': f'Article not found.',
+            'message': 'Article not found.',
         }
         return jsonify(response_object), 404
     db.session.delete(article)

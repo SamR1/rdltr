@@ -80,7 +80,7 @@ def register_user():
             response_object = {
                 'status': 'success',
                 'message': 'Successfully registered.',
-                'auth_token': auth_token.decode(),
+                'auth_token': auth_token,
                 'user': new_user.serialize(),
             }
             return jsonify(response_object), 201
@@ -113,7 +113,7 @@ def login_user():
             response_object = {
                 'status': 'success',
                 'message': 'Successfully logged in.',
-                'auth_token': auth_token.decode(),
+                'auth_token': auth_token,
                 'user': user.serialize(),
             }
             return jsonify(response_object), 200

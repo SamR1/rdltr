@@ -4,7 +4,6 @@ import requests
 from bs4 import BeautifulSoup
 from readability import Document
 
-
 TRACKING_REMOVAL_REGEXES = [
     re.compile(r'utm_[^&]+&?'),
     re.compile(r'&$'),

@@ -43,7 +43,6 @@ def create_app():
         logging.getLogger('flake8').propagate = False
         app_log.setLevel(logging.DEBUG)
 
-    if app.debug:
         # Enable CORS
         @app.after_request
         def after_request(response):
@@ -57,13 +56,12 @@ def create_app():
             )
             return response
 
-    from .articles.model import Article, Category, Tag  # noqa
-    from .users.model import User  # noqa
-
     from .articles.articles import articles_blueprint  # noqa
     from .articles.categories import categories_blueprint  # noqa
+    from .articles.model import Article, Category, Tag  # noqa
     from .articles.tags import tags_blueprint  # noqa
     from .users.auth import auth_blueprint  # noqa
+    from .users.model import User  # noqa
 
     app.register_blueprint(articles_blueprint, url_prefix='/api')
     app.register_blueprint(auth_blueprint, url_prefix='/api')

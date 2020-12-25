@@ -56,7 +56,7 @@ def update_user_category(user_id, cat_id):
     if not category or category.user_id != user_id:
         response_object = {
             'status': 'not found',
-            'message': f'Category not found.',
+            'message': 'Category not found.',
         }
         return jsonify(response_object), 404
     name = post_data.get('name').lower()
@@ -89,7 +89,7 @@ def delete_user_category(user_id, cat_id):
     if not category or category.user_id != user_id:
         response_object = {
             'status': 'not found',
-            'message': f'Category not found.',
+            'message': 'Category not found.',
         }
         return jsonify(response_object), 404
     if category.is_default:
