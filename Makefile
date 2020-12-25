@@ -40,7 +40,7 @@ install-front:
 	cd rdltr_front && $(NPM) install
 
 install-python:
-	test -d $(VENV) || virtualenv $(VENV) -p $(PYTHON_VERSION)
+	test -d $(VENV) || $(PYTHON_VERSION) -m venv $(VENV)
 	$(PIP) install -e .[test,doc]
 
 lint-all: lint-python lint-front
