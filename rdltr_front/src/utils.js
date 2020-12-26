@@ -62,3 +62,20 @@ export const getApiUrl = () => {
     ? '/api'
     : 'http://localhost:5000/api'
 }
+
+export const displayWithBrowserTimezone = date => {
+  const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const dateOptions = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: browserTimezone,
+  }
+  const articleDate = new Date(date)
+  return articleDate.toLocaleString('en-GB', dateOptions)
+}

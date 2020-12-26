@@ -105,8 +105,11 @@
           @click="updateSelectedTags"
         />
       </div>
-      <p class="article-link">
-        Link:
+      <p class="article-data">
+        <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>
+        {{ articleDate }}
+        <br />
+        <i class="fa fa-link" aria-hidden="true"></i>
         <a :href="article.url" target="_blank " rel="noopener noreferrer">
           {{ article.url }}
         </a>
@@ -137,6 +140,7 @@ import CategorySelect from '../common/categorySelect'
 import ConfModal from '../common/deleteConfirmationModal'
 import CustomBadge from '../common/customBagde'
 import TagMultiSelect from '../common/tagMultiSelect'
+import { displayWithBrowserTimezone } from '@/utils'
 
 export default {
   components: {
@@ -158,6 +162,11 @@ export default {
     article: {
       get() {
         return this.$store.getters.article
+      },
+    },
+    articleDate: {
+      get() {
+        return displayWithBrowserTimezone(this.article.date_added)
       },
     },
     errorMessage: {
@@ -269,7 +278,9 @@ export default {
   margin: 0.7em 0;
 }
 
-.article-link {
+.article-data {
+  font-size: 0.9em;
+  font-style: italic;
   margin-top: 1em;
 }
 

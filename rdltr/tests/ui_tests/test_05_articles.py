@@ -30,8 +30,7 @@ def check_article(selenium, article_url):
     assert selenium.find_element_by_class_name('badge-rdltr').text == 'default'
     assert selenium.find_element_by_tag_name('h1').text == 'this is a title'
     assert (
-        selenium.find_element_by_class_name('article-link').text
-        == f'Link: {article_url}'
+        article_url in selenium.find_element_by_class_name('article-data').text
     )
     assert (
         selenium.find_element_by_id('article-content').text
@@ -67,10 +66,7 @@ def test_add_article_with_category_and_tag(selenium, mock_server):
         selenium.find_element_by_class_name('badge-rdltr-tag').text
         == 'test_tag'
     )
-    assert (
-        selenium.find_element_by_class_name('article-link').text
-        == f'Link: {url}'
-    )
+    assert url in selenium.find_element_by_class_name('article-data').text
     assert (
         selenium.find_element_by_id('article-content').text
         == 'this is a paragraph'
