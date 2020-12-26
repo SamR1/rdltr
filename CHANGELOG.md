@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.1.11 (2020/12/26)
+
+### Issues Closed
+
+#### New Features
+
+* [#25](https://github.com/SamR1/rdltr/issues/25) - display article creation date
+
+In this release 1 issue was closed.
+
+
 ## Version 0.1.10 (2020/03/15)
 
 ### Issues Closed
