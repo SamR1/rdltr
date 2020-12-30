@@ -239,3 +239,9 @@ def mock_server(request):
     server.start()
     yield server
     server.close_session()
+
+
+@pytest.fixture
+def firefox_options(firefox_options):
+    firefox_options.add_argument('--headless')
+    return firefox_options
