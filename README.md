@@ -4,7 +4,7 @@
 [![Downloads](https://pepy.tech/badge/rdltr)](https://pepy.tech/project/rdltr)
 [![Python Version](https://img.shields.io/badge/python-3.6+-brightgreen.svg)](https://python.org)
 [![Flask Version](https://img.shields.io/badge/flask-1.1.1-brightgreen.svg)](http://flask.pocoo.org/)
-[![Vue Version](https://img.shields.io/badge/vue-2.6.11-brightgreen.svg)](https://vuejs.org/)  
+[![Vue Version](https://img.shields.io/badge/vue-2.6.12-brightgreen.svg)](https://vuejs.org/)  
 [![code style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black) 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/70a84eefaea5413abf464a053abf9d19)](https://www.codacy.com/app/SamR1/rdltr)
