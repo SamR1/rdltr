@@ -1,7 +1,7 @@
 import api from '../../api/defaultApi'
 import authApi from '../../api/authApi'
 import router from '../../router'
-import { handleError } from '../../utils'
+import { handleError } from '@/utils'
 
 const state = {
   authToken: null,

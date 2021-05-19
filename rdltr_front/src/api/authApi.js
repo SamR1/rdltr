@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '../store'
-import { getApiUrl } from '../utils'
+import { getApiUrl } from '@/utils'
 
 const authApi = axios.create({
   baseURL: getApiUrl(),

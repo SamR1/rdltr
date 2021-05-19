@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { getActionValue } from '../../utils'
+import { getActionValue } from '@/utils'
 
 export default {
   props: ['itemType'],

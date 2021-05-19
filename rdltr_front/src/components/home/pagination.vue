@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { getTargetLocationFromStore } from '../../utils'
+import { getTargetLocationFromStore } from '@/utils'
 
 export default {
   computed: {

@@ -56,7 +56,7 @@
 <script>
 import Articles from '../articles/articlesList'
 import CategorySelect from '../common/categorySelect'
-import { getTargetLocationFromStore } from '../../utils'
+import { getTargetLocationFromStore } from '@/utils'
 
 export default {
   components: {

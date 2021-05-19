@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { getActionValue, capitalize } from '../../utils'
+import { getActionValue, capitalize } from '@/utils'
 
 export default {
   props: {
