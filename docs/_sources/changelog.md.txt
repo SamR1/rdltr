@@ -1,5 +1,16 @@
 # Changelog
 
+## Version 0.1.12 (2021/05/19)
+
+### Issues Closed
+
+#### Bugs Fixed
+
+* [#32](https://github.com/SamR1/rdltr/issues/32) - User tags are not updated after adding tag to article
+
+In this release 1 issue was closed.
+
+
 ## Version 0.1.11 (2020/12/26)
 
 ### Issues Closed
