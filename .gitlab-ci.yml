@@ -1,4 +1,4 @@
-image: python:3.7
+image: python:3.9
 
 stages:
   - tests
@@ -17,6 +17,14 @@ python-3.6:
   image: python:3.6
 
 python-3.7:
+  extends: .python
+  image: python:3.7
+
+python-3.8:
+  extends: .python
+  image: python:3.8
+
+python-3.9:
   stage: tests
   before_script:
     - pip install -e .[test]
@@ -27,14 +35,6 @@ python-3.7:
     - echo "SUCCESS" > .job_status
   after_script:
     - if [ "$(cat .job_status)" == "SUCCESS" ]; then GIT_BRANCH="${CI_COMMIT_REF_NAME}" coveralls; fi
-
-python-3.8:
-  extends: .python
-  image: python:3.8
-
-python-3.9:
-  extends: .python
-  image: python:3.9
 
 firefox:
   stage: selenium
