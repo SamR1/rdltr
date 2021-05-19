@@ -30,8 +30,8 @@ class Category(db.Model):
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(200))
     is_default = db.Column(db.Boolean, default=False)
-    user = db.relationship(User, backref='category_user')
-    articles = db.relationship('Article', backref='category_articles')
+    user = db.relationship(User, back_populates='categories')
+    articles = db.relationship('Article', back_populates='category')
 
     def __init__(self, user_id, name):
         self.user_id = user_id
@@ -60,7 +60,7 @@ class Tag(db.Model):
         nullable=True,
     )
     name = db.Column(db.String(50), nullable=False)
-    user = db.relationship(User, backref='tag_user')
+    user = db.relationship(User, back_populates='tags')
 
     def __init__(self, user_id, name):
         self.user_id = user_id
@@ -91,7 +91,7 @@ class Article(db.Model):
     comments = db.Column(db.String())
     read_status = db.Column(db.Boolean(), default=False, nullable=False)
     favorite = db.Column(db.Boolean(), default=False, nullable=False)
-    category = db.relationship(Category, backref='category')
+    category = db.relationship(Category, back_populates='articles')
     tags = db.relationship(
         Tag,
         secondary=tags_to_articles,

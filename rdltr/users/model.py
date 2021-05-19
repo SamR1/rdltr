@@ -13,8 +13,8 @@ class User(db.Model):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
-    categories = db.relationship('Category', backref='user_categories')
-    tags = db.relationship('Tag', backref='user_tags')
+    categories = db.relationship('Category', back_populates='user')
+    tags = db.relationship('Tag', back_populates='user')
 
     def __repr__(self):
         return f'<User {self.username!r}>'
