@@ -56,7 +56,8 @@ migrate-db:
 	$(FLASK) db migrate
 
 run:
-	cd rdltr && $(GUNICORN) -b 127.0.0.1:5000 "rdltr:create_app()" --error-logfile ../gunicorn-error.log
+	echo 'Running on http://$(HOST):$(PORT)'
+	cd rdltr && $(GUNICORN) -b $(HOST):$(PORT) "rdltr:create_app()" --error-logfile ../gunicorn-error.log
 
 serve:
 	$(MAKE) P="serve-python serve-front" make-p
@@ -65,6 +66,7 @@ serve-front:
 	cd rdltr_front && $(NPM) serve
 
 serve-python:
+	echo 'Running on http://$(HOST):$(PORT)'
 	$(FLASK) run --with-threads -h $(HOST) -p $(PORT)
 
 test:
