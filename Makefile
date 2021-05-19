@@ -41,6 +41,7 @@ install-front:
 
 install-python:
 	test -d $(VENV) || $(PYTHON_VERSION) -m venv $(VENV)
+	$(PIP) install -U pip
 	$(PIP) install -e .[test,doc]
 
 lint-all: lint-python lint-front
