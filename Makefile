@@ -9,11 +9,16 @@ make-p:
 build-client:
 	cd rdltr_front && $(NPM) run build
 
+check-python: lint-python type-check test
+
 clean:
+	rm -fr .pytest_cache
+	rm -rf .mypy_cache
+
+clean-all: clean
 	rm -fr $(VENV)
 	rm -fr .eggs
 	rm -fr *.egg-info
-	rm -fr .pytest_cache
 	rm -fr rdltr_front/node_modules/
 	rm -rf pip-wheel-metadata/
 	rm -rf dist/
@@ -50,7 +55,10 @@ lint-front:
 	cd rdltr_front && $(NPM) lint
 
 lint-python:
-	$(PYTEST) --flake8 --isort -m "flake8 or isort" $(FLASK_APP)
+	$(PYTEST) --flake8 --isort --black -m "flake8 or isort or black" $(FLASK_APP)
+
+lint-python-fix:
+	$(BLACK) $(FLASK_APP)
 
 migrate-db:
 	$(FLASK) db migrate
@@ -74,6 +82,10 @@ test:
 
 test-ui:
 	$(PYTEST) $(FLASK_APP)/tests/ui_tests --driver firefox $(PYTEST_ARGS)
+
+type-check:
+	echo 'Running mypy...'
+	$(MYPY) $(FLASK_APP)
 
 upgrade-db:
 	$(FLASK) db upgrade

@@ -1,7 +1,8 @@
 import logging
 import os
+from typing import Dict
 
-from flask import Flask, jsonify, render_template
+from flask import Flask, Response, render_template
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -18,7 +19,7 @@ db = SQLAlchemy()
 migrate = Migrate()
 
 
-def create_app():
+def create_app() -> Flask:
     app = Flask(__name__, static_folder="dist/static", template_folder="dist")
     app_log.setLevel(logging.DEBUG if app.debug else logging.INFO)
 
@@ -45,7 +46,7 @@ def create_app():
 
         # Enable CORS
         @app.after_request
-        def after_request(response):
+        def after_request(response: Response) -> Response:
             response.headers.add('Access-Control-Allow-Origin', '*')
             response.headers.add(
                 'Access-Control-Allow-Headers', 'Content-Type,Authorization'
@@ -69,12 +70,12 @@ def create_app():
     app.register_blueprint(tags_blueprint, url_prefix='/api')
 
     @app.route('/api/ping')
-    def ping_pong():
-        return jsonify({'status': 'success', 'message': 'pong!'})
+    def ping_pong() -> Dict:
+        return {'status': 'success', 'message': 'pong!'}
 
     @app.route('/', defaults={'path': ''})
     @app.route('/<path:path>')
-    def catch_all(path):
+    def catch_all(path: str) -> str:
         return render_template('index.html')
 
     return app

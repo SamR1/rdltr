@@ -1,4 +1,5 @@
 import re
+from typing import Dict, Optional
 
 import requests
 from bs4 import BeautifulSoup
@@ -15,7 +16,7 @@ class URLException(Exception):
     ...
 
 
-def get_article_html_content_from_url(url):
+def get_article_html_content_from_url(url: str) -> str:
     headers = {'User-Agent': 'Mozilla/5.0'}  # to avoid 403
     response = requests.get(url, headers=headers)
     if response.status_code >= 400:
@@ -31,7 +32,9 @@ def get_article_html_content_from_url(url):
     return response.text
 
 
-def get_article_content(html_content, title=None):
+def get_article_content(
+    html_content: str, title: Optional[str] = None
+) -> Dict:
     doc = Document(html_content)
     # 'html_content' is used for display
     # and existing classes are removed
@@ -45,7 +48,7 @@ def get_article_content(html_content, title=None):
     }
 
 
-def is_article_url_valid(url):
+def is_article_url_valid(url: str) -> bool:
     # regex from Django validator
     regex = re.compile(
         r'^(?:http|ftp)s?://'  # http:// or https://
@@ -57,10 +60,10 @@ def is_article_url_valid(url):
         r'(?:/?|[/?]\S+)$',
         re.IGNORECASE,
     )
-    return re.match(regex, url)
+    return re.match(regex, url) is not None
 
 
-def remove_tracking(url):
+def remove_tracking(url: str) -> str:
     for regex in TRACKING_REMOVAL_REGEXES:
         url = regex.sub('', url)
     return url

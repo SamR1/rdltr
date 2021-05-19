@@ -1,4 +1,8 @@
-def test_user_model(app, user_1):
+from flask import Flask
+from rdltr.users.model import User
+
+
+def test_user_model(app: Flask, user_1: User) -> None:
     assert '<User \'test\'>' == str(user_1)
     assert 1 == user_1.id
     assert 'test' == user_1.username

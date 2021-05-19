@@ -1,17 +1,20 @@
 import re
 from functools import wraps
+from typing import Any, Callable, Dict, Optional, Tuple, Union
 
-from flask import jsonify, request
+from flask import Request, request
 
 from .model import User
 
 
-def is_valid_email(email):
+def is_valid_email(email: str) -> bool:
     mail_pattern = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
     return re.match(mail_pattern, email) is not None
 
 
-def register_controls(username, email, password, password_conf):
+def register_controls(
+    username: str, email: str, password: str, password_conf: str
+) -> str:
     ret = ''
     if not 2 < len(username) < 13:
         ret += 'Username: 3 to 12 characters required.\n'
@@ -21,7 +24,7 @@ def register_controls(username, email, password, password_conf):
     return ret
 
 
-def passwords_controls(password, password_conf):
+def passwords_controls(password: str, password_conf: str) -> str:
     ret = ''
     if password != password_conf:
         ret += 'Password and password confirmation don\'t match.\n'
@@ -30,7 +33,9 @@ def passwords_controls(password, password_conf):
     return ret
 
 
-def verify_user(current_request):
+def verify_user(
+    current_request: Request,
+) -> Tuple[Optional[Dict], Optional[int], Optional[int]]:
     response_object = {
         'status': 'error',
         'message': 'Something went wrong. Please contact us.',
@@ -41,22 +46,24 @@ def verify_user(current_request):
         response_object['message'] = 'Provide a valid auth token.'
         return response_object, code, None
     auth_token = auth_header.split(" ")[1]
-    resp = User.decode_auth_token(auth_token)
-    if isinstance(resp, str):
-        response_object['message'] = resp
+    user_id = User.decode_auth_token(auth_token)
+    if isinstance(user_id, str):
+        response_object['message'] = user_id
         return response_object, code, None
-    user = User.query.filter_by(id=resp).first()
+    user = User.query.filter_by(id=user_id).first()
     if not user:
         return response_object, code, None
-    return None, None, resp
+    return None, None, user_id
 
 
-def authenticate(f):
+def authenticate(f: Callable) -> Callable:
     @wraps(f)
-    def decorated_function(*args, **kwargs):
-        response_object, code, resp = verify_user(request)
+    def decorated_function(
+        *args: Any, **kwargs: Any
+    ) -> Union[Callable, Tuple[Dict, Optional[int]]]:
+        response_object, code, user_id = verify_user(request)
         if response_object:
-            return jsonify(response_object), code
-        return f(resp, *args, **kwargs)
+            return response_object, code
+        return f(user_id, *args, **kwargs)
 
     return decorated_function

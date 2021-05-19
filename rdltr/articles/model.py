@@ -1,9 +1,13 @@
 import datetime
+from typing import Dict
 
 from sqlalchemy import UniqueConstraint
+from sqlalchemy.ext.declarative import DeclarativeMeta
 
 from .. import db
 from ..users.model import User
+
+BaseModel: DeclarativeMeta = db.Model
 
 tags_to_articles = db.Table(
     'articles_tags',
@@ -16,8 +20,8 @@ tags_to_articles = db.Table(
 )
 
 
-class Category(db.Model):
-    __tablename__ = "categories"
+class Category(BaseModel):
+    __tablename__ = 'categories'
     __table_args__ = (
         UniqueConstraint('user_id', 'name', name='category_unique_name'),
     )
@@ -33,11 +37,11 @@ class Category(db.Model):
     user = db.relationship(User, back_populates='categories')
     articles = db.relationship('Article', back_populates='category')
 
-    def __init__(self, user_id, name):
+    def __init__(self, user_id: int, name: str) -> None:
         self.user_id = user_id
         self.name = name
 
-    def serialize(self):
+    def serialize(self) -> Dict:
         return {
             'id': self.id,
             'user_id': self.user_id,
@@ -48,8 +52,8 @@ class Category(db.Model):
         }
 
 
-class Tag(db.Model):
-    __tablename__ = "tags"
+class Tag(BaseModel):
+    __tablename__ = 'tags'
     __table_args__ = (
         UniqueConstraint('user_id', 'name', name='tag_unique_name'),
     )
@@ -62,11 +66,11 @@ class Tag(db.Model):
     name = db.Column(db.String(50), nullable=False)
     user = db.relationship(User, back_populates='tags')
 
-    def __init__(self, user_id, name):
+    def __init__(self, user_id: int, name: str) -> None:
         self.user_id = user_id
         self.name = name
 
-    def serialize(self):
+    def serialize(self) -> Dict:
         return {
             'id': self.id,
             'user_id': self.user_id,
@@ -75,8 +79,8 @@ class Tag(db.Model):
         }
 
 
-class Article(db.Model):
-    __tablename__ = "articles"
+class Article(BaseModel):
+    __tablename__ = 'articles'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     category_id = db.Column(
         db.Integer,
@@ -99,14 +103,21 @@ class Article(db.Model):
         backref=db.backref('articles', lazy=True),
     )
 
-    def __init__(self, category_id, url, title, content, html_content):
+    def __init__(
+        self,
+        category_id: int,
+        url: str,
+        title: str,
+        content: str,
+        html_content: str,
+    ) -> None:
         self.category_id = category_id
         self.url = url
         self.title = title
         self.content = content
         self.html_content = html_content
 
-    def serialize(self):
+    def serialize(self) -> Dict:
         return {
             'id': self.id,
             'url': self.url,

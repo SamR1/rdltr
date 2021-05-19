@@ -1,4 +1,6 @@
-from flask import Blueprint, jsonify, request
+from typing import Dict, Tuple
+
+from flask import Blueprint, request
 
 from .. import db
 from ..users.utils import authenticate
@@ -9,22 +11,25 @@ categories_blueprint = Blueprint('categories', __name__)
 
 @categories_blueprint.route('/categories', methods=['GET'])
 @authenticate
-def get_user_categories(user_id):
+def get_user_categories(user_id: int) -> Tuple[Dict, int]:
     categories = Category.query.filter_by(id=user_id).all()
     response_object = {
         'status': 'success',
         'data': [category.serialize() for category in categories],
     }
-    return jsonify(response_object), 200
+    return response_object, 200
 
 
 @categories_blueprint.route('/categories', methods=['POST'])
 @authenticate
-def add_user_category(user_id):
+def add_user_category(user_id: int) -> Tuple[Dict, int]:
     post_data = request.get_json()
     if not post_data or post_data.get('name') is None:
-        response_object = {'status': 'error', 'message': 'Invalid payload.'}
-        return jsonify(response_object), 400
+        response_object: Dict = {
+            'status': 'error',
+            'message': 'Invalid payload.',
+        }
+        return response_object, 400
 
     name = post_data.get('name').lower()
     category = Category.query.filter_by(user_id=user_id, name=name).first()
@@ -33,7 +38,7 @@ def add_user_category(user_id):
             'status': 'error',
             'message': f'A category named "{name}" already exists.',
         }
-        return jsonify(response_object), 400
+        return response_object, 400
 
     new_category = Category(user_id=user_id, name=name)
     if post_data.get('description'):
@@ -41,16 +46,19 @@ def add_user_category(user_id):
     db.session.add(new_category)
     db.session.commit()
     response_object = {'status': 'success', 'data': [new_category.serialize()]}
-    return jsonify(response_object), 201
+    return response_object, 201
 
 
 @categories_blueprint.route('/categories/<int:cat_id>', methods=['PATCH'])
 @authenticate
-def update_user_category(user_id, cat_id):
+def update_user_category(user_id: int, cat_id: int) -> Tuple[Dict, int]:
     post_data = request.get_json()
     if not post_data:
-        response_object = {'status': 'error', 'message': 'Invalid payload.'}
-        return jsonify(response_object), 400
+        response_object: Dict = {
+            'status': 'error',
+            'message': 'Invalid payload.',
+        }
+        return response_object, 400
 
     category = Category.query.filter_by(id=cat_id).first()
     if not category or category.user_id != user_id:
@@ -58,7 +66,7 @@ def update_user_category(user_id, cat_id):
             'status': 'not found',
             'message': 'Category not found.',
         }
-        return jsonify(response_object), 404
+        return response_object, 404
     name = post_data.get('name').lower()
     if (
         name
@@ -72,32 +80,32 @@ def update_user_category(user_id, cat_id):
             'status': 'error',
             'message': f'A category named "{name}" already exists.',
         }
-        return jsonify(response_object), 400
+        return response_object, 400
     if name:
         category.name = post_data.get('name')
     if post_data.get('description'):
         category.description = post_data.get('description')
     db.session.commit()
     response_object = {'status': 'success', 'data': [category.serialize()]}
-    return jsonify(response_object), 200
+    return response_object, 200
 
 
 @categories_blueprint.route('/categories/<int:cat_id>', methods=['DELETE'])
 @authenticate
-def delete_user_category(user_id, cat_id):
+def delete_user_category(user_id: int, cat_id: int) -> Tuple[Dict, int]:
     category = Category.query.filter_by(id=cat_id).first()
     if not category or category.user_id != user_id:
         response_object = {
             'status': 'not found',
             'message': 'Category not found.',
         }
-        return jsonify(response_object), 404
+        return response_object, 404
     if category.is_default:
         response_object = {
             'status': 'error',
             'message': 'Default category can not be deleted.',
         }
-        return jsonify(response_object), 400
+        return response_object, 400
     if category.articles:
         # default category exists, no need to check it
         default_category = Category.query.filter_by(
@@ -109,4 +117,4 @@ def delete_user_category(user_id, cat_id):
     db.session.delete(category)
     db.session.commit()
     response_object = {'status': 'no content'}
-    return jsonify(response_object), 204
+    return response_object, 204

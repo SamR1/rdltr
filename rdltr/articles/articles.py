@@ -1,7 +1,8 @@
 import re
+from typing import Dict, Tuple
 
 import requests
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, request
 from readability.readability import Unparseable
 from requests import ConnectionError
 from sqlalchemy import exc, or_
@@ -22,10 +23,10 @@ articles_blueprint = Blueprint('articles', __name__)
 
 @articles_blueprint.route('/articles', methods=['GET'])
 @authenticate
-def get_user_articles(user_id):
+def get_user_articles(user_id: int) -> Tuple[Dict, int]:
     params = request.args.copy()
     tag_id = params.get('tag_id')
-    page = 1 if 'page' not in params.keys() else int(params.get('page'))
+    page = int(params.get('page', 1))
     category_id = params.get('cat_id')
     query = params.get('q')
     only_not_read = params.get('not_read')
@@ -50,7 +51,7 @@ def get_user_articles(user_id):
     )
 
     articles = articles_pagination.items
-    response_object = {
+    response_object: Dict = {
         'status': 'success',
         'data': [article.serialize() for article in articles],
         'pagination': {
@@ -61,31 +62,34 @@ def get_user_articles(user_id):
             'total': articles_pagination.total,
         },
     }
-    return jsonify(response_object), 200
+    return response_object, 200
 
 
 @articles_blueprint.route('/articles/<int:article_id>', methods=['GET'])
 @authenticate
-def get_user_article(user_id, article_id):
+def get_user_article(user_id: int, article_id: int) -> Tuple[Dict, int]:
     article = Article.query.filter_by(id=article_id).first()
     if not article or article.category.user_id != user_id:
-        response_object = {
+        response_object: Dict = {
             'status': 'not found',
             'message': 'Article not found.',
         }
-        return jsonify(response_object), 404
+        return response_object, 404
 
     response_object = {'status': 'success', 'data': [article.serialize()]}
-    return jsonify(response_object), 200
+    return response_object, 200
 
 
 @articles_blueprint.route('/articles', methods=['POST'])
 @authenticate
-def add_user_article(user_id):
+def add_user_article(user_id: int) -> Tuple[Dict, int]:
     post_data = request.get_json()
     if not post_data or post_data.get('url') is None:
-        response_object = {'status': 'error', 'message': 'Invalid payload.'}
-        return jsonify(response_object), 400
+        response_object: Dict = {
+            'status': 'error',
+            'message': 'Invalid payload.',
+        }
+        return response_object, 400
 
     url = post_data.get('url').strip()
     url = remove_tracking(url)
@@ -101,7 +105,7 @@ def add_user_article(user_id):
                 'status': 'error',
                 'message': 'Error: Invalid URL, please check it.',
             }
-            return jsonify(response_object), 400
+            return response_object, 400
 
         try:
             html_content = get_article_html_content_from_url(url)
@@ -113,18 +117,18 @@ def add_user_article(user_id):
                 'message': 'Error. Cannot connect to the URL, '
                 'please check it.',
             }
-            return jsonify(response_object), 500
+            return response_object, 500
         except URLException as e:
             app_log.error(e)
             response_object = {'status': 'error', 'message': str(e)}
-            return jsonify(response_object), 500
+            return response_object, 500
         except Unparseable as e:
             app_log.error(e)
             response_object = {
                 'status': 'error',
                 'message': 'Error. Cannot parse the document.',
             }
-            return jsonify(response_object), 500
+            return response_object, 500
 
     category_id = post_data.get('category_id')
     if not category_id:
@@ -139,7 +143,7 @@ def add_user_article(user_id):
             'status': 'error',
             'message': 'Article category not found.',
         }
-        return jsonify(response_object), 500
+        return response_object, 500
 
     new_article = Article(
         category_id=category.id,
@@ -161,16 +165,19 @@ def add_user_article(user_id):
     db.session.add(new_article)
     db.session.commit()
     response_object = {'status': 'success', 'data': [new_article.serialize()]}
-    return jsonify(response_object), 201
+    return response_object, 201
 
 
 @articles_blueprint.route('/articles/<int:article_id>', methods=['PATCH'])
 @authenticate
-def update_user_category(user_id, article_id):
+def update_user_category(user_id: int, article_id: int) -> Tuple[Dict, int]:
     post_data = request.get_json()
     if not post_data:
-        response_object = {'status': 'error', 'message': 'Invalid payload.'}
-        return jsonify(response_object), 400
+        response_object: Dict = {
+            'status': 'error',
+            'message': 'Invalid payload.',
+        }
+        return response_object, 400
 
     article = Article.query.filter_by(id=article_id).first()
     if not article or article.category.user_id != user_id:
@@ -178,7 +185,7 @@ def update_user_category(user_id, article_id):
             'status': 'not found',
             'message': 'Article not found.',
         }
-        return jsonify(response_object), 404
+        return response_object, 404
 
     category_id = post_data.get('category_id')
     if category_id:
@@ -188,7 +195,7 @@ def update_user_category(user_id, article_id):
                 'status': 'error',
                 'message': 'Article category not found.',
             }
-            return jsonify(response_object), 500
+            return response_object, 500
         article.category_id = category.id
     try:
         comments = post_data.get('comments')
@@ -227,14 +234,14 @@ def update_user_category(user_id, article_id):
             article.html_content = article_content['html_content']
         db.session.commit()
         response_object = {'status': 'success', 'data': [article.serialize()]}
-        return jsonify(response_object), 200
+        return response_object, 200
     except (ConnectionError, requests.exceptions.MissingSchema) as e:
         app_log.error(e)
         response_object = {
             'status': 'error',
             'message': 'Error. Cannot connect to the URL, please check it.',
         }
-        return jsonify(response_object), 500
+        return response_object, 500
     except (
         exc.IntegrityError,
         exc.OperationalError,
@@ -247,20 +254,20 @@ def update_user_category(user_id, article_id):
             'status': 'error',
             'message': 'Error. Please try again or contact the administrator.',
         }
-        return jsonify(response_object), 500
+        return response_object, 500
 
 
 @articles_blueprint.route('/articles/<int:article_id>', methods=['DELETE'])
 @authenticate
-def delete_user_category(user_id, article_id):
+def delete_user_category(user_id: int, article_id: int) -> Tuple[Dict, int]:
     article = Article.query.filter_by(id=article_id).first()
     if not article or article.category.user_id != user_id:
         response_object = {
             'status': 'not found',
             'message': 'Article not found.',
         }
-        return jsonify(response_object), 404
+        return response_object, 404
     db.session.delete(article)
     db.session.commit()
     response_object = {'status': 'no content'}
-    return jsonify(response_object), 204
+    return response_object, 204

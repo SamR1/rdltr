@@ -1,16 +1,20 @@
 import json
 
+from flask import Flask
+from rdltr.articles.model import Article, Category
 from rdltr.tests.utils import check_400_invalid_payload
+from rdltr.users.model import User
+from werkzeug.test import TestResponse
 
 
-def check_404_category(response):
+def check_404_category(response: 'TestResponse') -> None:
     assert response.status_code == 404
     data = json.loads(response.data.decode())
     assert data['status'] == 'not found'
     assert data['message'] == 'Category not found.'
 
 
-def test_get_no_categories(app, user_1):
+def test_get_no_categories(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -30,7 +34,7 @@ def test_get_no_categories(app, user_1):
     assert data['data'] == []
 
 
-def test_get_one_category(app, user_1, cat_1):
+def test_get_one_category(app: Flask, user_1: User, cat_1: Category) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -55,7 +59,7 @@ def test_get_one_category(app, user_1, cat_1):
     assert data['data'][0]['nb_articles'] == 0
 
 
-def test_add_category_minimal_payload(app, user_1):
+def test_add_category_minimal_payload(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -103,7 +107,7 @@ def test_add_category_minimal_payload(app, user_1):
     assert data['user']['tags'] == []
 
 
-def test_add_category_full_payload(app, user_1):
+def test_add_category_full_payload(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -133,7 +137,7 @@ def test_add_category_full_payload(app, user_1):
     assert data['data'][0]['nb_articles'] == 0
 
 
-def test_add_category_invalid_payload(app, user_1):
+def test_add_category_invalid_payload(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -152,7 +156,9 @@ def test_add_category_invalid_payload(app, user_1):
     check_400_invalid_payload(response)
 
 
-def test_add_existing_category(app, user_1, cat_1):
+def test_add_existing_category(
+    app: Flask, user_1: User, cat_1: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -174,7 +180,9 @@ def test_add_existing_category(app, user_1, cat_1):
     assert data['message'] == 'A category named "python" already exists.'
 
 
-def test_add_another_user_existing_category(app, user_1, cat_2):
+def test_add_another_user_existing_category(
+    app: Flask, user_1: User, cat_2: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -201,7 +209,9 @@ def test_add_another_user_existing_category(app, user_1, cat_2):
     assert data['data'][0]['nb_articles'] == 0
 
 
-def test_update_existing_category_minimal(app, user_1, cat_1):
+def test_update_existing_category_minimal(
+    app: Flask, user_1: User, cat_1: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -229,7 +239,9 @@ def test_update_existing_category_minimal(app, user_1, cat_1):
     assert data['data'][0]['nb_articles'] == 0
 
 
-def test_update_existing_category(app, user_1, cat_1):
+def test_update_existing_category(
+    app: Flask, user_1: User, cat_1: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -257,7 +269,9 @@ def test_update_existing_category(app, user_1, cat_1):
     assert data['data'][0]['nb_articles'] == 0
 
 
-def test_update_existing_category_name(app, user_1, cat_1, cat_4):
+def test_update_existing_category_name(
+    app: Flask, user_1: User, cat_1: Category, cat_4: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -279,7 +293,9 @@ def test_update_existing_category_name(app, user_1, cat_1, cat_4):
     assert data['message'] == 'A category named "moto" already exists.'
 
 
-def test_update_another_user_category(app, user_1, cat_2):
+def test_update_another_user_category(
+    app: Flask, user_1: User, cat_2: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -298,7 +314,7 @@ def test_update_another_user_category(app, user_1, cat_2):
     check_404_category(response)
 
 
-def test_update_not_existing_category(app, user_1):
+def test_update_not_existing_category(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -320,7 +336,9 @@ def test_update_not_existing_category(app, user_1):
     assert data['message'] == 'Category not found.'
 
 
-def test_update_category_invalid_payload(app, user_1, cat_1):
+def test_update_category_invalid_payload(
+    app: Flask, user_1: User, cat_1: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -339,7 +357,7 @@ def test_update_category_invalid_payload(app, user_1, cat_1):
     check_400_invalid_payload(response)
 
 
-def test_delete_category(app, user_1, cat_1):
+def test_delete_category(app: Flask, user_1: User, cat_1: Category) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -357,7 +375,9 @@ def test_delete_category(app, user_1, cat_1):
     assert response.status_code == 204
 
 
-def test_delete_another_user_category(app, user_1, cat_2):
+def test_delete_another_user_category(
+    app: Flask, user_1: User, cat_2: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -375,7 +395,7 @@ def test_delete_another_user_category(app, user_1, cat_2):
     check_404_category(response)
 
 
-def test_delete_not_existing_category(app, user_1):
+def test_delete_not_existing_category(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -393,7 +413,9 @@ def test_delete_not_existing_category(app, user_1):
     check_404_category(response)
 
 
-def test_delete_category_with_articles(app, cat_3, article_4):
+def test_delete_category_with_articles(
+    app: Flask, cat_3: Category, article_4: Article
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -444,7 +466,7 @@ def test_delete_category_with_articles(app, cat_3, article_4):
     assert data['data'][0]['category']['nb_articles'] == 1
 
 
-def test_delete_default_category(app, cat_3):
+def test_delete_default_category(app: Flask, cat_3: Category) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',

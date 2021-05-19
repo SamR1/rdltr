@@ -1,12 +1,14 @@
+from unittest.mock import Mock
 from urllib import parse
 
 from rdltr.tests.utils import URL, register_valid_user
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 
-def add_valid_article_with_tag(selenium, url):
+def add_valid_article_with_tag(selenium: WebDriver, url: str) -> str:
     menus = selenium.find_elements_by_class_name('menu')
     menus[3].click()
 
@@ -25,7 +27,7 @@ def add_valid_article_with_tag(selenium, url):
     return url
 
 
-def check_article(selenium, article_url):
+def check_article(selenium: WebDriver, article_url: str) -> None:
     WebDriverWait(selenium, 10).until(EC.url_matches(f'{URL}articles'))
     assert selenium.find_element_by_class_name('badge-rdltr').text == 'default'
     assert selenium.find_element_by_tag_name('h1').text == 'this is a title'
@@ -38,7 +40,9 @@ def check_article(selenium, article_url):
     )
 
 
-def test_add_article_no_category_no_tag(selenium, mock_server):
+def test_add_article_no_category_no_tag(
+    selenium: WebDriver, mock_server: Mock
+) -> None:
     register_valid_user(selenium)
 
     menus = selenium.find_elements_by_class_name('menu')
@@ -54,7 +58,9 @@ def test_add_article_no_category_no_tag(selenium, mock_server):
     check_article(selenium, url)
 
 
-def test_add_article_with_category_and_tag(selenium, mock_server):
+def test_add_article_with_category_and_tag(
+    selenium: WebDriver, mock_server: Mock
+) -> None:
     register_valid_user(selenium)
     url = f'http://localhost:{mock_server.port}/html_ok'
     add_valid_article_with_tag(selenium, url)
@@ -73,7 +79,9 @@ def test_add_article_with_category_and_tag(selenium, mock_server):
     )
 
 
-def test_add_article_empty_document(selenium, mock_server):
+def test_add_article_empty_document(
+    selenium: WebDriver, mock_server: Mock
+) -> None:
     register_valid_user(selenium)
 
     menus = selenium.find_elements_by_class_name('menu')
@@ -89,7 +97,7 @@ def test_add_article_empty_document(selenium, mock_server):
     assert 'Error. Cannot parse the document.' in errors
 
 
-def test_add_article_invalid_url(selenium):
+def test_add_article_invalid_url(selenium: WebDriver) -> None:
     register_valid_user(selenium)
 
     menus = selenium.find_elements_by_class_name('menu')
@@ -106,7 +114,9 @@ def test_add_article_invalid_url(selenium):
     assert 'Error. Cannot connect to the URL, please check it.' in errors
 
 
-def test_add_article_url_not_found(selenium, mock_server):
+def test_add_article_url_not_found(
+    selenium: WebDriver, mock_server: Mock
+) -> None:
     register_valid_user(selenium)
 
     menus = selenium.find_elements_by_class_name('menu')
@@ -125,7 +135,9 @@ def test_add_article_url_not_found(selenium, mock_server):
     )
 
 
-def test_home_after_adding_article(selenium, mock_server):
+def test_home_after_adding_article(
+    selenium: WebDriver, mock_server: Mock
+) -> None:
     register_valid_user(selenium)
     assert (
         selenium.find_element_by_class_name('articles-msg').text
@@ -154,7 +166,9 @@ def test_home_after_adding_article(selenium, mock_server):
     assert 'page 1 / 1' in selenium.find_element_by_id('pagination').text
 
 
-def test_add_article_from_bookmark(selenium, mock_server):
+def test_add_article_from_bookmark(
+    selenium: WebDriver, mock_server: Mock
+) -> None:
     register_valid_user(selenium)
     bookmark_url = f'http://localhost:{mock_server.port}/html_ok'
     rdltr_url = f"{URL}bookmarklet?url={parse.quote(bookmark_url)}"
@@ -162,7 +176,9 @@ def test_add_article_from_bookmark(selenium, mock_server):
     check_article(selenium, bookmark_url)
 
 
-def test_add_article_from_bookmark_unauthenticated_user(selenium, mock_server):
+def test_add_article_from_bookmark_unauthenticated_user(
+    selenium: WebDriver, mock_server: Mock
+) -> None:
     user_infos = register_valid_user(selenium)
     menus = selenium.find_elements_by_class_name('menu')
     menus[2].click()

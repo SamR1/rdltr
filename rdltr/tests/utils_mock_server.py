@@ -7,7 +7,7 @@ from rdltr.tests.utils_requests import html_doc_ok
 
 
 class MockServer(BaseHTTPRequestHandler):
-    def do_GET(self):
+    def do_GET(self) -> None:
         message = ''
         code = requests.codes.ok
         if self.path == '/html_ok':
@@ -19,7 +19,7 @@ class MockServer(BaseHTTPRequestHandler):
         self.wfile.write(bytes(message, 'utf-8'))
 
 
-def get_free_port():
+def get_free_port() -> int:
     s = socket.socket(socket.AF_INET, type=socket.SOCK_STREAM)
     s.bind(('localhost', 0))
     address, port = s.getsockname()
@@ -28,7 +28,7 @@ def get_free_port():
 
 
 class MockTestServer(Thread):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.session = requests.Session()
         self.port = get_free_port()
@@ -38,5 +38,5 @@ class MockTestServer(Thread):
         self.mock_server_thread.setDaemon(True)
         self.mock_server_thread.start()
 
-    def close_session(self):
+    def close_session(self) -> None:
         self.session.close()

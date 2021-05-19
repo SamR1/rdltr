@@ -1,18 +1,20 @@
 from unittest.mock import Mock
 
 
-def mock_api(html):
-    mock_response = Mock()
-    mock_response.return_value = html
-    return mock_response
-
-
 class MockResponse:
-    def __init__(self, html_content, code=200, encoding="utf-8"):
+    def __init__(
+        self, html_content: str, code: int = 200, encoding: str = "utf-8"
+    ) -> None:
         self.status_code = code
         self.text = html_content
         self.encoding = encoding
         self.apparent_encoding = "utf-8"
+
+
+def mock_api(html: MockResponse) -> Mock:
+    mock_response = Mock()
+    mock_response.return_value = html
+    return mock_response
 
 
 html_doc_ok = """

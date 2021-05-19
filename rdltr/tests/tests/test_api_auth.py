@@ -1,14 +1,16 @@
 import json
 import time
 
+from flask import Flask
 from rdltr.tests.utils import (
     check_400_invalid_credentials,
     check_400_invalid_payload,
     check_500_error,
 )
+from rdltr.users.model import User
 
 
-def test_user_registration(app):
+def test_user_registration(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -30,7 +32,9 @@ def test_user_registration(app):
     assert response.status_code == 201
 
 
-def test_user_registration_user_already_exists(app, user_1):
+def test_user_registration_user_already_exists(
+    app: Flask, user_1: User
+) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -51,7 +55,7 @@ def test_user_registration_user_already_exists(app, user_1):
     assert response.status_code == 400
 
 
-def test_user_registration_invalid_short_username(app):
+def test_user_registration_invalid_short_username(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -74,7 +78,7 @@ def test_user_registration_invalid_short_username(app):
     assert response.status_code == 400
 
 
-def test_user_registration_invalid_long_username(app):
+def test_user_registration_invalid_long_username(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -97,7 +101,7 @@ def test_user_registration_invalid_long_username(app):
     assert response.status_code == 400
 
 
-def test_user_registration_invalid_email(app):
+def test_user_registration_invalid_email(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -118,7 +122,7 @@ def test_user_registration_invalid_email(app):
     assert response.status_code == 400
 
 
-def test_user_registration_invalid_short_password(app):
+def test_user_registration_invalid_short_password(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -139,7 +143,7 @@ def test_user_registration_invalid_short_password(app):
     assert response.status_code == 400
 
 
-def test_user_registration_mismatched_password(app):
+def test_user_registration_mismatched_password(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -163,7 +167,7 @@ def test_user_registration_mismatched_password(app):
     assert response.status_code == 400
 
 
-def test_user_registration_invalid_json(app):
+def test_user_registration_invalid_json(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -173,7 +177,7 @@ def test_user_registration_invalid_json(app):
     check_400_invalid_payload(response)
 
 
-def test_user_registration_invalid_json_keys_no_username(app):
+def test_user_registration_invalid_json_keys_no_username(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -189,7 +193,7 @@ def test_user_registration_invalid_json_keys_no_username(app):
     check_400_invalid_payload(response)
 
 
-def test_user_registration_invalid_json_keys_no_email(app):
+def test_user_registration_invalid_json_keys_no_email(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -203,7 +207,7 @@ def test_user_registration_invalid_json_keys_no_email(app):
     check_400_invalid_payload(response)
 
 
-def test_user_registration_invalid_json_keys_no_password(app):
+def test_user_registration_invalid_json_keys_no_password(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -219,7 +223,9 @@ def test_user_registration_invalid_json_keys_no_password(app):
     check_400_invalid_payload(response)
 
 
-def test_user_registration_invalid_json_keys_no_password_conf(app):
+def test_user_registration_invalid_json_keys_no_password_conf(
+    app: Flask,
+) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -231,7 +237,7 @@ def test_user_registration_invalid_json_keys_no_password_conf(app):
     check_400_invalid_payload(response)
 
 
-def test_user_registration_invalid_data(app):
+def test_user_registration_invalid_data(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/register',
@@ -248,7 +254,7 @@ def test_user_registration_invalid_data(app):
     check_500_error(response)
 
 
-def test_user_registration_no_db(app_wo_db):
+def test_user_registration_no_db(app_wo_db: Flask) -> None:
     client = app_wo_db.test_client()
     response = client.post(
         '/api/auth/register',
@@ -265,7 +271,7 @@ def test_user_registration_no_db(app_wo_db):
     check_500_error(response)
 
 
-def test_user_registration_not_allowed(app_no_registration):
+def test_user_registration_not_allowed(app_no_registration: Flask) -> None:
     client = app_no_registration.test_client()
     response = client.post(
         '/api/auth/register',
@@ -287,7 +293,7 @@ def test_user_registration_not_allowed(app_no_registration):
     assert data['message'] == 'Error. Registration is disabled.'
 
 
-def test_login_registered_user(app, user_1):
+def test_login_registered_user(app: Flask, user_1: User) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/login',
@@ -302,7 +308,7 @@ def test_login_registered_user(app, user_1):
     assert response.status_code == 200
 
 
-def test_login_no_registered_user(app):
+def test_login_no_registered_user(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/login',
@@ -312,7 +318,7 @@ def test_login_no_registered_user(app):
     check_400_invalid_credentials(response)
 
 
-def test_login_invalid_payload(app):
+def test_login_invalid_payload(app: Flask) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/login',
@@ -322,7 +328,9 @@ def test_login_invalid_payload(app):
     check_400_invalid_payload(response)
 
 
-def test_login_registered_user_invalid_password(app, user_1):
+def test_login_registered_user_invalid_password(
+    app: Flask, user_1: User
+) -> None:
     client = app.test_client()
     response = client.post(
         '/api/auth/login',
@@ -332,7 +340,7 @@ def test_login_registered_user_invalid_password(app, user_1):
     check_400_invalid_credentials(response)
 
 
-def test_login_no_db(app_wo_db):
+def test_login_no_db(app_wo_db: Flask) -> None:
     client = app_wo_db.test_client()
     response = client.post(
         '/api/auth/login',
@@ -342,7 +350,7 @@ def test_login_no_db(app_wo_db):
     check_500_error(response)
 
 
-def test_logout(app, user_1):
+def test_logout(app: Flask, user_1: User) -> None:
     client = app.test_client()
     # user login
     resp_login = client.post(
@@ -364,7 +372,7 @@ def test_logout(app, user_1):
     assert response.status_code == 200
 
 
-def test_logout_expired_token(app, user_1):
+def test_logout_expired_token(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -386,7 +394,7 @@ def test_logout_expired_token(app, user_1):
     assert response.status_code == 401
 
 
-def test_logout_invalid_token(app):
+def test_logout_invalid_token(app: Flask) -> None:
     client = app.test_client()
     response = client.get(
         '/api/auth/logout', headers=dict(Authorization='Bearer invalid')
@@ -397,7 +405,7 @@ def test_logout_invalid_token(app):
     assert response.status_code == 401
 
 
-def test_logout_invalid_headers(app):
+def test_logout_invalid_headers(app: Flask) -> None:
     client = app.test_client()
     response = client.get('/api/auth/logout', headers=dict())
     data = json.loads(response.data.decode())
@@ -406,7 +414,7 @@ def test_logout_invalid_headers(app):
     assert response.status_code == 401
 
 
-def test_logout_invalid_user(app, user_1):
+def test_logout_invalid_user(app: Flask, user_1: User) -> None:
     client = app.test_client()
     # user login
     resp_login = client.post(
@@ -431,7 +439,7 @@ def test_logout_invalid_user(app, user_1):
     assert response.status_code == 401
 
 
-def test_user_profile_ok(app, user_1):
+def test_user_profile_ok(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -456,7 +464,7 @@ def test_user_profile_ok(app, user_1):
     assert data['user']['tags'] == []
 
 
-def test_user_profile_full_ok(app):
+def test_user_profile_full_ok(app: Flask) -> None:
     client = app.test_client()
     resp_register = client.post(
         '/api/auth/register',
@@ -497,7 +505,7 @@ def test_user_profile_full_ok(app):
     assert data['user']['tags'] == []
 
 
-def test_user_profile_invalid_token(app, user_1):
+def test_user_profile_invalid_token(app: Flask, user_1: User) -> None:
     client = app.test_client()
     response = client.get(
         '/api/auth/profile', headers=dict(Authorization='Bearer xxx')
@@ -509,7 +517,7 @@ def test_user_profile_invalid_token(app, user_1):
     assert data['message'] == 'Invalid token. Please log in again.'
 
 
-def test_user_profile_no_token(app, user_1):
+def test_user_profile_no_token(app: Flask, user_1: User) -> None:
     client = app.test_client()
     response = client.get('/api/auth/profile')
     data = json.loads(response.data.decode())
@@ -519,7 +527,7 @@ def test_user_profile_no_token(app, user_1):
     assert data['message'] == 'Provide a valid auth token.'
 
 
-def test_update_password_ok(app, user_1):
+def test_update_password_ok(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -550,7 +558,7 @@ def test_update_password_ok(app, user_1):
     assert data['user']['created_at']
 
 
-def test_update_password_invalid_payload(app, user_1):
+def test_update_password_invalid_payload(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -571,7 +579,7 @@ def test_update_password_invalid_payload(app, user_1):
     check_400_invalid_payload(response)
 
 
-def test_update_password_no_payload(app, user_1):
+def test_update_password_no_payload(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -590,7 +598,7 @@ def test_update_password_no_payload(app, user_1):
     check_400_invalid_payload(response)
 
 
-def test_update_password_incorrect_password(app, user_1):
+def test_update_password_incorrect_password(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -615,7 +623,9 @@ def test_update_password_incorrect_password(app, user_1):
     check_400_invalid_credentials(response)
 
 
-def test_update_password_invalid_new_password(app, user_1):
+def test_update_password_invalid_new_password(
+    app: Flask, user_1: User
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -643,7 +653,7 @@ def test_update_password_invalid_new_password(app, user_1):
     assert data['message'] == 'Errors: Password: 8 characters required.\n'
 
 
-def test_update_password_diff_password(app, user_1):
+def test_update_password_diff_password(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -673,7 +683,9 @@ def test_update_password_diff_password(app, user_1):
     )
 
 
-def test_update_password_invalid_password_type(app, user_1):
+def test_update_password_invalid_password_type(
+    app: Flask, user_1: User
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',

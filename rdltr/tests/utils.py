@@ -2,9 +2,12 @@ import json
 import os
 import random
 import string
+from typing import Dict
 
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from werkzeug.test import TestResponse
 
 URL = (
     f"http://{os.getenv('RDLTR_HOST', '0.0.0.0')}:"
@@ -12,7 +15,7 @@ URL = (
 )
 
 
-def check_400_invalid_payload(response):
+def check_400_invalid_payload(response: TestResponse) -> None:
     assert response.content_type == 'application/json'
     assert response.status_code == 400
     data = json.loads(response.data.decode())
@@ -20,7 +23,7 @@ def check_400_invalid_payload(response):
     assert data['message'] == 'Invalid payload.'
 
 
-def check_400_invalid_credentials(response):
+def check_400_invalid_credentials(response: TestResponse) -> None:
     assert response.content_type == 'application/json'
     assert response.status_code == 400
     data = json.loads(response.data.decode())
@@ -28,7 +31,7 @@ def check_400_invalid_credentials(response):
     assert data['message'] == 'Invalid credentials.'
 
 
-def check_500_error(response):
+def check_500_error(response: TestResponse) -> None:
     assert response.content_type == 'application/json'
     assert response.status_code == 500
     data = json.loads(response.data.decode())
@@ -39,14 +42,14 @@ def check_500_error(response):
     )
 
 
-def random_string(length=8):
+def random_string(length: int = 8) -> str:
     return ''.join(random.choice(string.ascii_letters) for x in range(length))
 
 
-def register(selenium, user_infos):
-    selenium.get(f"{URL}register")
+def register(selenium: WebDriver, user_infos: Dict) -> None:
+    selenium.get(f'{URL}register')
     menus = selenium.find_elements_by_class_name('menu')
-    assert "Register" in menus[0].text
+    assert 'Register' in menus[0].text
     menus[0].click()
 
     username = selenium.find_element_by_id('username')
@@ -62,9 +65,11 @@ def register(selenium, user_infos):
     submit_button.click()
 
 
-def login(selenium, user_infos, redirect_to_url=False):
+def login(
+    selenium: WebDriver, user_infos: Dict, redirect_to_url: bool = False
+) -> None:
     if redirect_to_url:
-        selenium.get(f"{URL}login")
+        selenium.get(f'{URL}login')
     menus = selenium.find_elements_by_class_name('menu')
     assert "Log in" in menus[1].text
     menus[1].click()
@@ -78,7 +83,7 @@ def login(selenium, user_infos, redirect_to_url=False):
     submit_button.click()
 
 
-def register_valid_user(selenium):
+def register_valid_user(selenium: WebDriver) -> Dict:
     user_name = random_string()
     user_infos = {
         'username': user_name,
@@ -87,11 +92,11 @@ def register_valid_user(selenium):
         'password_conf': 'p@ssw0rd',
     }
     register(selenium, user_infos)
-    WebDriverWait(selenium, 10).until(EC.url_changes(f"{URL}register"))
+    WebDriverWait(selenium, 10).until(EC.url_changes(f'{URL}register'))
     return user_infos
 
 
-def login_valid_user(selenium, user_infos):
+def login_valid_user(selenium: WebDriver, user_infos: Dict) -> Dict:
     login(selenium, user_infos)
-    WebDriverWait(selenium, 10).until(EC.url_changes(f"{URL}login"))
+    WebDriverWait(selenium, 10).until(EC.url_changes(f'{URL}login'))
     return user_infos

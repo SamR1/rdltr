@@ -1,25 +1,29 @@
 import json
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
+from flask import Flask
+from rdltr.articles.model import Article, Category, Tag
 from rdltr.tests.utils import check_400_invalid_payload, check_500_error
 from rdltr.tests.utils_requests import html_doc_body_ok
+from rdltr.users.model import User
+from werkzeug.test import TestResponse
 
 
-def check_500_category_not_found(response):
+def check_500_category_not_found(response: 'TestResponse') -> None:
     assert response.status_code == 500
     data = json.loads(response.data.decode())
     assert data['status'] == 'error'
     assert data['message'] == 'Article category not found.'
 
 
-def check_404_article_not_found(response):
+def check_404_article_not_found(response: 'TestResponse') -> None:
     assert response.status_code == 404
     data = json.loads(response.data.decode())
     assert data['status'] == 'not found'
     assert data['message'] == 'Article not found.'
 
 
-def test_get_no_articles(app, user_1):
+def test_get_no_articles(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -39,7 +43,7 @@ def test_get_no_articles(app, user_1):
     assert data['data'] == []
 
 
-def test_get_articles_one_result(app, article_1):
+def test_get_articles_one_result(app: Flask, article_1: Article) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -75,7 +79,9 @@ def test_get_articles_one_result(app, article_1):
     assert data['data'][0]['tags'][0]['nb_articles'] == 1
 
 
-def test_get_articles(app, article_1, article_2, article_3):
+def test_get_articles(
+    app: Flask, article_1: Article, article_2: Article, article_3: Article
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -130,7 +136,7 @@ def test_get_articles(app, article_1, article_2, article_3):
     assert data['data'][1]['tags'][0]['nb_articles'] == 1
 
 
-def test_get_articles_pagination(app, articles_20):
+def test_get_articles_pagination(app: Flask, articles_20: Article) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -207,8 +213,12 @@ def test_get_articles_pagination(app, articles_20):
 
 
 def test_get_articles_filter_by_category(
-    app, article_1, article_2, article_3, article_4
-):
+    app: Flask,
+    article_1: Article,
+    article_2: Article,
+    article_3: Article,
+    article_4: Article,
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -253,8 +263,12 @@ def test_get_articles_filter_by_category(
 
 
 def test_get_articles_filter_by_tag(
-    app, article_1, article_2, article_3, article_4
-):
+    app: Flask,
+    article_1: Article,
+    article_2: Article,
+    article_3: Article,
+    article_4: Article,
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -299,8 +313,12 @@ def test_get_articles_filter_by_tag(
 
 
 def test_get_articles_filter_by_query(
-    app, article_1, article_2, article_3, article_4
-):
+    app: Flask,
+    article_1: Article,
+    article_2: Article,
+    article_3: Article,
+    article_4: Article,
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -345,8 +363,12 @@ def test_get_articles_filter_by_query(
 
 
 def test_get_articles_filter_by_read_status(
-    app, article_1, article_2, article_3, article_4
-):
+    app: Flask,
+    article_1: Article,
+    article_2: Article,
+    article_3: Article,
+    article_4: Article,
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -411,8 +433,12 @@ def test_get_articles_filter_by_read_status(
 
 
 def test_get_articles_filter_by_favorites(
-    app, article_1, article_2, article_3, article_4
-):
+    app: Flask,
+    article_1: Article,
+    article_2: Article,
+    article_3: Article,
+    article_4: Article,
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -460,7 +486,7 @@ def test_get_articles_filter_by_favorites(
     assert data['data'][0]['tags'] == []
 
 
-def test_get_article(app, article_1):
+def test_get_article(app: Flask, article_1: Article) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -494,7 +520,7 @@ def test_get_article(app, article_1):
     assert data['data'][0]['tags'][0]['name'] == 'tips'
 
 
-def test_get_article_no_result(app, user_1):
+def test_get_article_no_result(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -511,7 +537,9 @@ def test_get_article_no_result(app, user_1):
     check_404_article_not_found(response)
 
 
-def test_get_article_no_result_another_user_article(app, user_1, article_3):
+def test_get_article_no_result_another_user_article(
+    app: Flask, user_1: User, article_3: Article
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -530,8 +558,12 @@ def test_get_article_no_result_another_user_article(app, user_1, article_3):
 
 @patch('requests.get')
 def test_add_article_to_default_category_no_tags(
-    get_mock, mock_request_ok, app, user_1, cat_3
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    cat_3: Category,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -566,7 +598,9 @@ def test_add_article_to_default_category_no_tags(
     assert len(data['data'][0]['tags']) == 0
 
 
-def test_add_article_from_browser(app, user_1, cat_3):
+def test_add_article_from_browser(
+    app: Flask, user_1: User, cat_3: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -612,8 +646,12 @@ def test_add_article_from_browser(app, user_1, cat_3):
 
 @patch('requests.get')
 def test_add_article_to_category_no_tags(
-    get_mock, mock_request_ok, app, user_1, cat_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    cat_1: Category,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -650,8 +688,12 @@ def test_add_article_to_category_no_tags(
 
 @patch('requests.get')
 def test_add_article_to_category_with_no_existing_tags(
-    get_mock, mock_request_ok, app, user_1, cat_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    cat_1: Category,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -694,8 +736,13 @@ def test_add_article_to_category_with_no_existing_tags(
 
 @patch('requests.get')
 def test_add_article_to_category_with_existing_tag(
-    get_mock, mock_request_ok, app, user_1, cat_1, tag_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    cat_1: Category,
+    tag_1: Tag,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -737,7 +784,9 @@ def test_add_article_to_category_with_existing_tag(
 
 
 @patch('requests.get')
-def test_add_article_no_category(get_mock, mock_request_ok, app, user_1):
+def test_add_article_no_category(
+    get_mock: Mock, mock_request_ok: Mock, app: Flask, user_1: User
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -759,8 +808,12 @@ def test_add_article_no_category(get_mock, mock_request_ok, app, user_1):
 
 @patch('requests.get')
 def test_add_article_invalid_payload(
-    get_mock, mock_request_ok, app, user_1, cat_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    cat_1: Category,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -782,8 +835,12 @@ def test_add_article_invalid_payload(
 
 @patch('requests.get')
 def test_add_article_invalid_content(
-    get_mock, mock_request_empty, app, user_1, cat_1
-):
+    get_mock: Mock,
+    mock_request_empty: Mock,
+    app: Flask,
+    user_1: User,
+    cat_1: Category,
+) -> None:
     get_mock.return_value = mock_request_empty.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -809,8 +866,12 @@ def test_add_article_invalid_content(
 
 @patch('requests.get')
 def test_add_article_not_found(
-    get_mock, mock_request_not_found, app, user_1, cat_1
-):
+    get_mock: Mock,
+    mock_request_not_found: Mock,
+    app: Flask,
+    user_1: User,
+    cat_1: Category,
+) -> None:
     get_mock.return_value = mock_request_not_found.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -837,7 +898,9 @@ def test_add_article_not_found(
     )
 
 
-def test_add_article_invalid_url(app, user_1, cat_1):
+def test_add_article_invalid_url(
+    app: Flask, user_1: User, cat_1: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -859,7 +922,9 @@ def test_add_article_invalid_url(app, user_1, cat_1):
     assert data['message'] == 'Error: Invalid URL, please check it.'
 
 
-def test_add_article_no_existing_url(app, user_1, cat_1):
+def test_add_article_no_existing_url(
+    app: Flask, user_1: User, cat_1: Category
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -887,8 +952,12 @@ def test_add_article_no_existing_url(app, user_1, cat_1):
 
 @patch('requests.get')
 def test_patch_article_add_comments_ok(
-    get_mock, mock_request_ok, app, user_1, article_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -929,8 +998,13 @@ def test_patch_article_add_comments_ok(
 
 @patch('requests.get')
 def test_patch_article_change_category_ok(
-    get_mock, mock_request_ok, app, user_1, article_1, cat_4
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+    cat_4: Category,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -971,8 +1045,13 @@ def test_patch_article_change_category_ok(
 
 @patch('requests.get')
 def test_patch_article_change_with_new_tags(
-    get_mock, mock_request_ok, app, user_1, article_1, cat_4
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+    cat_4: Category,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1012,8 +1091,14 @@ def test_patch_article_change_with_new_tags(
 
 @patch('requests.get')
 def test_patch_article_change_with_existing_tag(
-    get_mock, mock_request_ok, app, user_1, article_1, cat_4, tag_4
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+    cat_4: Category,
+    tag_4: Tag,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1054,8 +1139,14 @@ def test_patch_article_change_with_existing_tag(
 
 @patch('requests.get')
 def test_patch_article_change_replacing_tag(
-    get_mock, mock_request_ok, app, user_1, article_1, cat_4, tag_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+    cat_4: Category,
+    tag_1: Tag,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1096,8 +1187,12 @@ def test_patch_article_change_replacing_tag(
 
 @patch('requests.get')
 def test_patch_article_remove_tags(
-    get_mock, mock_request_ok, app, user_1, article_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1136,8 +1231,12 @@ def test_patch_article_remove_tags(
 
 @patch('requests.get')
 def test_patch_article_tags_error(
-    get_mock, mock_request_ok, app, user_1, article_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1159,8 +1258,8 @@ def test_patch_article_tags_error(
 
 @patch('requests.get')
 def test_patch_article_change_read_status_ok(
-    get_mock, mock_request_ok, app, article_1
-):
+    get_mock: Mock, mock_request_ok: Mock, app: Flask, article_1: Article
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1242,8 +1341,8 @@ def test_patch_article_change_read_status_ok(
 
 @patch('requests.get')
 def test_patch_article_change_favorite_status_ok(
-    get_mock, mock_request_ok, app, article_1
-):
+    get_mock: Mock, mock_request_ok: Mock, app: Flask, article_1: Article
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1325,8 +1424,8 @@ def test_patch_article_change_favorite_status_ok(
 
 @patch('requests.get')
 def test_patch_article_reload_content(
-    get_mock, mock_request_ok, app, article_1
-):
+    get_mock: Mock, mock_request_ok: Mock, app: Flask, article_1: Article
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1397,8 +1496,8 @@ def test_patch_article_reload_content(
 
 @patch('requests.get')
 def test_patch_article_reload_content_false(
-    get_mock, mock_request_ok, app, article_1
-):
+    get_mock: Mock, mock_request_ok: Mock, app: Flask, article_1: Article
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1497,7 +1596,7 @@ def test_patch_article_reload_content_false(
     assert data['data'][0]['tags'][1]['name'] == 'tuto'
 
 
-def test_patch_article_reload_url_ko(app, article_1):
+def test_patch_article_reload_url_ko(app: Flask, article_1: Article) -> None:
     article_1.url = 'http://not-existing-url.not'
     client = app.test_client()
     resp_login = client.post(
@@ -1524,8 +1623,12 @@ def test_patch_article_reload_url_ko(app, article_1):
 
 @patch('requests.get')
 def test_patch_article_invalid_payload(
-    get_mock, mock_request_ok, app, user_1, article_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1547,8 +1650,12 @@ def test_patch_article_invalid_payload(
 
 @patch('requests.get')
 def test_patch_article_incorrect_category_ok(
-    get_mock, mock_request_ok, app, user_1, article_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1570,8 +1677,12 @@ def test_patch_article_incorrect_category_ok(
 
 @patch('requests.get')
 def test_patch_article_not_existing(
-    get_mock, mock_request_ok, app, user_1, cat_1
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    cat_1: Category,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1593,8 +1704,13 @@ def test_patch_article_not_existing(
 
 @patch('requests.get')
 def test_patch_article_another_user_category(
-    get_mock, mock_request_ok, app, user_1, article_1, cat_2
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_1: Article,
+    cat_2: Category,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1616,8 +1732,12 @@ def test_patch_article_another_user_category(
 
 @patch('requests.get')
 def test_patch_article_another_user_article(
-    get_mock, mock_request_ok, app, user_1, article_3
-):
+    get_mock: Mock,
+    mock_request_ok: Mock,
+    app: Flask,
+    user_1: User,
+    article_3: Article,
+) -> None:
     get_mock.return_value = mock_request_ok.return_value
     client = app.test_client()
     resp_login = client.post(
@@ -1637,7 +1757,7 @@ def test_patch_article_another_user_article(
     check_404_article_not_found(response)
 
 
-def test_delete_article(app, user_1, article_1):
+def test_delete_article(app: Flask, user_1: User, article_1: Article) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1655,7 +1775,9 @@ def test_delete_article(app, user_1, article_1):
     assert response.status_code == 204
 
 
-def test_delete_another_user_article(app, user_1, article_3):
+def test_delete_another_user_article(
+    app: Flask, user_1: User, article_3: Article
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -1673,7 +1795,7 @@ def test_delete_another_user_article(app, user_1, article_3):
     check_404_article_not_found(response)
 
 
-def test_delete_not_existing_article(app, user_1):
+def test_delete_not_existing_article(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',

@@ -1,16 +1,20 @@
 import json
 
+from flask import Flask
+from rdltr.articles.model import Tag
 from rdltr.tests.utils import check_400_invalid_payload
+from rdltr.users.model import User
+from werkzeug.test import TestResponse
 
 
-def check_404_tag(response):
+def check_404_tag(response: 'TestResponse') -> None:
     assert response.status_code == 404
     data = json.loads(response.data.decode())
     assert data['status'] == 'not found'
     assert data['message'] == 'Tag no found.'
 
 
-def test_get_no_tags(app, user_1):
+def test_get_no_tags(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -30,7 +34,7 @@ def test_get_no_tags(app, user_1):
     assert data['data'] == []
 
 
-def test_get_one_tag(app, user_1, tag_1):
+def test_get_one_tag(app: Flask, user_1: User, tag_1: Tag) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -54,7 +58,7 @@ def test_get_one_tag(app, user_1, tag_1):
     assert data['data'][0]['nb_articles'] == 0
 
 
-def test_add_tag(app, user_1):
+def test_add_tag(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -100,7 +104,7 @@ def test_add_tag(app, user_1):
     assert data['user']['tags'][0]['nb_articles'] == 0
 
 
-def test_add_tag_invalid_payload(app, user_1):
+def test_add_tag_invalid_payload(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -119,7 +123,7 @@ def test_add_tag_invalid_payload(app, user_1):
     check_400_invalid_payload(response)
 
 
-def test_add_existing_tag(app, user_1, tag_1):
+def test_add_existing_tag(app: Flask, user_1: User, tag_1: Tag) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -141,7 +145,9 @@ def test_add_existing_tag(app, user_1, tag_1):
     assert data['message'] == 'A tag named "tips" already exists.'
 
 
-def test_add_another_user_existing_tag(app, user_1, tag_3):
+def test_add_another_user_existing_tag(
+    app: Flask, user_1: User, tag_3: Tag
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -167,7 +173,7 @@ def test_add_another_user_existing_tag(app, user_1, tag_3):
     assert data['data'][0]['nb_articles'] == 0
 
 
-def test_update_existing(app, user_1, tag_1):
+def test_update_existing(app: Flask, user_1: User, tag_1: Tag) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -193,7 +199,7 @@ def test_update_existing(app, user_1, tag_1):
     assert data['data'][0]['nb_articles'] == 0
 
 
-def test_update_another_user_tag(app, user_1, tag_3):
+def test_update_another_user_tag(app: Flask, user_1: User, tag_3: Tag) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -212,7 +218,7 @@ def test_update_another_user_tag(app, user_1, tag_3):
     check_404_tag(response)
 
 
-def test_update_not_existing_tag(app, user_1):
+def test_update_not_existing_tag(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -234,7 +240,9 @@ def test_update_not_existing_tag(app, user_1):
     assert data['message'] == 'Tag no found.'
 
 
-def test_update_tag_invalid_payload(app, user_1, tag_1):
+def test_update_tag_invalid_payload(
+    app: Flask, user_1: User, tag_1: Tag
+) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -253,7 +261,7 @@ def test_update_tag_invalid_payload(app, user_1, tag_1):
     check_400_invalid_payload(response)
 
 
-def test_delete_tag(app, user_1, tag_1):
+def test_delete_tag(app: Flask, user_1: User, tag_1: Tag) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -271,7 +279,7 @@ def test_delete_tag(app, user_1, tag_1):
     assert response.status_code == 204
 
 
-def test_delete_another_user_tag(app, user_1, tag_3):
+def test_delete_another_user_tag(app: Flask, user_1: User, tag_3: Tag) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',
@@ -289,7 +297,7 @@ def test_delete_another_user_tag(app, user_1, tag_3):
     check_404_tag(response)
 
 
-def test_delete_not_existing_tag(app, user_1):
+def test_delete_not_existing_tag(app: Flask, user_1: User) -> None:
     client = app.test_client()
     resp_login = client.post(
         '/api/auth/login',

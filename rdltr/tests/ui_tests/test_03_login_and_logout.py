@@ -4,15 +4,16 @@ from rdltr.tests.utils import (
     random_string,
     register_valid_user,
 )
+from selenium.webdriver.remote.webdriver import WebDriver
 
 
-def test_logout_and_login_ok(selenium):
+def test_logout_and_login_ok(selenium: WebDriver) -> None:
     user_infos = register_valid_user(selenium)
     nav = selenium.find_element_by_tag_name('nav')
     nav_text = nav.text
-    assert "Register" not in nav_text
-    assert "Log in" not in nav_text
-    assert "Logout" in nav_text
+    assert 'Register' not in nav_text
+    assert 'Log in' not in nav_text
+    assert 'Logout' in nav_text
 
     menus = nav.find_elements_by_class_name('menu')
     menus[2].click()
@@ -21,11 +22,11 @@ def test_logout_and_login_ok(selenium):
     nav = selenium.find_element_by_tag_name('nav')
     nav_text = nav.text
     assert user_infos['username'] in nav_text
-    assert "Settings" in nav_text
-    assert "Logout" in nav_text
+    assert 'Settings' in nav_text
+    assert 'Logout' in nav_text
 
 
-def test_login_not_existing_user(selenium):
+def test_login_not_existing_user(selenium: WebDriver) -> None:
     user_name = random_string()
     user_infos = {
         'username': user_name,
@@ -37,13 +38,13 @@ def test_login_not_existing_user(selenium):
     login(selenium, user_infos, True)
     nav = selenium.find_element_by_tag_name('nav')
     nav_text = nav.text
-    assert "Register" in nav_text
-    assert "Log in" in nav_text
+    assert 'Register' in nav_text
+    assert 'Log in' in nav_text
     errors = selenium.find_element_by_class_name('alert-danger').text
-    assert "Invalid credentials." in errors
+    assert 'Invalid credentials.' in errors
 
 
-def test_password_update_ok(selenium):
+def test_password_update_ok(selenium: WebDriver) -> None:
     user_infos = register_valid_user(selenium)
     menus = selenium.find_elements_by_class_name('menu')
     menus[2].click()

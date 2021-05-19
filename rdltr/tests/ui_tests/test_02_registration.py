@@ -1,16 +1,17 @@
 from rdltr.tests.utils import URL, random_string, register, register_valid_user
+from selenium.webdriver.remote.webdriver import WebDriver
 
 
-def test_register_ok(selenium):
+def test_register_ok(selenium: WebDriver) -> None:
     register_valid_user(selenium)
     nav = selenium.find_element_by_tag_name('nav').text
-    assert "Register" not in nav
-    assert "Log in" not in nav
-    assert "Settings" in nav
-    assert "Logout" in nav
+    assert 'Register' not in nav
+    assert 'Log in' not in nav
+    assert 'Settings' in nav
+    assert 'Logout' in nav
 
 
-def test_register_invalid_email(selenium):
+def test_register_invalid_email(selenium: WebDriver) -> None:
     user_name = random_string()
     user_infos = {
         'username': user_name,
@@ -26,7 +27,7 @@ def test_register_invalid_email(selenium):
     assert "Log in" in nav
 
 
-def test_register_password_confirmation_not_ok(selenium):
+def test_register_password_confirmation_not_ok(selenium: WebDriver) -> None:
     user_name = random_string()
     user_infos = {
         'username': user_name,
@@ -45,7 +46,7 @@ def test_register_password_confirmation_not_ok(selenium):
     assert "Password and password confirmation don't match" in errors
 
 
-def test_register_multiple_errors(selenium):
+def test_register_multiple_errors(selenium: WebDriver) -> None:
     user_name = random_string(2)
     user_infos = {
         'username': user_name,

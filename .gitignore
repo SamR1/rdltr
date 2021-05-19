@@ -4,6 +4,7 @@
 ## Python
 .coverage
 .eggs/
+.mypy_cache/
 .pytest_cache/
 .venv
 __pycache__

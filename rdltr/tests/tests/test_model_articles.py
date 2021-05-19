@@ -1,4 +1,9 @@
-def test_category_model(app, user_1, cat_1):
+from flask import Flask
+from rdltr.articles.model import Article, Category, Tag
+from rdltr.users.model import User
+
+
+def test_category_model(app: Flask, user_1: User, cat_1: Category) -> None:
     assert 1 == cat_1.id
     assert 1 == cat_1.user_id
     assert 'python' == cat_1.name
@@ -14,7 +19,9 @@ def test_category_model(app, user_1, cat_1):
     assert serialized_cat['nb_articles'] == 0
 
 
-def test_category_2_model(app, user_1, user_2, cat_2):
+def test_category_2_model(
+    app: Flask, user_1: User, user_2: User, cat_2: Category
+) -> None:
     assert 1 == cat_2.id
     assert 2 == cat_2.user_id
     assert 'moto' == cat_2.name
@@ -30,7 +37,7 @@ def test_category_2_model(app, user_1, user_2, cat_2):
     assert serialized_cat['nb_articles'] == 0
 
 
-def test_tag_model(app, user_1, tag_1):
+def test_tag_model(app: Flask, user_1: User, tag_1: Tag) -> None:
     assert 1 == tag_1.id
     assert 1 == tag_1.user_id
     assert 'tips' == tag_1.name
@@ -42,7 +49,9 @@ def test_tag_model(app, user_1, tag_1):
     assert serialized_tag['nb_articles'] == 0
 
 
-def test_article_1_model(app, user_1, cat_1, article_1):
+def test_article_1_model(
+    app: Flask, user_1: User, cat_1: Category, article_1: Article
+) -> None:
     assert 1 == article_1.id
     assert 1 == article_1.category_id
     assert 'Python tips' == article_1.title
@@ -75,7 +84,9 @@ def test_article_1_model(app, user_1, cat_1, article_1):
     assert not serialized_article['favorite']
 
 
-def test_article_2_model(app, user_1, cat_1, article_2):
+def test_article_2_model(
+    app: Flask, user_1: User, cat_1: Category, article_2: Article
+) -> None:
     assert 1 == article_2.id
     assert 1 == article_2.category_id
     assert 'Another article' == article_2.title
