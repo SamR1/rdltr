@@ -142,12 +142,15 @@ const actions = {
       })
       .catch(err => handleError(commit, err, 'error on article reload'))
   },
-  updateArticle({ commit }, data) {
+  updateArticle({ commit, dispatch }, data) {
     authApi
       .patch(`articles/${data.id}`, data.formData)
       .then(res => {
         if (res.data.status === 'success') {
           commit('getUserArticle', res.data.data[0])
+          if (data.reloadUserProfile) {
+            dispatch('getUserProfile')
+          }
         }
       })
       .catch(err => handleError(commit, err, 'error on article update'))

@@ -238,6 +238,7 @@ export default {
           formData: {
             tags: this.selectedTags,
           },
+          reloadUserProfile: true,
         })
         .then(() => {
           this.onTagEdition = false
