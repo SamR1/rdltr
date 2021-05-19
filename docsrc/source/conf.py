@@ -17,13 +17,13 @@ from pathlib import Path
 
 
 def setup(app):
-    app.add_stylesheet("custom.css")
+    app.add_css_file('custom.css')
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'rdltr'
-copyright = '2019 - 2020, SamR1'
+copyright = '2019 - 2021, SamR1'
 author = 'SamR1'
 
 # The full version, including alpha/beta/rc tags.
