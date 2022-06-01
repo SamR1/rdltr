@@ -15,7 +15,7 @@ export default {
     this.displayContent()
   },
   watch: {
-    articleContent: function() {
+    articleContent: function () {
       this.displayContent()
     },
   },

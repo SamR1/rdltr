@@ -53,7 +53,7 @@ export default {
     ConfModal: ConfModal,
   },
   props: ['article'],
-  data: function() {
+  data: function () {
     return {
       showModal: false,
     }

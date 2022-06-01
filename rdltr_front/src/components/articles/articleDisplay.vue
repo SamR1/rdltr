@@ -5,9 +5,7 @@
       :onDeleteArticle="onDeleteArticle"
       @close="showModal = false"
     />
-    <button class="btn-rdltr" type="submit" @click="goBack">
-      Back
-    </button>
+    <button class="btn-rdltr" type="submit" @click="goBack">Back</button>
     <p v-if="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </p>
@@ -264,7 +262,7 @@ export default {
         .then(() => (this.onCategoryEdition = !this.onCategoryEdition))
     },
     updateSelectedTags() {
-      const tags = this.article.tags.map(tag => tag.name)
+      const tags = this.article.tags.map((tag) => tag.name)
       return this.$store
         .dispatch('updateSelectedTags', tags)
         .then(() => (this.onTagEdition = !this.onTagEdition))

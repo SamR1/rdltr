@@ -15,7 +15,7 @@ export const handleError = (
   )
 }
 
-export const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1)
+export const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1)
 
 export const getActionValue = (itemType, transformation) => {
   let result = itemType
@@ -63,7 +63,7 @@ export const getApiUrl = () => {
     : 'http://localhost:5000/api'
 }
 
-export const displayWithBrowserTimezone = date => {
+export const displayWithBrowserTimezone = (date) => {
   const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const dateOptions = {
     weekday: 'long',

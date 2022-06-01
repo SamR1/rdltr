@@ -7,7 +7,7 @@ const authApi = axios.create({
 })
 
 authApi.interceptors.request.use(
-  config => {
+  (config) => {
     if (store.state.user.authToken) {
       const auth = `Bearer ${store.state.user.authToken}`
       if (config.headers.Authorization !== auth) {
@@ -16,7 +16,7 @@ authApi.interceptors.request.use(
     }
     return config
   },
-  error => Promise.reject(error)
+  (error) => Promise.reject(error)
 )
 
 export default authApi

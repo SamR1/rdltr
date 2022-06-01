@@ -47,23 +47,23 @@ const actions = {
     dispatch('updateLoading', true)
     authApi
       .post('articles', formData)
-      .then(res => {
+      .then((res) => {
         if (res.data.status === 'success') {
           dispatch('updateLoading', false)
           router.replace(`/articles/${res.data.data[0].id}`)
         }
       })
-      .catch(err => handleError(commit, err, 'error on adding article'))
+      .catch((err) => handleError(commit, err, 'error on adding article'))
   },
   deleteArticle({ commit, dispatch, state }, id) {
     authApi
       .delete(`articles/${id}`)
-      .then(res => {
+      .then((res) => {
         if (res.status === 204) {
           dispatch('getArticles', { page: state.pagination.page })
         }
       })
-      .catch(err => handleError(commit, err, 'error on article deletion'))
+      .catch((err) => handleError(commit, err, 'error on article deletion'))
   },
   emptyArticle({ commit }) {
     commit('getUserArticle', {})
@@ -71,12 +71,12 @@ const actions = {
   getArticle({ commit }, id) {
     authApi
       .get(`articles/${id}`)
-      .then(res => {
+      .then((res) => {
         if (res.data.status === 'success') {
           commit('getUserArticle', res.data.data[0])
         }
       })
-      .catch(err => handleError(commit, err, 'error on fetching article'))
+      .catch((err) => handleError(commit, err, 'error on fetching article'))
   },
   getArticles({ commit, dispatch }, params) {
     if (params.displaySpinner) {
@@ -85,7 +85,7 @@ const actions = {
     let url = 'articles'
     if (Object.keys(params).length > 0) {
       url += '?'
-      Object.keys(params).map(key => {
+      Object.keys(params).map((key) => {
         url += `&${key}=${params[key]}`
       })
     }
@@ -114,7 +114,7 @@ const actions = {
     }
     authApi
       .get(url)
-      .then(res => {
+      .then((res) => {
         if (res.data.status === 'success') {
           if (
             res.data.pagination.pages > 0 &&
@@ -128,24 +128,24 @@ const actions = {
           commit('getUserArticles', res.data)
         }
       })
-      .catch(err => handleError(commit, err, 'error on fetching articles'))
+      .catch((err) => handleError(commit, err, 'error on fetching articles'))
   },
   reloadArticle({ commit, dispatch }, data) {
     dispatch('updateLoading', true)
     authApi
       .patch(`articles/${data.id}`, data.formData)
-      .then(res => {
+      .then((res) => {
         if (res.data.status === 'success') {
           commit('getUserArticle', res.data.data[0])
           dispatch('updateLoading', false)
         }
       })
-      .catch(err => handleError(commit, err, 'error on article reload'))
+      .catch((err) => handleError(commit, err, 'error on article reload'))
   },
   updateArticle({ commit, dispatch }, data) {
     authApi
       .patch(`articles/${data.id}`, data.formData)
-      .then(res => {
+      .then((res) => {
         if (res.data.status === 'success') {
           commit('getUserArticle', res.data.data[0])
           if (data.reloadUserProfile) {
@@ -153,7 +153,7 @@ const actions = {
           }
         }
       })
-      .catch(err => handleError(commit, err, 'error on article update'))
+      .catch((err) => handleError(commit, err, 'error on article update'))
   },
   updateQuery({ commit }, query) {
     commit('updateQuery', query)

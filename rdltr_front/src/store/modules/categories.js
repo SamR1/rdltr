@@ -16,7 +16,7 @@ const actions = {
         dispatch('getUserProfile')
         router.push('/settings/categories')
       })
-      .catch(err => handleError(commit, err, 'error on category creation'))
+      .catch((err) => handleError(commit, err, 'error on category creation'))
   },
   updateCategory({ commit, dispatch }, formData) {
     authApi
@@ -25,17 +25,17 @@ const actions = {
         dispatch('getUserProfile')
         router.push('/settings/categories')
       })
-      .catch(err => handleError(commit, err, 'error on category update'))
+      .catch((err) => handleError(commit, err, 'error on category update'))
   },
   deleteCategory({ commit, dispatch }, id) {
     authApi
       .delete(`categories/${id}`)
-      .then(res => {
+      .then((res) => {
         if (res.status === 204) {
           dispatch('getUserProfile')
         }
       })
-      .catch(err => handleError(commit, err, 'error on category deletion'))
+      .catch((err) => handleError(commit, err, 'error on category deletion'))
   },
 }
 
