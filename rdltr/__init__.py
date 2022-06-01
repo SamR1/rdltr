@@ -45,7 +45,7 @@ def create_app() -> Flask:
         app_log.setLevel(logging.DEBUG)
 
         # Enable CORS
-        @app.after_request
+        @app.after_request  # type: ignore
         def after_request(response: Response) -> Response:
             response.headers.add('Access-Control-Allow-Origin', '*')
             response.headers.add(
