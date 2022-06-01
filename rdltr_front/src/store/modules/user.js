@@ -48,18 +48,18 @@ const actions = {
   getUserProfile({ commit }) {
     authApi
       .get('auth/profile')
-      .then(res => {
+      .then((res) => {
         if (res.data.status === 'success') {
           return commit('userProfile', res.data.user)
         }
         return handleError(commit, null)
       })
-      .catch(err => handleError(commit, err))
+      .catch((err) => handleError(commit, err))
   },
   loginOrRegister({ commit, dispatch }, data) {
     api
       .post(`/auth/${data.actionType}`, data.formData)
-      .then(res => {
+      .then((res) => {
         if (res.data.status === 'success') {
           const token = res.data.auth_token
           window.localStorage.setItem('authToken', token)
@@ -70,7 +70,7 @@ const actions = {
         }
         return handleError(commit, null)
       })
-      .catch(err => handleError(commit, err))
+      .catch((err) => handleError(commit, err))
   },
   logout({ commit }) {
     commit('clearArticles')
@@ -82,13 +82,13 @@ const actions = {
   updateProfile({ commit }, formData) {
     authApi
       .post(`/auth/profile/edit`, formData)
-      .then(res => {
+      .then((res) => {
         if (res.data.status === 'success') {
           return router.push('/profile')
         }
         return handleError(commit, null)
       })
-      .catch(err => handleError(commit, err))
+      .catch((err) => handleError(commit, err))
   },
 }
 

@@ -1,8 +1,6 @@
 <template>
   <div id="category-select">
-    <label v-if="displayLabel === 'true'">
-      Category
-    </label>
+    <label v-if="displayLabel === 'true'"> Category </label>
     <select
       class="form-control"
       id="categories"

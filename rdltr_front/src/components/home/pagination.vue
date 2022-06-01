@@ -7,7 +7,7 @@
         v-show="displayFirstPage()"
         @click="getTargetLink(1 - pagination.page)"
       >
-        <i class="fa fa-angle-double-left " aria-hidden="true"></i>
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
       </button>
       <button
         class="btn-rdltr"

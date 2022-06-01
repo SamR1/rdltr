@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.1.13 (2022/06/01)
+
+No new features, only dependencies update
+
+
 ## Version 0.1.12 (2021/05/19)
 
 ### Issues Closed

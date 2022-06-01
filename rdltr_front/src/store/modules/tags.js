@@ -16,7 +16,7 @@ const actions = {
         dispatch('getUserProfile')
         router.push('/settings/tags')
       })
-      .catch(err => handleError(commit, err, 'error on tag creation'))
+      .catch((err) => handleError(commit, err, 'error on tag creation'))
   },
   updateTag({ commit, dispatch }, formData) {
     authApi
@@ -25,17 +25,17 @@ const actions = {
         dispatch('getUserProfile')
         router.push('/settings/tags')
       })
-      .catch(err => handleError(commit, err, 'error on tag update'))
+      .catch((err) => handleError(commit, err, 'error on tag update'))
   },
   deleteTag({ commit, dispatch }, id) {
     authApi
       .delete(`tags/${id}`)
-      .then(res => {
+      .then((res) => {
         if (res.status === 204) {
           dispatch('getUserProfile')
         }
       })
-      .catch(err => handleError(commit, err, 'error on tag deletion'))
+      .catch((err) => handleError(commit, err, 'error on tag deletion'))
   },
 }
 

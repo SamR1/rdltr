@@ -76,7 +76,7 @@ export default {
     },
   },
   watch: {
-    items: function(newItems) {
+    items: function (newItems) {
       this.getItems(newItems)
     },
   },
@@ -90,7 +90,7 @@ export default {
     getItems(newItems) {
       if (this.$route.params.id && newItems) {
         const selectItem = newItems.filter(
-          item => item.id === +this.$route.params.id
+          (item) => item.id === +this.$route.params.id
         )
         if (selectItem.length > 0) {
           this.item = selectItem[0]

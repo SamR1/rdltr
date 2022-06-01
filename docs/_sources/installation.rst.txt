@@ -4,7 +4,7 @@ Installation
 Prerequisites
 ~~~~~~~~~~~~~
 
-- Python 3.6+
+- Python 3.7+
 - SQLite
 - yarn (for development only)
 - Vue CLI (for development only)

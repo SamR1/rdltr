@@ -31,7 +31,7 @@ export default {
     },
     userTags() {
       return this.$store.getters.userTags
-        ? this.$store.getters.userTags.map(tag => tag.name)
+        ? this.$store.getters.userTags.map((tag) => tag.name)
         : []
     },
   },

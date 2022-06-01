@@ -7,12 +7,8 @@
             Are you sure you want to delete
             {{ title ? ` the article '${title}'` : ' this article' }}?
           </p>
-          <button class="btn-rdltr" @click="onDeleteArticle">
-            OK
-          </button>
-          <button class="btn-rdltr" @click="$emit('close')">
-            Cancel
-          </button>
+          <button class="btn-rdltr" @click="onDeleteArticle">OK</button>
+          <button class="btn-rdltr" @click="$emit('close')">Cancel</button>
         </div>
       </div>
     </div>

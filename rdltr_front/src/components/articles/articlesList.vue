@@ -66,10 +66,10 @@ export default {
     userTags() {
       return this.$store.getters.userTags
     },
-    tag: function() {
+    tag: function () {
       if ('tag_id' in this.$route.query && this.userTags) {
         return this.$store.getters.user.tags.filter(
-          tag => tag.id === +this.$route.query['tag_id']
+          (tag) => tag.id === +this.$route.query['tag_id']
         )[0]
       }
       return null
@@ -83,7 +83,7 @@ export default {
       )
     },
   },
-  created: function() {
+  created: function () {
     if (this.$store.getters.isAuthenticated) {
       return this.$store.dispatch(
         'getArticles',
