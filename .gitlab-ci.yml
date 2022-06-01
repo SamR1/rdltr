@@ -51,6 +51,7 @@ firefox:
     - name: selenium/standalone-firefox
       alias: selenium
   variables:
+    RDLTR_HOST: '0.0.0.0'
     RDLTR_SETTINGS: 'rdltr.config.TestingConfig'
     RDLTR_DB_TEST_URL: 'sqlite:////tmp/rdltr_test.db'
   before_script:
