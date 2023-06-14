@@ -20,9 +20,9 @@ class DevelopmentConfig(BaseConfig):
 
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.getenv('RDLTR_DB_URL', 'sqlite:///rdltr.db')
-    SECRET_KEY = 'development key'
+    SECRET_KEY = 'development key'  # nosec
     USERNAME = 'admin'
-    PASSWORD = 'default'
+    PASSWORD = 'default'  # nosec
     BCRYPT_LOG_ROUNDS = 4
 
 
@@ -34,9 +34,9 @@ class TestingConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.getenv(
         'RDLTR_DB_TEST_URL', 'sqlite:///rdltr_test.db'
     )
-    SECRET_KEY = 'test key'
+    SECRET_KEY = 'test key'  # nosec
     USERNAME = 'admin'
-    PASSWORD = 'default'
+    PASSWORD = 'default'  # nosec
     BCRYPT_LOG_ROUNDS = 4
     TOKEN_EXPIRATION_DAYS = 0
     TOKEN_EXPIRATION_SECONDS = 3

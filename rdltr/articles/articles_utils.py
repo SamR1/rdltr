@@ -18,7 +18,7 @@ class URLException(Exception):
 
 def get_article_html_content_from_url(url: str) -> str:
     headers = {'User-Agent': 'Mozilla/5.0'}  # to avoid 403
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, timeout=30)
     if response.status_code >= 400:
         raise URLException(
             'Error. Cannot get the requested resource, please check '

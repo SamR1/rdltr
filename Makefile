@@ -6,10 +6,13 @@ make-p:
 	# Launch all P targets in parallel and exit as soon as one exits.
 	set -m; (for p in $(P); do ($(MAKE) $$p || kill 0)& done; wait)
 
+bandit:
+	$(BANDIT) -r $(FLASK_APP) -c pyproject.toml
+
 build-client:
 	cd rdltr_front && $(NPM) run build
 
-check-python: lint-python type-check test
+check-python: bandit lint-python type-check test
 
 clean:
 	rm -fr .pytest_cache
