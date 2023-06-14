@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.1.14 (2023/06/14)
+
+No new features, only dependencies update
+
+**Note**: Minimum version of Python is now 3.8.1.
+
+
 ## Version 0.1.13 (2022/06/01)
 
 No new features, only dependencies update

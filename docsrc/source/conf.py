@@ -23,7 +23,7 @@ def setup(app):
 # -- Project information -----------------------------------------------------
 
 project = 'rdltr'
-copyright = '2019 - 2022, SamR1'
+copyright = '2019 - 2023, SamR1'
 author = 'SamR1'
 
 # The full version, including alpha/beta/rc tags.
