@@ -1,10 +1,11 @@
 import json
 
 from flask import Flask
+from werkzeug.test import TestResponse
+
 from rdltr.articles.model import Article, Category
 from rdltr.tests.utils import check_400_invalid_payload
 from rdltr.users.model import User
-from werkzeug.test import TestResponse
 
 
 def check_404_category(response: 'TestResponse') -> None:

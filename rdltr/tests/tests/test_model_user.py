@@ -1,4 +1,5 @@
 from flask import Flask
+
 from rdltr.users.model import User
 
 

@@ -1,11 +1,12 @@
 from unittest.mock import Mock
 from urllib import parse
 
-from rdltr.tests.utils import URL, register_valid_user
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select, WebDriverWait
+
+from rdltr.tests.utils import URL, register_valid_user
 
 
 def add_valid_article_with_tag(selenium: WebDriver, url: str) -> str:

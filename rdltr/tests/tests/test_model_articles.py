@@ -1,4 +1,5 @@
 from flask import Flask
+
 from rdltr.articles.model import Article, Category, Tag
 from rdltr.users.model import User
 

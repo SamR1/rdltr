@@ -6,6 +6,7 @@ from typing import Dict, Optional
 import gunicorn.app.base
 from flask import Flask
 from flask_migrate import upgrade
+
 from rdltr import create_app
 
 

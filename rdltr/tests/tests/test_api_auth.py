@@ -2,6 +2,7 @@ import json
 import time
 
 from flask import Flask
+
 from rdltr.tests.utils import (
     check_400_invalid_credentials,
     check_400_invalid_payload,

@@ -3,6 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from threading import Thread
 
 import requests
+
 from rdltr.tests.utils_requests import html_doc_ok
 
 

@@ -6,7 +6,6 @@ include = '\.py$'
 exclude = 'migrations'
 
 [tool.isort]
-known_third_party = "rdltr"
 multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0

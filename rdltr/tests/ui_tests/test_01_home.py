@@ -1,6 +1,7 @@
-from rdltr.tests.utils import URL
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+
+from rdltr.tests.utils import URL
 
 
 def test_index_ok(selenium: WebDriver) -> None:

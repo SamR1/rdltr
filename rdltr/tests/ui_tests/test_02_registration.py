@@ -1,6 +1,7 @@
-from rdltr.tests.utils import URL, random_string, register, register_valid_user
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
+
+from rdltr.tests.utils import URL, random_string, register, register_valid_user
 
 
 def test_register_ok(selenium: WebDriver) -> None:
