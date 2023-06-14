@@ -62,4 +62,4 @@ firefox:
     - setsid nohup rdltr > nohup.out &
     - export RDLTR_HOST=$(hostname --ip-address)
     - sleep 5
-    - pytest rdltr/tests/ui_tests --driver Remote --capability browserName firefox --host selenium --port 4444
+    - pytest rdltr/tests/ui_tests --driver Remote --capability browserName firefox --selenium-host selenium --selenium-port 4444
