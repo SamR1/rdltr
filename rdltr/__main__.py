@@ -1,7 +1,7 @@
 # source: http://docs.gunicorn.org/en/stable/custom.html
 import multiprocessing
 import os
-from typing import Dict
+from typing import Dict, Optional
 
 import gunicorn.app.base
 from flask import Flask
@@ -23,7 +23,9 @@ app = create_app()
 
 
 class StandaloneApplication(gunicorn.app.base.BaseApplication):
-    def __init__(self, current_app: Flask, options: Dict = None) -> None:
+    def __init__(
+        self, current_app: Flask, options: Optional[Dict] = None
+    ) -> None:
         self.options = options or {}
         self.application = current_app
         super().__init__()

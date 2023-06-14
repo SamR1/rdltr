@@ -4,6 +4,7 @@ import random
 import string
 from typing import Dict
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -48,20 +49,20 @@ def random_string(length: int = 8) -> str:
 
 def register(selenium: WebDriver, user_infos: Dict) -> None:
     selenium.get(f'{URL}register')
-    menus = selenium.find_elements_by_class_name('menu')
+    menus = selenium.find_elements(By.CLASS_NAME, 'menu')
     assert 'Register' in menus[0].text
     menus[0].click()
 
-    username = selenium.find_element_by_id('username')
+    username = selenium.find_element(By.ID, 'username')
     username.send_keys(user_infos.get('username'))
-    email = selenium.find_element_by_id('email')
+    email = selenium.find_element(By.ID, 'email')
     email.send_keys(user_infos.get('email'))
-    password = selenium.find_element_by_id('password')
+    password = selenium.find_element(By.ID, 'password')
     password.send_keys(user_infos.get('password'))
-    password_conf = selenium.find_element_by_id('confirm-password')
+    password_conf = selenium.find_element(By.ID, 'confirm-password')
     password_conf.send_keys(user_infos.get('password_conf'))
 
-    submit_button = selenium.find_element_by_tag_name('button')
+    submit_button = selenium.find_element(By.TAG_NAME, 'button')
     submit_button.click()
 
 
@@ -70,16 +71,16 @@ def login(
 ) -> None:
     if redirect_to_url:
         selenium.get(f'{URL}login')
-    menus = selenium.find_elements_by_class_name('menu')
+    menus = selenium.find_elements(By.CLASS_NAME, 'menu')
     assert "Log in" in menus[1].text
     menus[1].click()
 
-    email = selenium.find_element_by_id('email')
+    email = selenium.find_element(By.ID, 'email')
     email.send_keys(user_infos.get('email'))
-    password = selenium.find_element_by_id('password')
+    password = selenium.find_element(By.ID, 'password')
     password.send_keys(user_infos.get('password'))
 
-    submit_button = selenium.find_element_by_tag_name('button')
+    submit_button = selenium.find_element(By.TAG_NAME, 'button')
     submit_button.click()
 
 

@@ -47,7 +47,7 @@ def get_user_articles(user_id: int) -> Tuple[Dict, int]:
             Article.tags.any(id=tag_id) if tag_id else True,
         )
         .order_by(Article.date_added.desc())
-        .paginate(page, 12, False)
+        .paginate(page=page, per_page=12, error_out=False)
     )
 
     articles = articles_pagination.items
