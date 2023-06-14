@@ -17,11 +17,11 @@ class User(BaseModel):
     email = db.Column(db.String(120), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False)
-    categories = db.relationship('Category', back_populates='user')
-    tags = db.relationship('Tag', back_populates='user')
+    categories = db.relationship("Category", back_populates="user")
+    tags = db.relationship("Tag", back_populates="user")
 
     def __repr__(self) -> str:
-        return f'<User {self.username!r}>'
+        return f"<User {self.username!r}>"
 
     def __init__(
         self,
@@ -34,7 +34,7 @@ class User(BaseModel):
         self.email = email
         self.created_at = created_at if created_at else datetime.utcnow()
         self.password = bcrypt.generate_password_hash(
-            password, current_app.config.get('BCRYPT_LOG_ROUNDS')
+            password, current_app.config.get("BCRYPT_LOG_ROUNDS")
         ).decode()
 
     @staticmethod
@@ -45,16 +45,16 @@ class User(BaseModel):
         :return: JWToken
         """
         payload = {
-            'exp': datetime.utcnow()
+            "exp": datetime.utcnow()
             + timedelta(
-                days=current_app.config['TOKEN_EXPIRATION_DAYS'],
-                seconds=current_app.config['TOKEN_EXPIRATION_SECONDS'],
+                days=current_app.config["TOKEN_EXPIRATION_DAYS"],
+                seconds=current_app.config["TOKEN_EXPIRATION_SECONDS"],
             ),
-            'iat': datetime.utcnow(),
-            'sub': user_id,
+            "iat": datetime.utcnow(),
+            "sub": user_id,
         }
         return jwt.encode(
-            payload, current_app.config['SECRET_KEY'], algorithm='HS256'
+            payload, current_app.config["SECRET_KEY"], algorithm="HS256"
         )
 
     @staticmethod
@@ -67,23 +67,23 @@ class User(BaseModel):
         try:
             payload = jwt.decode(
                 auth_token,
-                current_app.config['SECRET_KEY'],
-                algorithms=['HS256'],
+                current_app.config["SECRET_KEY"],
+                algorithms=["HS256"],
             )
-            return payload['sub']
+            return payload["sub"]
         except jwt.ExpiredSignatureError:
-            return 'Signature expired. Please log in again.'
+            return "Signature expired. Please log in again."
         except jwt.InvalidTokenError:
-            return 'Invalid token. Please log in again.'
+            return "Invalid token. Please log in again."
 
     def serialize(self) -> Dict:
         return {
-            'id': self.id,
-            'username': self.username,
-            'email': self.email,
-            'created_at': self.created_at,
-            'categories': [
+            "id": self.id,
+            "username": self.username,
+            "email": self.email,
+            "created_at": self.created_at,
+            "categories": [
                 category.serialize() for category in self.categories
             ],
-            'tags': [tag.serialize() for tag in self.tags],
+            "tags": [tag.serialize() for tag in self.tags],
         }

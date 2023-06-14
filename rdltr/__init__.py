@@ -7,13 +7,13 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 
-log_file = os.getenv('RDLTR_LOG')
+log_file = os.getenv("RDLTR_LOG")
 logging.basicConfig(
     filename=log_file,
-    format='%(asctime)s - %(name)s - %(levelname)s - ' '%(message)s',
-    datefmt='%Y/%m/%d %H:%M:%S',
+    format="%(asctime)s - %(name)s - %(levelname)s - " "%(message)s",
+    datefmt="%Y/%m/%d %H:%M:%S",
 )
-app_log = logging.getLogger('rdltr')
+app_log = logging.getLogger("rdltr")
 bcrypt = Bcrypt()
 db = SQLAlchemy()
 migrate = Migrate()
@@ -26,34 +26,34 @@ def create_app() -> Flask:
     # set config
     with app.app_context():
         app_settings = os.getenv(
-            'RDLTR_SETTINGS', 'rdltr.config.DevelopmentConfig'
+            "RDLTR_SETTINGS", "rdltr.config.DevelopmentConfig"
         )
         app.config.from_object(app_settings)
 
         # set up extensions
         bcrypt.init_app(app)
         db.init_app(app)
-        migrate.init_app(app, db, directory='rdltr/migrations')
+        migrate.init_app(app, db, directory="rdltr/migrations")
 
     if app.debug:
-        logging.getLogger('sqlalchemy').setLevel(logging.WARNING)
-        logging.getLogger('sqlalchemy').handlers = logging.getLogger(
-            'werkzeug'
+        logging.getLogger("sqlalchemy").setLevel(logging.WARNING)
+        logging.getLogger("sqlalchemy").handlers = logging.getLogger(
+            "werkzeug"
         ).handlers
-        logging.getLogger('sqlalchemy.orm').setLevel(logging.WARNING)
-        logging.getLogger('flake8').propagate = False
+        logging.getLogger("sqlalchemy.orm").setLevel(logging.WARNING)
+        logging.getLogger("flake8").propagate = False
         app_log.setLevel(logging.DEBUG)
 
         # Enable CORS
         @app.after_request  # type: ignore
         def after_request(response: Response) -> Response:
-            response.headers.add('Access-Control-Allow-Origin', '*')
+            response.headers.add("Access-Control-Allow-Origin", "*")
             response.headers.add(
-                'Access-Control-Allow-Headers', 'Content-Type,Authorization'
+                "Access-Control-Allow-Headers", "Content-Type,Authorization"
             )
             response.headers.add(
-                'Access-Control-Allow-Methods',
-                'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                "Access-Control-Allow-Methods",
+                "GET,PUT,POST,DELETE,PATCH,OPTIONS",
             )
             return response
 
@@ -64,18 +64,18 @@ def create_app() -> Flask:
     from .users.auth import auth_blueprint  # noqa
     from .users.model import User  # noqa
 
-    app.register_blueprint(articles_blueprint, url_prefix='/api')
-    app.register_blueprint(auth_blueprint, url_prefix='/api')
-    app.register_blueprint(categories_blueprint, url_prefix='/api')
-    app.register_blueprint(tags_blueprint, url_prefix='/api')
+    app.register_blueprint(articles_blueprint, url_prefix="/api")
+    app.register_blueprint(auth_blueprint, url_prefix="/api")
+    app.register_blueprint(categories_blueprint, url_prefix="/api")
+    app.register_blueprint(tags_blueprint, url_prefix="/api")
 
-    @app.route('/api/ping')
+    @app.route("/api/ping")
     def ping_pong() -> Dict:
-        return {'status': 'success', 'message': 'pong!'}
+        return {"status": "success", "message": "pong!"}
 
-    @app.route('/', defaults={'path': ''})
-    @app.route('/<path:path>')
+    @app.route("/", defaults={"path": ""})
+    @app.route("/<path:path>")
     def catch_all(path: str) -> str:
-        return render_template('index.html')
+        return render_template("index.html")
 
     return app

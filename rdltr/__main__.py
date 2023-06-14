@@ -14,11 +14,11 @@ def number_of_workers() -> int:
     return (multiprocessing.cpu_count() * 2) + 1
 
 
-if not os.getenv('RDLTR_SETTINGS'):
-    os.environ['RDLTR_SETTINGS'] = 'rdltr.config.ProductionConfig'
-HOST = os.getenv('RDLTR_HOST', '127.0.0.1')
-PORT = os.getenv('RDLTR_PORT', '5000')
-WORKERS = os.getenv('RDLTR_WORKERS', number_of_workers())
+if not os.getenv("RDLTR_SETTINGS"):
+    os.environ["RDLTR_SETTINGS"] = "rdltr.config.ProductionConfig"
+HOST = os.getenv("RDLTR_HOST", "127.0.0.1")
+PORT = os.getenv("RDLTR_PORT", "5000")
+WORKERS = os.getenv("RDLTR_WORKERS", number_of_workers())
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 app = create_app()
 
@@ -46,13 +46,13 @@ class StandaloneApplication(gunicorn.app.base.BaseApplication):
 
 def upgrade_db() -> None:
     with app.app_context():
-        upgrade(directory=BASEDIR + '/migrations')
+        upgrade(directory=BASEDIR + "/migrations")
 
 
 def main() -> None:
-    options = {'bind': f"{HOST}:{PORT}", 'workers': WORKERS}
+    options = {"bind": f"{HOST}:{PORT}", "workers": WORKERS}
     StandaloneApplication(app, options).run()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

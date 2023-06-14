@@ -11,7 +11,7 @@ class BaseConfig:
     TOKEN_EXPIRATION_DAYS = 30
     TOKEN_EXPIRATION_SECONDS = 0
     REGISTRATION_ALLOWED = (
-        False if os.getenv('RDLTR_ALLOW_REGISTRATION') == "false" else True
+        False if os.getenv("RDLTR_ALLOW_REGISTRATION") == "false" else True
     )
 
 
@@ -19,10 +19,10 @@ class DevelopmentConfig(BaseConfig):
     """Development configuration"""
 
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.getenv('RDLTR_DB_URL', 'sqlite:///rdltr.db')
-    SECRET_KEY = 'development key'  # nosec
-    USERNAME = 'admin'
-    PASSWORD = 'default'  # nosec
+    SQLALCHEMY_DATABASE_URI = os.getenv("RDLTR_DB_URL", "sqlite:///rdltr.db")
+    SECRET_KEY = "development key"  # nosec
+    USERNAME = "admin"
+    PASSWORD = "default"  # nosec
     BCRYPT_LOG_ROUNDS = 4
 
 
@@ -32,11 +32,11 @@ class TestingConfig(BaseConfig):
     DEBUG = True
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv(
-        'RDLTR_DB_TEST_URL', 'sqlite:///rdltr_test.db'
+        "RDLTR_DB_TEST_URL", "sqlite:///rdltr_test.db"
     )
-    SECRET_KEY = 'test key'  # nosec
-    USERNAME = 'admin'
-    PASSWORD = 'default'  # nosec
+    SECRET_KEY = "test key"  # nosec
+    USERNAME = "admin"
+    PASSWORD = "default"  # nosec
     BCRYPT_LOG_ROUNDS = 4
     TOKEN_EXPIRATION_DAYS = 0
     TOKEN_EXPIRATION_SECONDS = 3
@@ -46,5 +46,5 @@ class ProductionConfig(BaseConfig):
     """Production configuration"""
 
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.getenv('RDLTR_DB_URL')
-    SECRET_KEY = os.getenv('RDLTR_SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.getenv("RDLTR_DB_URL")
+    SECRET_KEY = os.getenv("RDLTR_SECRET_KEY")
