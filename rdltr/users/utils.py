@@ -15,21 +15,21 @@ def is_valid_email(email: str) -> bool:
 def register_controls(
     username: str, email: str, password: str, password_conf: str
 ) -> str:
-    ret = ''
+    ret = ""
     if not 2 < len(username) < 13:
-        ret += 'Username: 3 to 12 characters required.\n'
+        ret += "Username: 3 to 12 characters required.\n"
     if not is_valid_email(email):
-        ret += 'Valid email must be provided.\n'
+        ret += "Valid email must be provided.\n"
     ret += passwords_controls(password, password_conf)
     return ret
 
 
 def passwords_controls(password: str, password_conf: str) -> str:
-    ret = ''
+    ret = ""
     if password != password_conf:
-        ret += 'Password and password confirmation don\'t match.\n'
+        ret += "Password and password confirmation don't match.\n"
     if len(password) < 8:
-        ret += 'Password: 8 characters required.\n'
+        ret += "Password: 8 characters required.\n"
     return ret
 
 
@@ -37,18 +37,18 @@ def verify_user(
     current_request: Request,
 ) -> Tuple[Optional[Dict], Optional[int], Optional[int]]:
     response_object = {
-        'status': 'error',
-        'message': 'Something went wrong. Please contact us.',
+        "status": "error",
+        "message": "Something went wrong. Please contact us.",
     }
     code = 401
-    auth_header = current_request.headers.get('Authorization')
+    auth_header = current_request.headers.get("Authorization")
     if not auth_header:
-        response_object['message'] = 'Provide a valid auth token.'
+        response_object["message"] = "Provide a valid auth token."
         return response_object, code, None
     auth_token = auth_header.split(" ")[1]
     user_id = User.decode_auth_token(auth_token)
     if isinstance(user_id, str):
-        response_object['message'] = user_id
+        response_object["message"] = user_id
         return response_object, code, None
     user = User.query.filter_by(id=user_id).first()
     if not user:

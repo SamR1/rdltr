@@ -6,10 +6,13 @@ make-p:
 	# Launch all P targets in parallel and exit as soon as one exits.
 	set -m; (for p in $(P); do ($(MAKE) $$p || kill 0)& done; wait)
 
+bandit:
+	$(BANDIT) -r $(FLASK_APP) -c pyproject.toml
+
 build-client:
 	cd rdltr_front && $(NPM) run build
 
-check-python: lint-python type-check test
+check-python: bandit lint-python type-check test
 
 clean:
 	rm -fr .pytest_cache
@@ -42,7 +45,8 @@ html:
 install: install-python install-front
 
 install-front:
-	cd rdltr_front && $(NPM) install
+	# NPM_ARGS="--ignore-engines", if errors with Node latest version
+	cd rdltr_front && $(NPM) install --prod $(NPM_ARGS)
 
 install-python:
 	test -d $(VENV) || $(PYTHON_VERSION) -m venv $(VENV)
@@ -55,7 +59,9 @@ lint-front:
 	cd rdltr_front && $(NPM) lint
 
 lint-python:
-	$(PYTEST) --flake8 --isort --black -m "flake8 or isort or black" $(FLASK_APP)
+	$(PYTEST) --isort --black -m "isort or black" $(FLASK_APP)
+	echo 'Running flake8...'
+	$(FLAKE8) $(FLASK_APP)
 
 lint-python-fix:
 	$(BLACK) $(FLASK_APP)

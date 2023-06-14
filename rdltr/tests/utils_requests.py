@@ -33,9 +33,9 @@ html_doc_body_ok = """<body  id="readabilityBody">
     </body>
 """
 
-mock_response_empty = MockResponse('')
-mock_response_not_found = MockResponse('', code=404)
+mock_response_empty = MockResponse("")
+mock_response_not_found = MockResponse("", code=404)
 mock_response_different_encoding = MockResponse(
-    html_doc_ok, encoding='ISO-8859-1'
+    html_doc_ok, encoding="ISO-8859-1"
 )
 mock_response_ok = MockResponse(html_doc_ok)
