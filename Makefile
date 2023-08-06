@@ -12,7 +12,11 @@ bandit:
 build-client:
 	cd rdltr_front && $(NPM) run build
 
-check-python: bandit lint-python type-check test
+check-all: check-front check-python
+
+check-front: lint-front type-check-front
+
+check-python: bandit lint-python type-check-python test
 
 clean:
 	rm -fr .pytest_cache
@@ -46,7 +50,7 @@ install: install-python install-front
 
 install-front:
 	# NPM_ARGS="--ignore-engines", if errors with Node latest version
-	cd rdltr_front && $(NPM) install --prod $(NPM_ARGS)
+	cd rdltr_front && $(NPM) install $(NPM_ARGS)
 
 install-python:
 	test -d $(VENV) || $(PYTHON_VERSION) -m venv $(VENV)
@@ -63,9 +67,6 @@ lint-python:
 	echo 'Running flake8...'
 	$(FLAKE8) $(FLASK_APP)
 
-lint-python-fix:
-	$(BLACK) $(FLASK_APP)
-
 migrate-db:
 	$(FLASK) db migrate
 
@@ -77,7 +78,7 @@ serve:
 	$(MAKE) P="serve-python serve-front" make-p
 
 serve-front:
-	cd rdltr_front && $(NPM) serve
+	cd rdltr_front && $(NPM) dev
 
 serve-python:
 	echo 'Running on http://$(HOST):$(PORT)'
@@ -89,7 +90,12 @@ test:
 test-ui:
 	$(PYTEST) $(FLASK_APP)/tests/ui_tests --driver firefox $(PYTEST_ARGS)
 
-type-check:
+type-check-all: type-check-python type-check-front
+
+type-check-front:
+	cd rdltr_front && $(NPM) type-check
+
+type-check-python:
 	echo 'Running mypy...'
 	$(MYPY) $(FLASK_APP)
 

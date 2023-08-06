@@ -13,8 +13,10 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "pinia": "^2.1.4",
     "vue": "^3.3.4",
+    "vue-multiselect": "^3.0.0-beta.2",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
@@ -32,6 +34,7 @@
     "jsdom": "^22.1.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.0.0",
+    "sass": "^1.64.2",
     "typescript": "~5.1.6",
     "vite": "^4.4.6",
     "vitest": "^0.33.0",
