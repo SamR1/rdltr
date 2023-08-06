@@ -1,3 +1,5 @@
+const path = require('path')
+
 import { fileURLToPath, URL } from 'node:url'
 
 import { defineConfig } from 'vite'
@@ -13,5 +15,10 @@ export default defineConfig({
   },
   server: {
     port: 3000
+  },
+  build: {
+    outDir: path.resolve(__dirname, '../rdltr/dist'),
+    emptyOutDir: true,
+    assetsDir: 'static'
   }
 })
