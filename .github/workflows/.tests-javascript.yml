@@ -1,0 +1,27 @@
+name: Javascript CI
+
+on:
+  push:
+    paths: ['rdltr_front/**']
+  pull_request:
+    paths: ['rdltr_front/**']
+
+env:
+  working-directory: rdltr_front
+
+jobs:
+  javascript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install yarn and dependencies
+        working-directory: ${{env.working-directory}}
+        run: |
+          npm install --global yarn
+          yarn install --ignore-engines
+      - name: Lint
+        working-directory: ${{env.working-directory}}
+        run: yarn lint
+      - name: Build
+        working-directory: ${{env.working-directory}}
+        run: yarn build
