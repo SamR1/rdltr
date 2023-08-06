@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; rdltr 0.1.13
+  <title>Installation &mdash; rdltr 0.1.14
  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
@@ -13,11 +13,11 @@
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -30,15 +30,19 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> rdltr
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            rdltr
           </a>
               <div class="version">
-                0.1.13
+                0.1.14
 
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -77,8 +81,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Installation</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Installation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -93,7 +97,7 @@
 <section id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
 <ul class="simple">
-<li><p>Python 3.7+</p></li>
+<li><p>Python 3.8+</p></li>
 <li><p>SQLite</p></li>
 <li><p>yarn (for development only)</p></li>
 <li><p>Vue CLI (for development only)</p></li>
@@ -106,7 +110,7 @@
 <ul class="simple">
 <li><p>install with pip</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install rdltr
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>rdltr
 </pre></div>
 </div>
 <ul class="simple">
@@ -114,11 +118,6 @@
 </ul>
 <p>If needed, the default configuration can be overridden:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 22%" />
-<col style="width: 30%" />
-<col style="width: 48%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>variable</p></th>
 <th class="head"><p>description</p></th>
@@ -163,13 +162,13 @@
 <ul class="simple">
 <li><p>initialize the database</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ rdltr_db
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>rdltr_db
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>run the application</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ rdltr
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>rdltr
 </pre></div>
 </div>
 </section>
@@ -178,16 +177,16 @@
 <ul class="simple">
 <li><p>Clone this repo:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/SamR1/rdltr.git
-$ <span class="nb">cd</span> rdltr
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SamR1/rdltr.git
+$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>rdltr
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>Update <strong>Makefile.config</strong> file if needed</p></li>
 <li><p>Install Python virtualenv,  and related packages and initialize the database:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ make install
-$ make upgrade-db
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>install
+$<span class="w"> </span>make<span class="w"> </span>upgrade-db
 </pre></div>
 </div>
 <ul>
@@ -213,13 +212,13 @@ $ make upgrade-db
 <ul class="simple">
 <li><p>upgrade with pip</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ pip install -U rdltr
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>rdltr
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>if needed, upgrade database</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ rdltr_db
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>rdltr_db
 </pre></div>
 </div>
 <ul class="simple">
@@ -231,14 +230,14 @@ $ make upgrade-db
 <ul class="simple">
 <li><p>Pull this repo:</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ <span class="nb">cd</span> rdltr
-$ git pull
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>rdltr
+$<span class="w"> </span>git<span class="w"> </span>pull
 </pre></div>
 </div>
 <ul class="simple">
 <li><p>if needed, upgrade database</p></li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ make upgrade-db
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>make<span class="w"> </span>upgrade-db
 </pre></div>
 </div>
 <ul class="simple">
@@ -259,7 +258,7 @@ $ git pull
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2019 - 2022, SamR1.</p>
+    <p>&#169; Copyright 2019 - 2023, SamR1.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

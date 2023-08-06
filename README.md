@@ -1,10 +1,9 @@
 # rdltr
 
 [![PyPI version](https://img.shields.io/pypi/v/rdltr.svg)](https://pypi.org/project/rdltr/)
-[![Downloads](https://pepy.tech/badge/rdltr)](https://pepy.tech/project/rdltr)
-[![Python Version](https://img.shields.io/badge/python-3.7+-brightgreen.svg)](https://python.org)
-[![Flask Version](https://img.shields.io/badge/flask-2.1-brightgreen.svg)](http://flask.pocoo.org/)
-[![Vue Version](https://img.shields.io/badge/vue-2.6-brightgreen.svg)](https://vuejs.org/)  
+[![Python Version](https://img.shields.io/badge/python-3.8+-brightgreen.svg)](https://python.org)
+[![Flask Version](https://img.shields.io/badge/flask-2.3-brightgreen.svg)](http://flask.pocoo.org/)
+[![Vue Version](https://img.shields.io/badge/vue-2.7-brightgreen.svg)](https://vuejs.org/)  
 [![code style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black) 
 [![type check: mypy](https://img.shields.io/badge/type%20check-mypy-blue)](http://mypy-lang.org/) 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) 
