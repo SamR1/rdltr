@@ -43,21 +43,17 @@ function onLogout() {
           <router-link to="/settings">Settings</router-link>
         </li>
         <li v-if="authUser" class="menu">
-          <span @click="onLogout" class="logout">Logout</span>
+          <button @click="onLogout" class="logout">Logout</button>
         </li>
         <li v-if="authUser" class="menu">
-          <router-link to="/articles/add">
-            <i
-              class="fa fa-plus"
-              aria-hidden="true"
-              title="add a new article"
-            />
+          <router-link to="/articles/add" title="add a new article">
+            <i class="fa fa-plus" aria-hidden="true" />
           </router-link>
         </li>
       </ul>
     </nav>
-    <div @click="displayMenu" id="nav-icon">
-      <i class="fa fa-bars" />
+    <div @click="displayMenu" id="nav-icon" aria-label="menu">
+      <i aria-hidden="true" class="fa fa-bars" />
     </div>
   </header>
 </template>
@@ -168,6 +164,11 @@ li a.router-link-active {
   #responsive-navbar.responsive li a:hover,
   #responsive-navbar.responsive li span:hover {
     color: #778487;
+  }
+
+  .logout {
+    color: #4e4e4e;
+    padding: 0;
   }
 }
 </style>

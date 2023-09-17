@@ -137,36 +137,53 @@ onBeforeUnmount(() => {
         >
           <CustomBadge :name="article.category.name" />
         </router-link>
-        <i
-          aria-hidden="true"
-          class="fa fa-pencil link"
-          title="edit category"
+        <button
+          class="icon-transparent"
           @click="onCategoryEdition = !onCategoryEdition"
-        />
-        <i
-          aria-hidden="true"
-          :class="`fa fa-eye${article.read ? '-slash' : ''}`"
-          :title="`mark as ${article.read ? 'not ' : ''}read`"
+          title="edit category"
+        >
+          <i aria-hidden="true" class="fa fa-pencil link" />
+        </button>
+        <button
+          class="icon-transparent"
           @click="updateReadStatus"
-        />
-        <i
-          aria-hidden="true"
-          :class="`fa fa-star${article.favorite ? '' : '-o'}`"
-          :title="`${article.favorite ? 'un' : ''} favorite article`"
+          title="`mark as ${article.read ? 'not ' : ''}read`"
+        >
+          <i
+            aria-hidden="true"
+            :class="`fa fa-eye${article.read ? '-slash' : ''}`"
+          />
+        </button>
+        <button
+          class="icon-transparent"
           @click="updateFavorite"
-        />
-        <i
-          aria-hidden="true"
-          title="reload article"
-          :class="`fa fa-refresh${loading ? ' fa-spin' : ''}`"
+          title="`${article.favorite ? 'un' : ''} favorite article`"
+        >
+          <i
+            aria-hidden="true"
+            :class="`fa fa-star${article.favorite ? '' : '-o'}`"
+          />
+        </button>
+        <button
+          class="icon-transparent"
           @click="onReloadArticle"
-        />
-        <i
-          aria-hidden="true"
-          title="delete article"
-          :class="`fa fa-trash${loading ? ' fa-disabled' : ''}`"
+          title="reload article"
+        >
+          <i
+            aria-hidden="true"
+            :class="`fa fa-refresh${loading ? ' fa-spin' : ''}`"
+          />
+        </button>
+        <button
+          class="icon-transparent"
           @click="showModal = true"
-        />
+          title="delete article"
+        >
+          <i
+            aria-hidden="true"
+            :class="`fa fa-trash${loading ? ' fa-disabled' : ''}`"
+          />
+        </button>
       </div>
       <h1>{{ article.title }}</h1>
       <div id="tag-update" v-if="onTagEdition">
@@ -184,7 +201,7 @@ onBeforeUnmount(() => {
         <CustomBadge
           v-for="tag in article.tags"
           :display-label="false"
-          :tag_id="tag.id"
+          :tag-id="tag.id"
           :is-tag="true"
           :key="tag.id"
           :name="tag.name"
@@ -195,12 +212,13 @@ onBeforeUnmount(() => {
         >
           no tags
         </span>
-        <i
-          aria-hidden="true"
-          class="fa fa-pencil link"
-          title="edit tags"
+        <button
+          class="icon-transparent"
           @click="updateSelectedTags"
-        />
+          title="edit tags"
+        >
+          <i aria-hidden="true" class="fa fa-pencil link" />
+        </button>
       </div>
       <p class="article-data">
         <i class="fa fa-calendar-plus-o" aria-hidden="true"></i>

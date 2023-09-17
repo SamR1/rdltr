@@ -34,7 +34,7 @@ function getTag() {
   return null
 }
 function getArticles(displaySpinner = false) {
-  const params = Object.assign({}, route.query)
+  const params = Object.assign({}, route.query, route.params)
   articleStore.getArticles(params, displaySpinner)
 }
 
