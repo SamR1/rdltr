@@ -29,6 +29,7 @@ function getTargetLink(offset: number) {
         type="submit"
         v-show="displayFirstPage()"
         @click="getTargetLink(1 - pagination.page)"
+        title="first page"
       >
         <i class="fa fa-angle-double-left" aria-hidden="true"></i>
       </button>
@@ -37,6 +38,7 @@ function getTargetLink(offset: number) {
         type="submit"
         v-show="pagination.has_prev"
         @click="getTargetLink(-1)"
+        title="previous page"
       >
         <i class="fa fa-angle-left" aria-hidden="true"></i>
       </button>
@@ -50,6 +52,7 @@ function getTargetLink(offset: number) {
         type="submit"
         v-show="pagination.has_next"
         @click="getTargetLink(1)"
+        title="next page"
       >
         <i class="fa fa-angle-right" aria-hidden="true"></i>
       </button>
@@ -58,6 +61,7 @@ function getTargetLink(offset: number) {
         type="submit"
         v-show="displayLastPage()"
         @click="getTargetLink(pagination.pages - pagination.page)"
+        title="last page"
       >
         <i class="fa fa-angle-double-right" aria-hidden="true"></i>
       </button>

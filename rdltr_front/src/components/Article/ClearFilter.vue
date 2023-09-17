@@ -33,4 +33,7 @@ function displayClearFilters() {
   background-color: #f5f5f7;
   color: #8c95aa;
 }
+.clear-filter:focus {
+  outline-color: #363a41;
+}
 </style>

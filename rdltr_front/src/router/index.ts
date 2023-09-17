@@ -57,7 +57,7 @@ const router = createRouter({
       component: ArticleView
     },
     {
-      path: '/articles/page',
+      path: '/articles/page/:page',
       name: 'Articles',
       component: HomeView
     },

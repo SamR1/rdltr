@@ -99,9 +99,11 @@ function sortBy(key: TCategoryColumns | TTagColumns) {
             :key="key"
             @click="sortBy(key)"
           >
-            {{ formatText(key) }}
-            <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
-            </span>
+            <button class="icon-transparent">
+              {{ formatText(key) }}
+              <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+              </span>
+            </button>
           </th>
           <th scope="col">Actions</th>
         </tr>
@@ -145,15 +147,18 @@ function sortBy(key: TCategoryColumns | TTagColumns) {
                 name: `Edit${target}`,
                 params: { id: item.id }
               }"
+              title="edit item"
             >
               <i aria-hidden="true" class="fa fa-pencil" />
             </router-link>
-            <i
-              aria-hidden="true"
-              class="fa fa-trash link"
+            <button
+              class="icon-transparent"
               v-if="!('is_default' in item && item.is_default)"
               @click="deleteItem(item.id)"
-            />
+              title="delete item"
+            >
+              <i aria-hidden="true" class="fa fa-trash link" />
+            </button>
           </td>
         </tr>
       </tbody>
