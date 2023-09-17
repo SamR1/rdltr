@@ -58,6 +58,10 @@ export const useArticleStore = defineStore('articles', () => {
     article.value = <IArticle>{}
   }
 
+  function emptyArticles() {
+    articles.value = []
+  }
+
   function getArticle(articleId: number) {
     authApi
       .get(`articles/${articleId}`)
@@ -105,7 +109,13 @@ export const useArticleStore = defineStore('articles', () => {
           pagination.value = res.data.pagination
         }
       })
-      .catch((err) => handleError(err, 'error on fetching articles'))
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          userStore.logout()
+        } else {
+          handleError(err, 'error on fetching articles')
+        }
+      })
       .finally(() => appStore.setLoading(false))
   }
 
@@ -164,6 +174,7 @@ export const useArticleStore = defineStore('articles', () => {
     addArticle,
     deleteArticle,
     emptyArticle,
+    emptyArticles,
     getArticle,
     getArticles,
     reloadArticle,

@@ -12,8 +12,11 @@ import type {
   IUser
 } from '@/types'
 import { handleError } from '@/utils'
+import { useArticleStore } from '@/stores/articles'
 
 export const useUserStore = defineStore('user', () => {
+  const articleStore = useArticleStore()
+
   // state
   const authUser: Ref<IUser | null> = ref(null)
   const authToken: Ref<string | null> = ref(null)
@@ -47,7 +50,13 @@ export const useUserStore = defineStore('user', () => {
           handleError(null)
         }
       })
-      .catch((err) => handleError(err))
+      .catch((err) => {
+        if (err.response?.status === 401) {
+          removeUserData()
+        } else {
+          handleError(err)
+        }
+      })
   }
 
   async function loginOrRegister(
@@ -90,10 +99,16 @@ export const useUserStore = defineStore('user', () => {
       .catch((err) => handleError(err))
   }
 
-  function logout() {
+  function removeUserData() {
     localStorage.removeItem('authToken')
     authToken.value = null
     authUser.value = null
+    articleStore.resetArticleStore()
+    articleStore.emptyArticles()
+  }
+
+  function logout() {
+    removeUserData()
     // @ts-ignore
     this.router.push('/login')
   }
@@ -108,6 +123,7 @@ export const useUserStore = defineStore('user', () => {
     getUserProfile,
     loginOrRegister,
     logout,
+    removeUserData,
     updatePassword
   }
 })
