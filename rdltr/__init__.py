@@ -2,7 +2,7 @@ import logging
 import os
 from typing import Dict
 
-from flask import Flask, Response, render_template
+from flask import Flask, Response, render_template, send_file
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
@@ -72,6 +72,12 @@ def create_app() -> Flask:
     @app.route("/api/ping")
     def ping_pong() -> Dict:
         return {"status": "success", "message": "pong!"}
+
+    @app.route('/favicon.ico')
+    def favicon() -> Response:
+        return send_file(
+            os.path.join(app.root_path, 'dist/favicon.ico')
+        )
 
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
