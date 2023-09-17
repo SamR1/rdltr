@@ -73,11 +73,9 @@ def create_app() -> Flask:
     def ping_pong() -> Dict:
         return {"status": "success", "message": "pong!"}
 
-    @app.route('/favicon.ico')
+    @app.route("/favicon.ico")
     def favicon() -> Response:
-        return send_file(
-            os.path.join(app.root_path, 'dist/favicon.ico')
-        )
+        return send_file(os.path.join(app.root_path, "dist/favicon.ico"))
 
     @app.route("/", defaults={"path": ""})
     @app.route("/<path:path>")
