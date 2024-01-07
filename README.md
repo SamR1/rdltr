@@ -2,13 +2,14 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/rdltr.svg)](https://pypi.org/project/rdltr/)
 [![Python Version](https://img.shields.io/badge/python-3.8+-brightgreen.svg)](https://python.org)
-[![Flask Version](https://img.shields.io/badge/flask-2.3-brightgreen.svg)](http://flask.pocoo.org/)
-[![Vue Version](https://img.shields.io/badge/vue-2.7-brightgreen.svg)](https://vuejs.org/)  
-[![code style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black) 
-[![type check: mypy](https://img.shields.io/badge/type%20check-mypy-blue)](http://mypy-lang.org/) 
+[![Flask Version](https://img.shields.io/badge/flask-3.0-brightgreen.svg)](http://flask.pocoo.org/) [![code style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black) 
+[![type check: mypy](https://img.shields.io/badge/type%20check-mypy-blue)](http://mypy-lang.org/)  
+[![Vue Version](https://img.shields.io/badge/vue-3.4-brightgreen.svg)](https://vuejs.org/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier) 
+[![types: TypeScript](https://img.shields.io/npm/types/typescript)](https://www.typescriptlang.org/)   
 [![Coverage Status](https://coveralls.io/repos/github/SamR1/rdltr/badge.svg?branch=master)](https://coveralls.io/github/SamR1/rdltr?branch=master)<sup><sup>1</sup></sup>
-[![pipeline status](https://gitlab.com/SamR1/rdltr/badges/master/pipeline.svg)](https://gitlab.com/SamR1/rdltr/commits/master)
+[![pipeline status](https://github.com/SamR1/rdltr/actions/workflows/.tests-python.yml/badge.svg)](https://github.com/SamR1/rdltr/actions/workflows/.tests-python.yml)
+[![pipeline status](https://github.com/SamR1/rdltr/actions/workflows/.tests-javascript.yml/badge.svg)](https://github.com/SamR1/rdltr/actions/workflows/.tests-javascript.yml)
 
 ----
 
