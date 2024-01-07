@@ -16,7 +16,7 @@ def fill_form(
         description = selenium.find_element(By.ID, "description")
         description.clear()
         description.send_keys(form_values["description"])
-    submit_button = selenium.find_element(By.TAG_NAME, "button")
+    submit_button = selenium.find_elements(By.TAG_NAME, "button")[1]
     submit_button.click()
 
 
@@ -102,7 +102,8 @@ def test_settings_update_categories(selenium: WebDriver) -> None:
     register_valid_user(selenium)
     selenium.get(f"{URL}settings/categories")
 
-    add_button = selenium.find_elements(By.TAG_NAME, "button")[1]
+    container = selenium.find_element(By.CLASS_NAME, "container")
+    add_button = container.find_elements(By.TAG_NAME, "button")[1]
     add_button.click()
 
     # add a category
@@ -163,7 +164,8 @@ def test_settings_update_tags(selenium: WebDriver) -> None:
     register_valid_user(selenium)
     selenium.get(f"{URL}settings/tags")
 
-    add_button = selenium.find_elements(By.TAG_NAME, "button")[1]
+    container = selenium.find_element(By.CLASS_NAME, "container")
+    add_button = container.find_elements(By.TAG_NAME, "button")[1]
     add_button.click()
 
     # add a tag

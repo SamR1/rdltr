@@ -1,0 +1,74 @@
+name: Python CI
+
+on:
+  push:
+    paths-ignore: ['docs/**', 'docsrc/**', 'rdltr_front/**', '*.md']
+  pull_request:
+    paths-ignore: ['docs/**', 'docsrc/**', 'rdltr_front/**', '*.md']
+
+jobs:
+  python:
+    name: python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    container: python:${{ matrix.python-version }}
+    strategy:
+      matrix:
+        python-version:  [ "3.8", "3.9", "3.10", "3.11" , "3.12"]
+    env:
+      RDLTR_SETTINGS: 'rdltr.config.TestingConfig'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create and source virtual environment
+        run: | 
+          python3 -m venv .venv 
+          . .venv/bin/activate
+      - name: Install dependencies
+        run: python3 -m pip install -e .[test]
+      - name: Bandit
+        if: matrix.python-version == '3.11'
+        run: bandit -r rdltr -c pyproject.toml
+      - name: Lint (flake8, isort & black)
+        if: matrix.python-version == '3.11'
+        run: |
+          pytest --isort --black -m "isort or black" rdltr
+          flake8 rdltr
+      - name: Mypy
+        if: matrix.python-version == '3.11'
+        run: mypy rdltr
+      - name: Pytest
+        run: pytest rdltr/tests/tests --cov rdltr --cov-report term-missing
+
+  end2end:
+    name: e2e tests
+    runs-on: ubuntu-latest
+    needs: ["python"]
+    container: python:3.11
+    services:
+      selenium:
+        image: selenium/standalone-firefox
+    env:
+      RDLTR_HOST: '0.0.0.0'
+      RDLTR_SETTINGS: 'rdltr.config.TestingConfig'
+      RDLTR_DB_TEST_URL: 'sqlite:////tmp/rdltr_test.db'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update pip and install build
+        run: python3 -m pip install --upgrade pip build
+      - name: Create and source virtual environment
+        run: | 
+          python3 -m venv .venv 
+          . .venv/bin/activate
+      - name: Build rdltr package
+        run: python3 -m build
+      - name: Install rdltr package
+        run: python3 -m pip install dist/rdltr-$(cat VERSION).tar.gz
+      - name: Run migrations
+        run: rdltr_db
+      - name: Install pytest and selenium
+        run: python3 -m pip install pytest==7.4.0 pytest-selenium==4.0.1 selenium==4.9.0 pytest-html==3.2.0
+      - name: Start application and run tests with Selenium
+        run: |
+          setsid nohup rdltr >> nohup.out 2>&1 &
+          export RDLTR_HOST=$(hostname --ip-address)
+          sleep 5
+          pytest rdltr/tests/ui_tests --driver Remote --capability browserName firefox --selenium-host selenium --selenium-port 4444

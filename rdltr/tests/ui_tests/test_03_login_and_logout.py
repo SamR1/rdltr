@@ -57,8 +57,8 @@ def test_password_update_ok(selenium: WebDriver) -> None:
     menus[0].click()
 
     # click on 'Change password'
-    submit_button = selenium.find_element(By.TAG_NAME, "button")
-    submit_button.click()
+    buttons = selenium.find_elements(By.TAG_NAME, "button")
+    buttons[1].click()
 
     # update password
     new_password = "newp@ssw0rd"
@@ -70,12 +70,11 @@ def test_password_update_ok(selenium: WebDriver) -> None:
     password_conf = selenium.find_element(By.ID, "confirm-password")
     password_conf.send_keys(new_password)
 
-    submit_button = selenium.find_element(By.TAG_NAME, "button")
-    submit_button.click()
+    buttons = selenium.find_elements(By.TAG_NAME, "button")
+    buttons[1].click()
 
     # log out
-    menus = selenium.find_elements(By.CLASS_NAME, "menu")
-    menus[2].click()
+    buttons[0].click()
 
     # log in
     user_infos["password"] = user_infos["password_conf"] = new_password

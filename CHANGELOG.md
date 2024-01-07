@@ -1,5 +1,14 @@
 # Changelog
 
+## Version 0.1.15 (2024/01/07)
+
+No new features, only dependencies update
+
+### Misc
+
+* [#49](https://github.com/SamR1/rdltr/issues/49) - upgrade to Vue3
+
+
 ## Version 0.1.14 (2023/06/14)
 
 No new features, only dependencies update

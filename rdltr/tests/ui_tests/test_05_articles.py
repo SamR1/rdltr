@@ -23,7 +23,7 @@ def add_valid_article_with_tag(selenium: WebDriver, url: str) -> str:
         By.CLASS_NAME, "multiselect__option--highlight"
     )
     span.click()
-    submit_button = selenium.find_element(By.TAG_NAME, "button")
+    submit_button = selenium.find_elements(By.TAG_NAME, "button")[1]
     submit_button.click()
     return url
 
@@ -56,7 +56,7 @@ def test_add_article_no_category_no_tag(
     link = selenium.find_element(By.ID, "link")
     link.send_keys(url)
 
-    submit_button = selenium.find_element(By.TAG_NAME, "button")
+    submit_button = selenium.find_elements(By.TAG_NAME, "button")[1]
     submit_button.click()
 
     check_article(selenium, url)
@@ -96,7 +96,7 @@ def test_add_article_empty_document(
     url = f"http://localhost:{mock_server.port}"
     link = selenium.find_element(By.ID, "link")
     link.send_keys(url)
-    submit_button = selenium.find_element(By.TAG_NAME, "button")
+    submit_button = selenium.find_elements(By.TAG_NAME, "button")[1]
     submit_button.click()
 
     errors = selenium.find_element(By.CLASS_NAME, "alert-danger").text
@@ -112,7 +112,7 @@ def test_add_article_invalid_url(selenium: WebDriver) -> None:
     url = "http://not-existing-url.not"
     link = selenium.find_element(By.ID, "link")
     link.send_keys(url)
-    submit_button = selenium.find_element(By.TAG_NAME, "button")
+    submit_button = selenium.find_elements(By.TAG_NAME, "button")[1]
     submit_button.click()
 
     selenium.implicitly_wait(1)
@@ -131,7 +131,7 @@ def test_add_article_url_not_found(
     url = f"http://localhost:{mock_server.port}/not_found"
     link = selenium.find_element(By.ID, "link")
     link.send_keys(url)
-    submit_button = selenium.find_element(By.TAG_NAME, "button")
+    submit_button = selenium.find_elements(By.TAG_NAME, "button")[1]
     submit_button.click()
 
     errors = selenium.find_element(By.CLASS_NAME, "alert-danger").text
