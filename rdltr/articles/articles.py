@@ -34,12 +34,14 @@ def get_user_articles(user_id: int) -> Tuple[Dict, int]:
     articles_pagination = (
         Article.query.join(Category)
         .filter(
-            or_(
-                Article.title.like("%" + query + "%"),
-                Article.content.like("%" + query + "%"),
-            )
-            if query
-            else True,
+            (
+                or_(
+                    Article.title.like("%" + query + "%"),
+                    Article.content.like("%" + query + "%"),
+                )
+                if query
+                else True
+            ),
             Article.read_status == False if only_not_read else True,  # noqa
             Article.favorite == True if only_favorites else True,  # noqa
             Category.user_id == user_id,

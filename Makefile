@@ -63,7 +63,10 @@ lint-front:
 	cd rdltr_front && $(NPM) lint
 
 lint-python:
-	$(PYTEST) --isort --black -m "isort or black" $(FLASK_APP)
+	echo 'Running isort...'
+	$(PYTEST) --isort -m "isort" $(FLASK_APP)
+	echo 'Running black...'
+	$(BLACK) --check --diff $(FLASK_APP)
 	echo 'Running flake8...'
 	$(FLAKE8) $(FLASK_APP)
 
