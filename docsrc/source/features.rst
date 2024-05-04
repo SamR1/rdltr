@@ -1,6 +1,10 @@
 Features
 ========
 
+.. warning::
+
+   | **rdltr** is no longer maintained.
+
 Users
 ^^^^^
 

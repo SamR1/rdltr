@@ -9,6 +9,10 @@ Welcome to rdltr's documentation!
 **rdltr** is a self-hostable read-it later web application: you can save articles for later reading.
 Categories and tags can be used to classify articles.
 
+.. warning::
+
+   | ⚠️ **rdltr** is no longer maintained.
+
 .. figure:: _images/screenshot.png
    :alt: rdltr screenshot
    :figclass: doc-img

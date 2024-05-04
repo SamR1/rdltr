@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.1.16 (2024/05/04)
+
+**rdltr** is no longer maintained. This is the latest version.
+
+No new features, only dependencies update
+
+
 ## Version 0.1.15 (2024/01/07)
 
 No new features, only dependencies update

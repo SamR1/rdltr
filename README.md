@@ -1,5 +1,7 @@
 # rdltr
 
+> ⚠️ **rdltr** is no longer maintained.
+
 [![PyPI version](https://img.shields.io/pypi/v/rdltr.svg)](https://pypi.org/project/rdltr/)
 [![Python Version](https://img.shields.io/badge/python-3.8+-brightgreen.svg)](https://python.org)
 [![Flask Version](https://img.shields.io/badge/flask-3.0-brightgreen.svg)](http://flask.pocoo.org/) [![code style: black](https://img.shields.io/badge/code%20style-black-black)](https://github.com/psf/black) 
