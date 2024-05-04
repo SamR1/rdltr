@@ -12,8 +12,7 @@ TRACKING_REMOVAL_REGEXES = [
 ]
 
 
-class URLException(Exception):
-    ...
+class URLException(Exception): ...
 
 
 def get_article_html_content_from_url(url: str) -> str:

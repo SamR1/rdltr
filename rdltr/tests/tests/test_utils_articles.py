@@ -23,12 +23,12 @@ def test_it_returns_html_content(
 
 
 @patch("requests.get")
-@pytest.mark.xfail(raises=URLException)
 def test_it_returns_exception_on_requests_error(
     get_mock: Mock, mock_request_not_found: Mock
 ) -> None:
     get_mock.return_value = mock_request_not_found.return_value
-    get_article_html_content_from_url("https://example.com")
+    with pytest.raises(URLException):
+        get_article_html_content_from_url("https://example.com")
 
 
 @patch("requests.get")

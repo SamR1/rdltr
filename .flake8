@@ -1,2 +1,7 @@
 [flake8]
+ignore =
+    # line break before binary operator
+    W503
+    # multiple statements on one line (colon)
+    E701
 exclude = rdltr/migrations
